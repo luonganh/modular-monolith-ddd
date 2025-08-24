@@ -1,0 +1,33 @@
+### docker-compose.prod.yml
+services:
+  app-api:
+    image: luongtuananh/modular-monolith-ddd:prod  
+    restart: always
+    networks: 
+      - app-net-prod
+  
+  app-frontend: 
+    image: luongtuananh/modular-monolith-ddd-frontend-react:prod              
+    restart: always           
+    networks: 
+      - app-net-prod
+  
+  app-sqlserver:               
+    volumes:
+      - vol_sqlserver_prod:/var/opt/mssql
+      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d   
+    restart: always
+    networks: 
+      - app-net-prod
+  
+  liquibase:          
+    restart: "no"
+    networks: 
+      - app-net-prod
+
+volumes:
+  vol_sqlserver_prod:
+networks:
+  app-net-prod:
+    name: app-net-prod
+    driver: bridge

@@ -1,0 +1,72 @@
+### docker-compose.yml (BASE - common for all environments)
+services:
+  app-api:   
+    build:
+      context: ./modular-monolith-ddd
+      dockerfile: Dockerfile      
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - SQLSERVER_HOST=${SQLSERVER_HOST}
+      - SQLSERVER_HOST_PORT=${SQLSERVER_HOST_PORT}
+      - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
+      - SQLSERVER_USER=${SQLSERVER_USER}
+      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
+    ports:
+      - "${API_HOST_PORT}:${API_PORT}"     
+    depends_on:
+      app-sqlserver:
+        condition: service_healthy
+    networks:
+      - default
+
+  app-frontend:  
+    build:
+      context: ./modular-monolith-ddd-frontend-react
+      dockerfile: Dockerfile.fe      
+    environment:
+      - API_HOST_PORT=${API_HOST_PORT}
+      - API_PORT=${API_PORT} 
+      - FRONTEND_HOST_PORT=${FRONTEND_HOST_PORT}      
+    ports:
+        - "${FRONTEND_HOST_PORT}:${FRONTEND_PORT}"  
+    networks:
+      - default
+ 
+  app-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
+    environment:     
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"              
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q 'SELECT 1'"]
+      interval: 10s # Check every 10 seconds
+      retries: 10 # Retry up to 5 times before marking as unhealthy
+      timeout: 5s # Each check must complete within 5 seconds
+      start_period: 20s # Wait 20 seconds after container starts before beginning health checks   
+    command: /docker-entrypoint-initdb.d/start.sh     
+     # command: >
+      #/bin/bash -c "(export SA_PASSWORD=${SA_PASSWORD} && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -i /docker-entrypoint-initdb.d/CreateDatabase_Linux.sql &) && /opt/mssql/bin/sqlservr"
+    networks:
+      - default    
+ 
+  liquibase:   
+    image: liquibase/liquibase:4.23.2    
+    environment:
+      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://app-sqlserver:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      LIQUIBASE_COMMAND_USERNAME: ${SQLSERVER_USER}
+      LIQUIBASE_COMMAND_PASSWORD: ${SQLSERVER_PASSWORD}
+    command: ["update", "--changelog-file=changelog.xml"]
+    volumes:
+      - ./modular-monolith-ddd/src/Database/liquibase/drivers:/liquibase/drivers
+      - ./modular-monolith-ddd/src/Database/liquibase/migrations:/liquibase/migrations
+      - ./modular-monolith-ddd/src/Database/liquibase/changelog.xml:/liquibase/changelog.xml
+      - ./modular-monolith-ddd/src/Database/liquibase/liquibase.properties:/liquibase/liquibase.properties
+    depends_on:
+      app-sqlserver:
+        condition: service_healthy
+    networks:
+      - default
+ 
+networks:
+  default: 
+    driver: bridge

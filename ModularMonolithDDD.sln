@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		modular-monolith-ddd\.dockerignore = modular-monolith-ddd\.dockerignore
+		.env = .env
+		.env.example = .env.example
+		.env.production = .env.production
+		.env.staging = .env.staging
+		.gitignore = .gitignore
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.prod.yml = docker-compose.prod.yml
+		docker-compose.staging.yml = docker-compose.staging.yml
+		docker-compose.yml = docker-compose.yml
+		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
+		modular-monolith-ddd\Dockerfile.dev = modular-monolith-ddd\Dockerfile.dev
+		.github\workflows\main.yml = .github\workflows\main.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{430C7B4B-D988-4F89-B2C6-62A09B51A128}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{9C2D78F0-01BF-4AB6-BDD9-AFBE10C9F44D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{80D41DC1-35D4-4CCC-ACA7-73AFB3C739AB}"
+	ProjectSection(SolutionItems) = preProject
+		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql
+		modular-monolith-ddd\src\Database\start.sh = modular-monolith-ddd\src\Database\start.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{3DA664C7-1C0E-4EED-97A5-F9B7EA204F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.API", "modular-monolith-ddd\src\API\ModularMonolithDDD.API\ModularMonolithDDD.API.csproj", "{E046D717-A152-4B85-ACD2-CEC598A1E2CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "modular-monolith-ddd\src\BuildingBlocks\Common.Logging\Common.Logging.csproj", "{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Domain", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\ModularMonolithDDD.BuildingBlocks.Domain.csproj", "{10843729-CBD5-42A9-9DD2-11C0DC2AA043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\ModularMonolithDDD.BuildingBlocks.Application.csproj", "{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Infrastructure", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj", "{E33EFA69-9421-48AA-9451-F245472FD03E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase", "liquibase", "{2F8237CE-1D4E-4DF7-A17A-17FDF59599AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "drivers", "drivers", "{57FECC03-AB58-4407-8D2F-89F80D6CE294}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{BA16C085-59FD-42F9-A30F-79BBDA4F9A1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E046D717-A152-4B85-ACD2-CEC598A1E2CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E046D717-A152-4B85-ACD2-CEC598A1E2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E046D717-A152-4B85-ACD2-CEC598A1E2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E046D717-A152-4B85-ACD2-CEC598A1E2CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10843729-CBD5-42A9-9DD2-11C0DC2AA043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10843729-CBD5-42A9-9DD2-11C0DC2AA043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10843729-CBD5-42A9-9DD2-11C0DC2AA043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10843729-CBD5-42A9-9DD2-11C0DC2AA043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E33EFA69-9421-48AA-9451-F245472FD03E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E33EFA69-9421-48AA-9451-F245472FD03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E33EFA69-9421-48AA-9451-F245472FD03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E33EFA69-9421-48AA-9451-F245472FD03E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E046D717-A152-4B85-ACD2-CEC598A1E2CB} = {430C7B4B-D988-4F89-B2C6-62A09B51A128}
+		{F0FEF3CB-FE48-4FF7-98A7-8C320D2B57D0} = {9C2D78F0-01BF-4AB6-BDD9-AFBE10C9F44D}
+		{10843729-CBD5-42A9-9DD2-11C0DC2AA043} = {9C2D78F0-01BF-4AB6-BDD9-AFBE10C9F44D}
+		{3B1F9F65-5A98-4A95-92C0-DF75E93E84E3} = {9C2D78F0-01BF-4AB6-BDD9-AFBE10C9F44D}
+		{E33EFA69-9421-48AA-9451-F245472FD03E} = {9C2D78F0-01BF-4AB6-BDD9-AFBE10C9F44D}
+		{2F8237CE-1D4E-4DF7-A17A-17FDF59599AE} = {80D41DC1-35D4-4CCC-ACA7-73AFB3C739AB}
+		{57FECC03-AB58-4407-8D2F-89F80D6CE294} = {2F8237CE-1D4E-4DF7-A17A-17FDF59599AE}
+		{BA16C085-59FD-42F9-A30F-79BBDA4F9A1B} = {2F8237CE-1D4E-4DF7-A17A-17FDF59599AE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2D45C16-32FA-47BB-A915-49419BC0736F}
+	EndGlobalSection
+EndGlobal

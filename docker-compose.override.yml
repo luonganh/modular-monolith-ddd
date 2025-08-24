@@ -1,0 +1,41 @@
+### docker-compose.override.yml (BASE - common for all environments)
+services:
+  app-api:
+    build:      
+      dockerfile: Dockerfile.dev    
+    volumes:
+      - ./modular-monolith-ddd:/src   
+      - /src/bin
+      - /src/obj    
+    networks:
+        - app-net-dev
+
+  app-frontend:        
+     build:       
+        dockerfile: Dockerfile.fe.dev                        
+     volumes:
+        - ./modular-monolith-ddd-frontend-react:/app
+        - /app/node_modules   
+        # - ./app/node_modules     
+     networks:
+        - app-net-dev
+ 
+  app-sqlserver:  
+    ports:
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_PORT}"
+    volumes:
+      - vol_sqlserver_dev:/var/opt/mssql
+      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d      
+    networks:
+        - app-net-dev
+      
+  liquibase:   
+    networks:
+        - app-net-dev
+
+volumes:
+  vol_sqlserver_dev:
+networks:
+  app-net-dev:
+    name: app-net-dev
+    driver: bridge

@@ -1,0 +1,33 @@
+### docker-compose.staging.yml
+services:
+  app-api:      
+    image: luongtuananh/modular-monolith-ddd:staging   
+    restart: always
+    networks: 
+      - app-net-staging
+  
+  app-frontend: 
+    image: luongtuananh/modular-monolith-ddd-frontend-react:staging     
+    restart: always 
+    networks: 
+      - app-net-staging
+  
+  app-sqlserver: 
+    volumes:
+      - vol_sqlserver_staging:/var/opt/mssql
+      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d    
+    restart: always
+    networks: 
+      - app-net-staging
+  
+  liquibase:              
+    restart: "no"
+    networks: 
+      - app-net-staging
+
+volumes:
+  vol_sqlserver_staging:
+networks:
+  app-net-staging:
+    name: app-net-staging
+    driver: bridge

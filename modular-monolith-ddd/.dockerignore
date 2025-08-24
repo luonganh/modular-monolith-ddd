@@ -1,0 +1,38 @@
+# Ignore common build artifacts and system files
+bin/
+obj/
+*.log
+*.pdb
+*.dbmdl
+*.suo
+*.user
+
+# git
+.git
+.github
+.gitignore
+
+# Node/NPM
+node_modules
+npm-debug.log
+
+# DotEnv & secrets
+.env
+.env.*
+!.env.example
+secrets.*
+values.*
+secrets.dev.yaml
+values.dev.yaml
+
+# IDE & tool metadata
+.vs/
+.vscode/
+.project
+.settings
+.classpath
+.toolstarget
+*.csproj.user
+*.jfm
+azds.yaml
+charts/
