@@ -43,10 +43,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Infrastructure", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj", "{E33EFA69-9421-48AA-9451-F245472FD03E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase", "liquibase", "{2F8237CE-1D4E-4DF7-A17A-17FDF59599AE}"
+	ProjectSection(SolutionItems) = preProject
+		modular-monolith-ddd\src\Database\liquibase\changelog.xml = modular-monolith-ddd\src\Database\liquibase\changelog.xml
+		modular-monolith-ddd\src\Database\liquibase\liquibase.properties = modular-monolith-ddd\src\Database\liquibase\liquibase.properties
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "drivers", "drivers", "{57FECC03-AB58-4407-8D2F-89F80D6CE294}"
+	ProjectSection(SolutionItems) = preProject
+		modular-monolith-ddd\src\Database\liquibase\drivers\mssql-jdbc.jar = modular-monolith-ddd\src\Database\liquibase\drivers\mssql-jdbc.jar
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{BA16C085-59FD-42F9-A30F-79BBDA4F9A1B}"
+	ProjectSection(SolutionItems) = preProject
+		modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql = modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql
+		modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql = modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
