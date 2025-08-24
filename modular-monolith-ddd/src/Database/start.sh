@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Starting SQL Server..."
 /opt/mssql/bin/sqlservr &
