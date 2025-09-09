@@ -1,0 +1,25 @@
+
+# git
+.git
+.github
+.gitignore
+
+# Node/NPM
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# DotEnv & secrets
+.env
+.env.*
+!.env.example
+secrets.*
+values.*
+secrets.dev.yaml
+values.dev.yaml
+
+# IDE & tool metadata
+.vscode/
+.idea/
+.DS_Store

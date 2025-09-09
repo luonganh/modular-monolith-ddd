@@ -1,0 +1,6 @@
+@ModularMonolithDDD.API_HostAddress = http://localhost:5168
+
+GET {{ModularMonolithDDD.API_HostAddress}}/
+Accept: application/json
+
+###

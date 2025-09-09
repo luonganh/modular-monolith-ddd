@@ -1,0 +1,9 @@
+﻿# DEV STAGE
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+WORKDIR /src
+
+# Copies source
+COPY . .
+
+# Run app with hot reload
+CMD ["dotnet", "watch", "run", "--project", "src/API/ModularMonolithDDD.API/ModularMonolithDDD.API.csproj", "--urls", "http://0.0.0.0:8080"]

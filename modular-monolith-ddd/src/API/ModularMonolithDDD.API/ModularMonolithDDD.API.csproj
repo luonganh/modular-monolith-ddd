@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>45529563-1549-47a7-bc4c-0e450b368baa</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configuration\ExecutionContext\CorrelationMiddleware.cs" />
+    <Compile Remove="Configuration\ExecutionContext\ExecutionContextAccessor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration\ExecutionContext\" />
+    <Folder Include="Modules\" />
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+</Project>

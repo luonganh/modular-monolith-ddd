@@ -1,0 +1,31 @@
+FROM node:20 AS dev
+
+WORKDIR /app
+
+# Install netcat (Debian/Ubuntu)
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
+ENV CHOKIDAR_USEPOLLING=true
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+COPY wait-for-api.sh /wait-for-api.sh
+RUN chmod +x /wait-for-api.sh
+
+# Copy sources and build
+COPY . .
+
+# Expose 3000 port
+EXPOSE 3000
+
+# Start 
+ENV FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT
+
+ENTRYPOINT ["/wait-for-api.sh"]
+CMD ["sh", "-c", "npm run dev -- --port $FRONTEND_HOST_PORT --host 0.0.0.0"]
+
+## JSON Array form
+# ENTRYPOINT ["/wait-for-api.sh", "app-api", "5000"]
+# CMD ["npm", "run", "dev", "--", "--port", "3000", "--host", "0.0.0.0"]
