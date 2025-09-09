@@ -4,10 +4,18 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
-<ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
-     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+<ItemGroup>
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.6.2" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+  </ItemGroup>
+
+<ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
   </ItemGroup>
 
 <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Domain'))">
@@ -15,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Application'))">   
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Serilog.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Infrastructure'))">

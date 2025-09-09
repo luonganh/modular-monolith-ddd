@@ -14,13 +14,7 @@
     <Compile Remove="Configuration\ExecutionContext\CorrelationMiddleware.cs" />
     <Compile Remove="Configuration\ExecutionContext\ExecutionContextAccessor.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <Folder Include="Configuration\ExecutionContext\" />
     <Folder Include="Modules\" />

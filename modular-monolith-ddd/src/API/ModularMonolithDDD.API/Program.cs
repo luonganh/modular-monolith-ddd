@@ -3,7 +3,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-ConfigureLogger();
+//ConfigureLogger();
 SetConnectionString();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocumentation();
 
 // Add support for Newtonsoft.Json in Swagger (e.g., handling polymorphic serialization)
-builder.Services.AddSwaggerGenNewtonsoftSupport();
+//builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 // Register IHttpContextAccessor to allow access to HttpContext in services, non-controller classes, background tasks,
 // or singleton services (where direct dependency injection of HttpContext is not possible)	
@@ -58,15 +58,15 @@ void SetConnectionString()
     builder.Configuration["ConnectionStrings:AppConnectionString"] = $"Server={host},{port};Database={db};User Id={user};Password={password};TrustServerCertificate=True;";
 }
 
-void ConfigureLogger()
-{
-    Log.Logger = new LoggerConfiguration()
-        .Enrich.FromLogContext()
-        .WriteTo.Console(
-            outputTemplate:
-            "[{Timestamp:HH:mm:ss} {Level:u3}] [{Module}] [{Context}] {Message:lj}{NewLine}{Exception}")
-        .WriteTo.File(new CompactJsonFormatter(), "logs/logs")
-        .CreateLogger();
-    var _loggerForApi = Log.ForContext("Module", "API");
-    _loggerForApi.Information("Logger configured");
-}
+//void ConfigureLogger()
+//{
+//    Log.Logger = new LoggerConfiguration()
+//        .Enrich.FromLogContext()
+//        .WriteTo.Console(
+//            outputTemplate:
+//            "[{Timestamp:HH:mm:ss} {Level:u3}] [{Module}] [{Context}] {Message:lj}{NewLine}{Exception}")
+//        .WriteTo.File(new CompactJsonFormatter(), "logs/logs")
+//        .CreateLogger();
+//    var _loggerForApi = Log.ForContext("Module", "API");
+//    _loggerForApi.Information("Logger configured");
+//}
