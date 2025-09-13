@@ -1,10 +1,23 @@
 
 
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ConfigureLogger();
 SetConnectionString();
+
+// ===== DEPENDENCY INJECTION CONFIGURATION =====
+// Configure the app to use Autofac as the DI container (service provider factory) instead of the default Microsoft DI
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+// Register Autofac modules
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
+   // TODO: Register application modules here
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // Enable API explorer for endpoint metadata (required for Swagger)
@@ -28,7 +41,12 @@ var app = builder.Build();
 // This middleware catches unhandled exceptions, logs them, and returns a standardized error response.
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+// Get the Autofac root container from the built service provider
+var container = app.Services.GetAutofacRoot();
+
+// ===== MODULE INITIALIZATION =====
+// Initialize and configure all application modules after DI container is built
+InitializeModules(container);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
@@ -69,4 +87,11 @@ void ConfigureLogger()
         .CreateLogger();
     var _loggerForApi = Log.ForContext("Module", "API");
     _loggerForApi.Information("Logger configured");
+}
+
+void InitializeModules(ILifetimeScope container)
+{
+   // TODO: Initialize all application modules
+   // This method will be called after the DI container is built
+   // to set up module-specific configurations and dependencies
 }
