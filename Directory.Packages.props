@@ -12,7 +12,12 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Dapper" Version="2.1.24" />
-    <PackageVersion Include="FluentValidation" Version="12.0.0" />  
+    <PackageVersion Include="FluentValidation" Version="12.0.0" />
+    <PackageVersion Include="Autofac" Version="7.1.0" />
+    <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
   </ItemGroup>
 
 <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
@@ -29,11 +34,15 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Dapper" />
-    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation" />   
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Infrastructure'))">
-    
+     <PackageReference Include="Autofac" />
+     <PackageReference Include="Autofac.Extensions.DependencyInjection" />
+     <PackageReference Include="Microsoft.Data.SqlClient" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
   </ItemGroup>
 
 </Project>
