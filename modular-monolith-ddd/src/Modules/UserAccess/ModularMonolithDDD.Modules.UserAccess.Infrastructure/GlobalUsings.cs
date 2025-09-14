@@ -10,3 +10,22 @@ global using ILogger = Serilog.ILogger;
 
 // Autofac module base class - aliased for clarity and to avoid naming conflicts
 global using Module = Autofac.Module;
+
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+global using Microsoft.Extensions.Logging;
+global using ModularMonolithDDD.BuildingBlocks.Application.Data;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure;
+
+global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Domain.Users;
+
+global using Autofac.Core.Activators.Reflection;
+global using System.Collections.Concurrent;
+global using System.Reflection;
+
+global using ModularMonolithDDD.BuildingBlocks.Application.Outbox;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.InternalCommands;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.InternalCommands;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Outbox;
