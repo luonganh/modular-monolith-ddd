@@ -1,8 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--
+  UserAccess Infrastructure Module Project File
+  
+  This project contains the infrastructure layer implementation for the UserAccess module
+  in the Modular Monolith DDD architecture. It handles external concerns such as:
+  - Dependency injection configuration
+  - Logging setup
+  - Database access (when implemented)
+  - External service integrations
+  
+  The infrastructure layer implements interfaces defined in the Application layer
+  and provides concrete implementations for domain services and repositories.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Project configuration properties -->
   <PropertyGroup>
+    <!-- Target .NET 9.0 framework for latest features and performance improvements -->
     <TargetFramework>net9.0</TargetFramework>
+    
+    <!-- Enable implicit using statements to reduce boilerplate code -->
+    <!-- This automatically includes common namespaces like System, System.Collections.Generic, etc. -->
     <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Enable nullable reference types for better null safety and compile-time checks -->
+    <!-- This helps prevent null reference exceptions and improves code quality -->
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
