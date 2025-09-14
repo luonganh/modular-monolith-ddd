@@ -18,6 +18,9 @@
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageVersion Include="Quartz" Version="3.8.0" />
+    <PackageVersion Include="Polly" Version="8.2.0" />
+    <PackageVersion Include="SqlStreamStore.MsSql" Version="1.1.3" />
   </ItemGroup>
 
 <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
@@ -34,7 +37,8 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Dapper" />
-    <PackageReference Include="FluentValidation" />   
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Quartz" />
   </ItemGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Infrastructure'))">
@@ -43,6 +47,8 @@
      <PackageReference Include="Microsoft.Data.SqlClient" />
      <PackageReference Include="Microsoft.EntityFrameworkCore" />
      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+     <PackageReference Include="Polly" />
+     <PackageReference Include="SqlStreamStore.MsSql" />
   </ItemGroup>
 
 </Project>

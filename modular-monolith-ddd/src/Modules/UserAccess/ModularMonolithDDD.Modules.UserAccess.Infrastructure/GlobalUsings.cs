@@ -29,3 +29,22 @@ global using ModularMonolithDDD.BuildingBlocks.Application.Outbox;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Outbox;
+
+global using MediatR;
+global using ModularMonolithDDD.BuildingBlocks.Application.Events;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.DomainEventsDispatching;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Configuration.Commands;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+
+global using Quartz;
+global using Dapper;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Serialization;
+global using Newtonsoft.Json;
+
+global using ModularMonolithDDD.BuildingBlocks.Application;
+global using Serilog.Core;
+global using Serilog.Events;
+
+global using FluentValidation;
+global using Polly;
