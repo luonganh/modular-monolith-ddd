@@ -48,3 +48,5 @@ global using Serilog.Events;
 
 global using FluentValidation;
 global using Polly;
+
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.EventBus;
