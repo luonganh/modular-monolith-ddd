@@ -54,3 +54,6 @@ global using ModularMonolithDDD.BuildingBlocks.Infrastructure.EventBus;
 global using Autofac.Core;
 global using Autofac.Features.Variance;
 global using MediatR.Pipeline;
+
+global using ModularMonolithDDD.BuildingBlocks.Application.Emails;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
