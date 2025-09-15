@@ -50,3 +50,7 @@ global using FluentValidation;
 global using Polly;
 
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.EventBus;
+
+global using Autofac.Core;
+global using Autofac.Features.Variance;
+global using MediatR.Pipeline;
