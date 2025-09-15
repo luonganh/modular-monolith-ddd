@@ -57,3 +57,12 @@ global using MediatR.Pipeline;
 
 global using ModularMonolithDDD.BuildingBlocks.Application.Emails;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
+
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;
+global using Quartz.Impl;
+global using System.Collections.Specialized;
+global using TriggerBuilder = Quartz.TriggerBuilder;
+global using Quartz.Logging;
+global using Logger = Quartz.Logging.Logger;
+global using LogLevel = Quartz.Logging.LogLevel;
