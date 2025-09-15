@@ -66,3 +66,7 @@ global using TriggerBuilder = Quartz.TriggerBuilder;
 global using Quartz.Logging;
 global using Logger = Quartz.Logging.Logger;
 global using LogLevel = Quartz.Logging.LogLevel;
+
+global using System.Security.Cryptography;
+global using System.Text;
+
