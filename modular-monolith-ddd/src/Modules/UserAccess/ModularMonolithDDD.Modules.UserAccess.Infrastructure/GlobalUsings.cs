@@ -84,3 +84,5 @@ global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Quartz;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Security;
 
+// Import the configuration namespace to access UserAccessCompositionRoot
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
