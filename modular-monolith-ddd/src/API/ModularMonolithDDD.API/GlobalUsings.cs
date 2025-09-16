@@ -6,3 +6,7 @@ global using ModularMonolithDDD.API.Configuration.Extensions;
 global using Serilog;
 global using Serilog.Formatting.Compact;
 global using ILogger = Serilog.ILogger;
+global using Autofac;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;
+global using ModularMonolithDDD.BuildingBlocks.Application;
