@@ -70,3 +70,7 @@ global using LogLevel = Quartz.Logging.LogLevel;
 global using System.Security.Cryptography;
 global using System.Text;
 
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+
+global using OpenIddict.Abstractions;

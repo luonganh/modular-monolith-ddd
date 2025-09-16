@@ -1,4 +1,6 @@
 
+using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,6 +25,15 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 
+// Call UserAccess module for register OpenIddict/Identity
+builder.Services.AddUserAccessAuthentication(builder.Configuration);
+
+// 3) Set default scheme (if use OpenIddict.Validation)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = OpenIddict.Validation.AspNetCore.OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+});
+
 var app = builder.Build();
 
 // Registers the ExceptionHandlerMiddleware in the request processing pipeline. 
@@ -43,9 +54,15 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed OpenIddict default client/scope at startup
+await OpenIddictSeeder.SeedAsync(
+        app.Services,
+        app.Configuration);
 
 app.Run();
 

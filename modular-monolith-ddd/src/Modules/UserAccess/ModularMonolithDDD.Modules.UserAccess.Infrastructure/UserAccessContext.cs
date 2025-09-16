@@ -45,6 +45,8 @@
 			modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OutboxMessageEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new InternalCommandEntityTypeConfiguration());
+
+            modelBuilder.UseOpenIddict();
         }
 	}
 }
