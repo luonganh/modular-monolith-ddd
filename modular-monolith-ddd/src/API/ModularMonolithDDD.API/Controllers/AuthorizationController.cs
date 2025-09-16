@@ -38,7 +38,12 @@ namespace ModularMonolithDDD.API.Controllers
 			var principal = new ClaimsPrincipal(identity);
 
 			// Flow requested scopes through; restrict to allowed set.
-			var allowed = new[] { OpenIddictConstants.Scopes.OpenId, OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.Email, "modular-monolith-ddd-api" };
+			var allowed = new[] { 
+				OpenIddictConstants.Scopes.OpenId, 
+				OpenIddictConstants.Scopes.Profile, 
+				OpenIddictConstants.Scopes.Email, 
+				OpenIddictConstants.Scopes.OfflineAccess,
+				"modular-monolith-ddd-api" };
 			var requested = request.GetScopes();
 			principal.SetScopes(requested.Intersect(allowed));
 			principal.SetResources("modular-monolith-ddd-api");

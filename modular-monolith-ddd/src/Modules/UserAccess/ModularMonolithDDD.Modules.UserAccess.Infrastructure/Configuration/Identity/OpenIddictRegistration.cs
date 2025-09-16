@@ -39,8 +39,26 @@
                     // Enable Client Credentials flow for service-to-service communication
                     o.AllowClientCredentialsFlow();
 
-                    // Define the 'api' scope that clients can request access to
-                    o.RegisterScopes("modular-monolith-api");
+                    // Enable Refresh Token flow for refreshing access tokens
+                    o.AllowRefreshTokenFlow();
+
+                    // Set the access token lifetime to 10 minutes
+                    o.SetAccessTokenLifetime(TimeSpan.FromMinutes(10));
+
+                    // Set the refresh token lifetime to 30 days
+                    o.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
+
+                    // Register scopes used in the system
+                    // - Profile: User profile
+                    // - Email: User email
+                    // - OfflineAccess: Offline access
+                    // - modular-monolith-ddd-api: API scope
+                    // Define the API scope that clients can request access to
+                    o.RegisterScopes(                        
+                        OpenIddictConstants.Scopes.Profile,
+                        OpenIddictConstants.Scopes.Email,
+                        OpenIddictConstants.Scopes.OfflineAccess,
+                        "modular-monolith-ddd-api");
 
                     // Development certificates for signing and encryption (replace in production).
                     o.AddDevelopmentEncryptionCertificate()

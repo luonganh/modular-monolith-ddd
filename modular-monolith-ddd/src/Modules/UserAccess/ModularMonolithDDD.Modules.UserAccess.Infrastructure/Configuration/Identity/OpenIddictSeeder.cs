@@ -69,7 +69,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Ide
 
 						// Grant types - Allowed flows 
 						OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode, // Authorization Code flow
-						
+						OpenIddictConstants.Permissions.GrantTypes.RefreshToken, // Refresh Token flow
                         // OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
 
 						// Response types / PKCE for public clients
@@ -78,6 +78,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Ide
 						// Scopes - Access permissions
 						OpenIddictConstants.Permissions.Scopes.Profile, // User profile
 						OpenIddictConstants.Permissions.Scopes.Email, // User email
+						OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OfflineAccess, // Offline access
 						"modular-monolith-ddd-api"
 					}
 				};

@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.IntegrationEvents", "modular-monolith-ddd\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents.csproj", "{8025BEE4-3430-4943-85BA-28BF1E4A27A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E995DA7-9F7E-4D0B-83FE-A663F9C482BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,7 @@ Global
 		{4A4B06AD-E045-4CEC-A0C0-55977DD28D1F} = {BC1FAEE8-3FDA-4277-B86E-43F3DDAD16A2}
 		{B2A34ED6-EDC2-46D3-9093-241FBC96EB39} = {BC1FAEE8-3FDA-4277-B86E-43F3DDAD16A2}
 		{8025BEE4-3430-4943-85BA-28BF1E4A27A4} = {BC1FAEE8-3FDA-4277-B86E-43F3DDAD16A2}
+		{2E995DA7-9F7E-4D0B-83FE-A663F9C482BB} = {BC1FAEE8-3FDA-4277-B86E-43F3DDAD16A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7F0D60E-D17B-4D6C-A8B1-AF3F73BAD6ED}
