@@ -2,8 +2,10 @@
 {
     /// <summary>
     /// Composition root for the UserAccess module.
+    /// Imeplementation of the Composition Root pattern to manage dependency injection.
     /// This class manages the dependency injection container and provides access to lifetime scopes
     /// for the UserAccess module's infrastructure components.
+    /// Manage dependencies: Store container, provide scope to resolve dependencies.
     /// </summary>
     internal static class UserAccessCompositionRoot
     {

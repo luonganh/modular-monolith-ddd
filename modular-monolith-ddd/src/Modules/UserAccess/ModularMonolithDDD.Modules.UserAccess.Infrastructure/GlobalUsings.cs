@@ -74,3 +74,13 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 
 global using OpenIddict.Abstractions;
+
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.DataAccess;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Email;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.EventsBus;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Logging;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Mediation;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Quartz;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Security;
+
