@@ -31,7 +31,11 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Ide
 				await scopeManager.CreateAsync(new OpenIddictScopeDescriptor
 				{
 					Name = "modular-monolith-ddd-api",
-					DisplayName = "Modular Monolith DDD API scope"
+					DisplayName = "Modular Monolith DDD API scope",
+                    Description = "API scope for the Modular Monolith DDD API",
+                    
+                    // Set default resources for the API scope
+                    Resources = { "modular-monolith-ddd-api" }
 				});
 			}
 

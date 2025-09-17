@@ -34,6 +34,7 @@ namespace ModularMonolithDDD.API.Controllers
 			identity.AddClaim(OpenIddictConstants.Claims.Subject, "demo-user-id");
 			identity.AddClaim(OpenIddictConstants.Claims.Name, "Modular Monolith DDD");
 			identity.AddClaim(OpenIddictConstants.Claims.Email, "luonganh@gmail.com");
+            identity.AddClaim(CustomClaimTypes.Roles, "Admin");
 
 			var principal = new ClaimsPrincipal(identity);
 
@@ -44,8 +45,14 @@ namespace ModularMonolithDDD.API.Controllers
 				OpenIddictConstants.Scopes.Email, 
 				OpenIddictConstants.Scopes.OfflineAccess,
 				"modular-monolith-ddd-api" };
+
+			// Get the requested scopes from the request
 			var requested = request.GetScopes();
+
+			// Set the scopes for the principal
 			principal.SetScopes(requested.Intersect(allowed));
+			
+			// Set the resource/audience (API) for this token (can be overridden per request)
 			principal.SetResources("modular-monolith-ddd-api");
 
 			// Indicate which claims should be included in tokens.
@@ -55,11 +62,33 @@ namespace ModularMonolithDDD.API.Controllers
 				{
 					OpenIddictConstants.Claims.Name => new[] { OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken },
 					OpenIddictConstants.Claims.Email => new[] { OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken },
+					CustomClaimTypes.Roles => new[] { OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken },
 					_ => new[] { OpenIddictConstants.Destinations.AccessToken }
 				});
 			}
 
 			return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+		}
+
+		/// <summary>
+		/// User info endpoint to get user information
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("~/connect/userinfo")]
+		[Authorize]
+		public async Task<IActionResult> UserInfo()
+		{
+			var user = User;
+			
+			var claims = new Dictionary<string, object>
+			{
+				["sub"] = user.FindFirst(OpenIddictConstants.Claims.Subject)?.Value,
+				["name"] = user.FindFirst(OpenIddictConstants.Claims.Name)?.Value,
+				["email"] = user.FindFirst(OpenIddictConstants.Claims.Email)?.Value,
+				["roles"] = user.FindFirst(CustomClaimTypes.Roles)?.Value
+			};
+			
+			return Ok(claims);
 		}
 	}
 }

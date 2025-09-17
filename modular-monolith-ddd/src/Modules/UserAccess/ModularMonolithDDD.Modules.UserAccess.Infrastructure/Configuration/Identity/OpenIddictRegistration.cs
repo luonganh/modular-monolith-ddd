@@ -49,12 +49,14 @@
                     o.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
                     // Register scopes used in the system
+                    // - OpenId: OpenID scope
                     // - Profile: User profile
                     // - Email: User email
                     // - OfflineAccess: Offline access
                     // - modular-monolith-ddd-api: API scope
                     // Define the API scope that clients can request access to
-                    o.RegisterScopes(                        
+                    o.RegisterScopes(        
+                        OpenIddictConstants.Scopes.OpenId,                
                         OpenIddictConstants.Scopes.Profile,
                         OpenIddictConstants.Scopes.Email,
                         OpenIddictConstants.Scopes.OfflineAccess,
