@@ -4,7 +4,8 @@
   <PropertyGroup>
     <BBDomainPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\*.csproj</BBDomainPath>
     <BBApplicationPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\*.csproj</BBApplicationPath>
-    <BBInfrastructurePath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\*.csproj</BBInfrastructurePath>    
+    <BBInfrastructurePath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\*.csproj</BBInfrastructurePath>
+    <BBIntegrationTestsPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\Tests\IntegrationTests\*.csproj</BBIntegrationTestsPath>
   </PropertyGroup>
 
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
@@ -16,7 +17,12 @@
     <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('BuildingBlocks')) and ($(MSBuildProjectName.EndsWith('UnitTests')) or $(MSBuildProjectName.EndsWith('Infrastructure')))">
         <ProjectReference Include="$(BBApplicationPath)" />
     </ItemGroup>
-   
+
+    <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('src$([System.IO.Path]::DirectorySeparatorChar)Tests'))">
+        <ProjectReference Include="..\..\API\**\*.csproj" />
+        <ProjectReference Include="$(BBIntegrationTestsPath)" />
+    </ItemGroup>
+    
     <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('Modules')) and $(MSBuildProjectName.EndsWith('Domain'))">
         <ProjectReference Include="$(BBDomainPath)" />
     </ItemGroup>
@@ -30,6 +36,9 @@
     <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('Modules')) and $(MSBuildProjectName.EndsWith('Infrastructure'))">
         <ProjectReference Include="..\*.Application\*.csproj" />
     </ItemGroup>
-
+    <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('Modules')) and $(MSBuildProjectName.EndsWith('Tests'))">
+        <ProjectReference Include="..\..\*.Infrastructure\*.csproj" />
+        <ProjectReference Include="$(BBIntegrationTestsPath)" />
+    </ItemGroup>
     
 </Project>
