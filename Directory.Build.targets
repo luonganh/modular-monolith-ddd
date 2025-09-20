@@ -6,10 +6,12 @@
     <BBApplicationPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\*.csproj</BBApplicationPath>
     <BBInfrastructurePath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\*.csproj</BBInfrastructurePath>
     <BBIntegrationTestsPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\Tests\IntegrationTests\*.csproj</BBIntegrationTestsPath>
+    <BBLoggingPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\*.csproj</BBLoggingPath>
   </PropertyGroup>
 
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
         <ProjectReference Include="..\..\Modules\**\*.Infrastructure.csproj" />
+        <ProjectReference Include="$(BBLoggingPath)" />
   </ItemGroup>
     <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('BuildingBlocks')) and $(MSBuildProjectName.EndsWith('Application'))">
         <ProjectReference Include="$(BBDomainPath)" />

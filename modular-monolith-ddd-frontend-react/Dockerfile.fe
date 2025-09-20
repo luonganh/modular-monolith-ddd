@@ -30,11 +30,20 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 COPY wait-for-api-stag-prod.sh /wait-for-api-stag-prod.sh
 RUN chmod +x /wait-for-api-stag-prod.sh
 
-# Expose port 3000 (HTTP)
+# COPY wait-for-api.sh /wait-for-api.sh
+# RUN chmod +x /wait-for-api.sh
+
+# Expose port (HTTP)
 EXPOSE 80
+# EXPOSE 3001
 
 # Start NGINX
 ENV API_HOST_PORT=$API_HOST_PORT
 
 ENTRYPOINT ["/wait-for-api-stag-prod.sh"]
+
+# ENTRYPOINT ["/wait-for-api.sh"]
+# CMD ["sh", "-c", "npm run dev -- --port $FRONTEND_HOST_PORT --host 0.0.0.0"]
+## JSON Array form
 # ENTRYPOINT ["/wait-for-api.sh", "app-api", "5000"]
+# CMD ["npm", "run", "dev", "--", "--port", "3000", "--host", "0.0.0.0"]

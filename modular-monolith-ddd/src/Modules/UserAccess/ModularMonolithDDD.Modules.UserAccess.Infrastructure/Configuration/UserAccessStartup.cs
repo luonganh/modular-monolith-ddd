@@ -1,6 +1,9 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
+﻿using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity.Stores;
+
+namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 {
     /// <summary>
+	/// Host (API) called UserAccessStartup - the entry point of the UserAccess module.
     /// Startup class responsible for initializing and configuring the UserAccess module.
     /// This class handles the complete setup of the module including dependency injection,
     /// background processing, event bus subscriptions, and all infrastructure components.
@@ -86,12 +89,18 @@
 			// Register logging module for structured logging with module context
 			containerBuilder.RegisterModule(new LoggingModule(logger.ForContext("Module", "UserAccess")));
 
-			// Register data access module with Entity Framework and database context
+			// Register data access module - EF Core needs ILoggerFactory, not ILogger directly
+			// Note: DataAccessModule requires ILoggerFactory (Microsoft.Extensions.Logging) for EF Core,
+			// while LoggingModule registers ILogger (Serilog) for application code
+			// SerilogLoggerFactory acts as an adapter to bridge Serilog with Microsoft.Extensions.Logging
 			var loggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(logger);
 			containerBuilder.RegisterModule(new DataAccessModule(connectionString, loggerFactory));
-			
+
+			// Register custom Openiddict stores module
+            containerBuilder.RegisterModule(new CustomOpenIddictStoresModule());
+            
 			// Register processing module for command/query handling and validation
-			containerBuilder.RegisterModule(new ProcessingModule());
+            containerBuilder.RegisterModule(new ProcessingModule());
 			
 			// Register event bus module for integration event handling
 			containerBuilder.RegisterModule(new EventsBusModule(eventsBus));
@@ -123,5 +132,11 @@
 			// This makes the container available throughout the entire module
 			UserAccessCompositionRoot.SetContainer(_container);
 		}
-	}
+
+		/// <summary>
+		/// Add a public proxy method for take scope from outside of boundary
+		/// </summary>
+		/// <returns></returns>
+		public static ILifetimeScope BeginLifetimeScope() => _container.BeginLifetimeScope();
+    }
 }

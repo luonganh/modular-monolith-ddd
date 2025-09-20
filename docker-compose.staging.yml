@@ -2,32 +2,52 @@
 services:
   app-api:      
     image: luongtuananh/modular-monolith-ddd:staging   
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - SQLSERVER_HOST=app-sqlserver
+      - SQLSERVER_HOST_PORT=1433
+      - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
+      - SQLSERVER_USER=${SQLSERVER_USER}
+      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
+    ports:
+      - "${API_HOST_PORT}:${API_PORT}"
     restart: always
     networks: 
-      - app-net-staging
+      - modular-monolith-network
   
   app-frontend: 
-    image: luongtuananh/modular-monolith-ddd-frontend-react:staging     
+    image: luongtuananh/modular-monolith-ddd-frontend-react:staging
+    environment:
+      - API_HOST_PORT=${API_HOST_PORT}
+      - API_PORT=${API_PORT}
+      - FRONTEND_HOST_PORT=${FRONTEND_HOST_PORT}
+    ports:
+      - "${FRONTEND_HOST_PORT}:${FRONTEND_PORT}"
     restart: always 
     networks: 
-      - app-net-staging
+      - modular-monolith-network
   
   app-sqlserver: 
+    environment:
+      - SA_PASSWORD=${SA_PASSWORD}
+      - ACCEPT_EULA=Y
+    ports:
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_PORT}"
     volumes:
       - vol_sqlserver_staging:/var/opt/mssql
       - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d    
     restart: always
     networks: 
-      - app-net-staging
+      - modular-monolith-network
   
   liquibase:              
+    environment:
+      - LIQUIBASE_COMMAND_URL=jdbc:sqlserver://app-sqlserver:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      - LIQUIBASE_COMMAND_USERNAME=${SQLSERVER_USER}
+      - LIQUIBASE_COMMAND_PASSWORD=${SQLSERVER_PASSWORD}
     restart: "no"
     networks: 
-      - app-net-staging
+      - modular-monolith-network
 
 volumes:
   vol_sqlserver_staging:
-networks:
-  app-net-staging:
-    name: app-net-staging
-    driver: bridge

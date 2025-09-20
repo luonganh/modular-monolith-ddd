@@ -18,7 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		docker-compose.staging.yml = docker-compose.staging.yml
 		docker-compose.yml = docker-compose.yml
 		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
-		modular-monolith-ddd\Dockerfile.dev = modular-monolith-ddd\Dockerfile.dev
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{50A00739-9DD3-43D4-A34F-894C2BF39CE2}"
@@ -26,6 +25,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{CDF1917A-094B-41C2-B945-97A729DCC16C}"
 	ProjectSection(SolutionItems) = preProject
 		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql
+		modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql = modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql
 		modular-monolith-ddd\src\Database\start.sh = modular-monolith-ddd\src\Database\start.sh
 	EndProjectSection
 EndProject
@@ -46,6 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", 
 	ProjectSection(SolutionItems) = preProject
 		modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql = modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql
 		modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql = modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql
+		modular-monolith-ddd\src\Database\liquibase\migrations\003-init-openiddict-tables.sql = modular-monolith-ddd\src\Database\liquibase\migrations\003-init-openiddict-tables.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2EFD8C8A-419A-4FBD-BB3A-13B5B7FA4A45}"
@@ -89,6 +90,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application.UnitTests", "modular-monolith-ddd\src\BuildingBlocks\Tests\Application.UnitTests\ModularMonolithDDD.BuildingBlocks.Application.UnitTests.csproj", "{2A5D6387-00C4-EAF2-AD6A-4660E95F5E72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.IntegrationTests", "modular-monolith-ddd\src\BuildingBlocks\Tests\IntegrationTests\ModularMonolithDDD.BuildingBlocks.IntegrationTests.csproj", "{3019B3C5-1C2A-5AB5-3B0D-5DAD30A28DB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Logging", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\ModularMonolithDDD.BuildingBlocks.Logging.csproj", "{4DCF994F-4489-49A8-A0A7-C7526CA2A359}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,6 +163,10 @@ Global
 		{3019B3C5-1C2A-5AB5-3B0D-5DAD30A28DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3019B3C5-1C2A-5AB5-3B0D-5DAD30A28DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3019B3C5-1C2A-5AB5-3B0D-5DAD30A28DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCF994F-4489-49A8-A0A7-C7526CA2A359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCF994F-4489-49A8-A0A7-C7526CA2A359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCF994F-4489-49A8-A0A7-C7526CA2A359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCF994F-4489-49A8-A0A7-C7526CA2A359}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +194,7 @@ Global
 		{84C8DC20-FF9C-4138-A829-13B90D5FD8EC} = {50A00739-9DD3-43D4-A34F-894C2BF39CE2}
 		{2A5D6387-00C4-EAF2-AD6A-4660E95F5E72} = {84C8DC20-FF9C-4138-A829-13B90D5FD8EC}
 		{3019B3C5-1C2A-5AB5-3B0D-5DAD30A28DB6} = {84C8DC20-FF9C-4138-A829-13B90D5FD8EC}
+		{4DCF994F-4489-49A8-A0A7-C7526CA2A359} = {50A00739-9DD3-43D4-A34F-894C2BF39CE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7F0D60E-D17B-4D6C-A8B1-AF3F73BAD6ED}

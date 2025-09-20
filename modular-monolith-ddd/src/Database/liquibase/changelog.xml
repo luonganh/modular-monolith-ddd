@@ -10,5 +10,9 @@
 
 	<changeSet id="002-init-tables-views" author="yourname" runOnChange="false" runAlways="false">
 		<sqlFile path="migrations/002-init-users.sql" />
-	</changeSet>		
+	</changeSet>
+
+    <changeSet id="003-init-openiddict-tables" author="yourname" runOnChange="false" runAlways="false">
+        <sqlFile path="migrations/003-init-openiddict-tables.sql" />
+    </changeSet>
 </databaseChangeLog>

@@ -1,44 +1,19 @@
 ### docker-compose.yml (BASE - common for all environments)
-services:
-  app-api:   
-    build:
-      context: ./modular-monolith-ddd
-      dockerfile: Dockerfile      
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - SQLSERVER_HOST=${SQLSERVER_HOST}
-      - SQLSERVER_HOST_PORT=${SQLSERVER_HOST_PORT}
-      - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
-      - SQLSERVER_USER=${SQLSERVER_USER}
-      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
-    ports:
-      - "${API_HOST_PORT}:${API_PORT}"     
-    depends_on:
-      app-sqlserver:
-        condition: service_healthy
-    networks:
-      - default
-
-  app-frontend:  
-    build:
-      context: ./modular-monolith-ddd-frontend-react
-      dockerfile: Dockerfile.fe      
-    environment:
-      - API_HOST_PORT=${API_HOST_PORT}
-      - API_PORT=${API_PORT} 
-      - FRONTEND_HOST_PORT=${FRONTEND_HOST_PORT}      
-    ports:
-        - "${FRONTEND_HOST_PORT}:${FRONTEND_PORT}"  
-    networks:
-      - default
- 
+services:     
   app-sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
     environment:     
       SA_PASSWORD: ${SA_PASSWORD}
-      ACCEPT_EULA: "Y"              
+      ACCEPT_EULA: "Y"  
+    ports:
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_PORT}"
+    volumes:
+      - vol_sqlserver:/var/opt/mssql
+      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d    
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d ModularMonolithDDD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
+      # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
+      # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q 'SELECT 1'"]
       interval: 10s # Check every 10 seconds
       retries: 10 # Retry up to 5 times before marking as unhealthy
       timeout: 5s # Each check must complete within 5 seconds
@@ -47,7 +22,7 @@ services:
      # command: >
       #/bin/bash -c "(export SA_PASSWORD=${SA_PASSWORD} && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -i /docker-entrypoint-initdb.d/CreateDatabase_Linux.sql &) && /opt/mssql/bin/sqlservr"
     networks:
-      - default    
+      - modular-monolith-network    
  
   liquibase:   
     image: liquibase/liquibase:4.23.2    
@@ -65,8 +40,12 @@ services:
       app-sqlserver:
         condition: service_healthy
     networks:
-      - default
+      - modular-monolith-network
  
+volumes:
+  vol_sqlserver:
+
 networks:
-  default: 
+  modular-monolith-network:
     driver: bridge
+    name: modular-monolith-ddd-network

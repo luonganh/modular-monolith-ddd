@@ -1,4 +1,7 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure
+﻿using OpenIddict.EntityFrameworkCore.Models;
+using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity.Stores;
+
+namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure
 {
     /// <summary>
     /// Entity Framework DbContext for the UserAccess module.
@@ -22,6 +25,29 @@
         /// </summary>
         public DbSet<InternalCommand> InternalCommands { get; set; }
 
+        // OpenIddict DbSets for admin queries (using EF Core alongside Dapper stores)
+        /// <summary>
+        /// DbSet for OpenIddict Applications. Used for admin queries and reporting.
+        /// Note: OpenIddict runtime uses Dapper stores, this is for EF-based admin operations.
+        /// </summary>
+        public DbSet<CustomApplication> OpenIddictApplications { get; set; }
+
+        /// <summary>
+        /// DbSet for OpenIddict Authorizations. Used for admin queries and reporting.
+        /// </summary>
+        public DbSet<CustomAuthorization> OpenIddictAuthorizations { get; set; }
+
+        /// <summary>
+        /// DbSet for OpenIddict Scopes. Used for admin queries and reporting.
+        /// </summary>
+        public DbSet<CustomScope> OpenIddictScopes { get; set; }
+
+        /// <summary>
+        /// DbSet for OpenIddict Tokens. Used for admin queries and reporting.
+        /// </summary>
+        public DbSet<CustomToken> OpenIddictTokens { get; set; }
+
+       
         private readonly ILoggerFactory _loggerFactory;
 
 		/// <summary>
@@ -43,10 +69,9 @@
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new OutboxMessageEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new InternalCommandEntityTypeConfiguration());
-
-            modelBuilder.UseOpenIddict();
+			modelBuilder.ApplyConfiguration(new OutboxMessageEntityTypeConfiguration());
+			modelBuilder.ApplyConfiguration(new InternalCommandEntityTypeConfiguration());
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserAccessContext).Assembly);
         }
 	}
 }

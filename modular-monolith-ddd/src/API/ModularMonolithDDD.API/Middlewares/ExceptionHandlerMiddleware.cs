@@ -6,7 +6,10 @@
 	public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _request;
+        
+        // ExceptionHandlerMiddleware gets ILogger<ExceptionHandlerMiddleware> from the DI container.        
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionHandlerMiddleware"/> class.
         /// </summary>
@@ -35,7 +38,11 @@
             {
                 var exMess = $"Exception - {exception.Message}";
                 var innerExMess = exception.InnerException != null ? $"InnerException - {exception.InnerException.Message}" : string.Empty;
+                
+                // Uses ILogger<ExceptionHandlerMiddleware> from the DI container.
                 _logger.LogError($"Request error at {context.Request.Path} : {exMess}; {innerExMess}");
+
+                // Uses static Serilog ILogger from ConfigureLogger().
                 Log.Error(exception, "Request error: {0} ; {1}", exMess, innerExMess);
             }
         }
