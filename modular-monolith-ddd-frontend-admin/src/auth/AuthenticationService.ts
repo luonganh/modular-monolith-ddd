@@ -66,8 +66,7 @@ export const refreshUserWithFullScope = async (): Promise<void> => {
       authority: ApplicationSettings.AUTHORITY,
       client_id: ApplicationSettings.CLIENT_ID,
       redirect_uri: ApplicationSettings.REDIRECT_URI,
-      response_type: 'code',
-      scope: ApplicationSettings.getScope(true), // Full scope
+      response_type: 'code',     
       userStore: new WebStorageStateStore({ store: window.localStorage }),
       stateStore: new WebStorageStateStore({ store: window.localStorage }),
     });
