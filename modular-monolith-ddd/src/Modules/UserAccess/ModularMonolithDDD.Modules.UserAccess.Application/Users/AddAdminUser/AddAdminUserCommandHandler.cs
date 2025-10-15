@@ -38,7 +38,7 @@
                 command.Name);
 
             // Save the user to the repository
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user, CancellationToken.None);
         }
     }
 }

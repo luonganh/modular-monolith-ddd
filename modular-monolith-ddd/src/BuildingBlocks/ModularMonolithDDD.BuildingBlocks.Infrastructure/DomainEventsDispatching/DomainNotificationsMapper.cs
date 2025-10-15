@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="type">The domain event notification type to get the name for.</param>
         /// <returns>The string name representation of the type, or null if not found.</returns>
-        public string GetName(Type type)
+        public string? GetName(Type type)
         {
             return _domainNotificationsMap.TryGetBySecond(type, out var name) ? name : null;
         }
@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="name">The string name representation of the type.</param>
         /// <returns>The strongly-typed domain event notification type, or null if not found.</returns>
-        public Type GetType(string name)
+        public Type? GetType(string name)
         {
             return _domainNotificationsMap.TryGetByFirst(name, out var type) ? type : null;
         }

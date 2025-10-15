@@ -22,10 +22,24 @@
 		/// The user will be persisted when SaveChanges is called on the context.
 		/// </summary>
 		/// <param name="user">The user entity to add to the database.</param>
-		/// <returns>A task representing the asynchronous operation.</returns>
-		public async Task AddAsync(User user)
+		/// <returns>A task representing the asynchronous operation.</returns>		
+        public async Task AddAsync(User user, CancellationToken cancellationToken)
 		{
-			await _userAccessContext.Users.AddAsync(user);
-		}
-	}
+            await _userAccessContext.Users.AddAsync(user, cancellationToken);
+        }
+
+        public async Task<User?> GetByExternalIdAsync(string externalId, CancellationToken ct)
+		{
+            if (Guid.TryParse(externalId, out var id))
+            {                
+                return await _userAccessContext.Users
+                    .FirstOrDefaultAsync(u => EF.Property<string>(u, "_externalId") == externalId, ct);
+            }
+            // Fallback: if externalId is not GUID, compare to ExternalId (has unique index)
+            return await _userAccessContext.Users
+                .FirstOrDefaultAsync(u => EF.Property<string>(u, "_externalId") == externalId, ct);
+        }
+
+       
+    }
 }

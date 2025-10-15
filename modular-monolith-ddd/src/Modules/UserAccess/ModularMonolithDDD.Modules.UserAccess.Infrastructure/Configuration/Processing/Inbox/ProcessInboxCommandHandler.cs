@@ -57,38 +57,49 @@
             foreach (var message in messages)
             {
                 // Find the assembly containing the message type
-                var messageAssembly = AppDomain.CurrentDomain.GetAssemblies()
-                    .SingleOrDefault(assembly => message.Type.Contains(assembly.GetName().Name));
-
-                Type type = messageAssembly.GetType(message.Type);
-                if (type == null)
+                if (!string.IsNullOrEmpty(message.Type) && message.Type.Contains("UserAccess"))
                 {
-					continue; // Skip if type not found
-				}
+                    var messageAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                    .SingleOrDefault(assembly => message.Type!.Contains(assembly.GetName().Name ?? throw new InvalidOperationException("Event type name is null")));
+                    if (messageAssembly == null)
+                    {
+                        continue;
+                    }
 
-				// Deserialize the message data using System.Text.Json first, fallback to Newtonsoft.Json
-				object request = null;
-				try
-				{
-					request = System.Text.Json.JsonSerializer.Deserialize(message.Data, type);
-				}
-				catch
-				{
-					// If System.Text.Json fails, fallback to Newtonsoft.Json
-					request = JsonConvert.DeserializeObject(message.Data, type);
-				}
+                    Type? type = messageAssembly.GetType(message.Type);
+                    if (type == null)
+                    {
+                        continue; // Skip if type not found
+                    }
 
-                try
-                {
-                    // Publish the message as a domain notification
-                    await _mediator.Publish((INotification?)request, cancellationToken);
+                    // Deserialize the message data using System.Text.Json first, fallback to Newtonsoft.Json
+                    object? request = null;
+                    try
+                    {
+                        request = System.Text.Json.JsonSerializer.Deserialize(message.Data, type);
+                    }
+                    catch
+                    {
+                        // If System.Text.Json fails, fallback to Newtonsoft.Json
+                        request = JsonConvert.DeserializeObject(message.Data, type);
+                    }
+                    if (request == null)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        // Publish the message as a domain notification
+                        await _mediator.Publish((INotification)request, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-
+                    				
                 // Mark the message as processed
                 await connection.ExecuteAsync(sqlUpdateProcessedDate, new
                 {

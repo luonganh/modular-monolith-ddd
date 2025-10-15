@@ -15,7 +15,7 @@
         /// and its underlying Guid value using lambda expressions for conversion functions.
         /// </summary>
         /// <param name="mappingHints">Optional mapping hints for the converter</param>
-        public TypedIdValueConverter(ConverterMappingHints mappingHints = null)
+        public TypedIdValueConverter(ConverterMappingHints? mappingHints = null)
             : base(id => id.Value, value => Create(value), mappingHints)
         {
         }
@@ -27,6 +27,6 @@
         /// </summary>
         /// <param name="id">The Guid value to create the strongly typed ID from</param>
         /// <returns>A new instance of the strongly typed ID with the specified Guid value</returns>
-        private static TTypedIdValue Create(Guid id) => Activator.CreateInstance(typeof(TTypedIdValue), id) as TTypedIdValue;
+        private static TTypedIdValue Create(Guid id) => (Activator.CreateInstance(typeof(TTypedIdValue), id) as TTypedIdValue)!;
     }
 }

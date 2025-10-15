@@ -85,16 +85,24 @@
 
         /// <summary>
         /// Processes a single internal command by deserializing and executing it.
-        /// </summary>
+        /// This method retrieves the command type from the application assembly,
+        /// deserializes the command data, and executes it through the CommandsExecutor.
         /// <param name="internalCommand">The internal command data to process.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ProcessCommand(
             InternalCommandDto internalCommand)
         {
-            Type type = Assemblies.Application.GetType(internalCommand.Type);
-            dynamic commandToProcess = JsonConvert.DeserializeObject(internalCommand.Data, type);
-
-            await CommandsExecutor.Execute(commandToProcess);
+            Type? type = Assemblies.Application.GetType(internalCommand.Type);
+            if (type == null)
+            {
+                throw new InvalidOperationException($"Type '{internalCommand.Type}' not found in application assembly");
+            }
+            var commandToProcess = JsonConvert.DeserializeObject(internalCommand.Data, type);
+            if (commandToProcess == null)
+            {
+                throw new InvalidOperationException($"Failed to deserialize command of type '{internalCommand.Type}'");
+            }
+            await CommandsExecutor.Execute((dynamic) commandToProcess);
         }
 
         /// <summary>
@@ -110,12 +118,12 @@
             /// <summary>
             /// Gets or sets the command type name.
             /// </summary>
-            public string Type { get; set; }
+            public string Type { get; set; } = default!;
 
             /// <summary>
             /// Gets or sets the serialized command data.
             /// </summary>
-            public string Data { get; set; }
+            public string Data { get; set; } = default!;
         }
     }
 }

@@ -1,10 +1,10 @@
 ### docker-compose.prod.yml
 services:
-  app-api:
-    image: luongtuananh/modular-monolith-ddd:prod
+  api:
+    image: luongtuananh/modular-monolith-ddd-backend-api:prod
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - SQLSERVER_HOST=app-sqlserver
+      - SQLSERVER_HOST=database
       - SQLSERVER_HOST_PORT=1433
       - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
       - SQLSERVER_USER=${SQLSERVER_USER}
@@ -15,19 +15,31 @@ services:
     networks: 
       - modular-monolith-network
   
-  app-frontend: 
-    image: luongtuananh/modular-monolith-ddd-frontend-react:prod
+  frontend-admin: 
+    image: luongtuananh/modular-monolith-ddd-frontend-admin:prod
     environment:
       - API_HOST_PORT=${API_HOST_PORT}
       - API_PORT=${API_PORT}
-      - FRONTEND_HOST_PORT=${FRONTEND_HOST_PORT}
+      - ADMIN_HOST_PORT=${ADMIN_HOST_PORT}  
     ports:
-      - "${FRONTEND_HOST_PORT}:${FRONTEND_PORT}"
-    restart: always           
+      - "${ADMIN_HOST_PORT}:${ADMIN_PORT}" 
+    restart: always 
     networks: 
       - modular-monolith-network
   
-  app-sqlserver:
+  frontend-portal: 
+    image: luongtuananh/modular-monolith-ddd-frontend-portal:prod
+    environment:
+      - API_HOST_PORT=${API_HOST_PORT}
+      - API_PORT=${API_PORT}
+      - PORTAL_HOST_PORT=${PORTAL_HOST_PORT}  
+    ports:
+      - "${PORTAL_HOST_PORT}:${PORTAL_PORT}" 
+    restart: always 
+    networks: 
+      - modular-monolith-network
+  
+  database:
     environment:
       - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
@@ -42,12 +54,29 @@ services:
   
   liquibase:
     environment:
-      - LIQUIBASE_COMMAND_URL=jdbc:sqlserver://app-sqlserver:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      - LIQUIBASE_COMMAND_URL=jdbc:sqlserver://database:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
       - LIQUIBASE_COMMAND_USERNAME=${SQLSERVER_USER}
       - LIQUIBASE_COMMAND_PASSWORD=${SQLSERVER_PASSWORD}
     restart: "no"
     networks: 
       - modular-monolith-network
+
+   # Keycloak for Production with Database
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      # SQL Server Configuration
+      KC_DB: mssql
+      KC_DB_URL: jdbc:sqlserver://database:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false;      
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USERNAME}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    ports:
+      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"  
+    command: start
+    networks:
+      - modular-monolith-network  
 
 volumes:
   vol_sqlserver_prod:

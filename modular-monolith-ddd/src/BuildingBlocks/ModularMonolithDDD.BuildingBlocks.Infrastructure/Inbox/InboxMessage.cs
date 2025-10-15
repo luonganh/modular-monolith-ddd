@@ -27,14 +27,14 @@
         /// This is used for deserialization and routing the message to the
         /// appropriate handler when processing.
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the serialized JSON data of the integration event.
         /// This contains the complete event payload that will be deserialized
         /// and processed by the appropriate handler.
         /// </summary>
-        public string Data { get; set; }
+        public string Data { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the timestamp when the message was successfully processed.

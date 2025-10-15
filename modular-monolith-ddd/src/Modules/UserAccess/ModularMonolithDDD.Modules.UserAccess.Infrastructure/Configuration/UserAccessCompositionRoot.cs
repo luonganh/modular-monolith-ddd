@@ -12,7 +12,7 @@
         /// <summary>
         /// The dependency injection container instance for the UserAccess module.
         /// </summary>
-		private static IContainer _container;
+		private static IContainer _container = default!;
 
         /// <summary>
         /// Sets the dependency injection container for the UserAccess module.

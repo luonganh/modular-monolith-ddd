@@ -27,7 +27,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.Users
         }
 
         [Test]
-        public async Task AddAdminUser_WhenInvalidEmail_ShouldThrowException()
+        public void AddAdminUser_WhenInvalidEmail_ShouldThrowException()
         {
             // Arrange
             var command = new AddAdminUserCommand(
@@ -39,12 +39,12 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.Users
                 "invalid-email");
 
             // Act & Assert
-            Assert.ThrowsAsync<Exception>(async () => 
-                await UserAccessModule.ExecuteCommandAsync(command));
+             Assert.Throws<Exception>(() => 
+                UserAccessModule.ExecuteCommandAsync(command));
         }
 
         [Test]
-        public async Task AddAdminUser_WhenEmptyLogin_ShouldThrowException()
+        public void AddAdminUser_WhenEmptyLogin_ShouldThrowException()
         {
             // Arrange
             var command = new AddAdminUserCommand(
@@ -56,8 +56,8 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.Users
                 "john.doe@example.com");
 
             // Act & Assert
-            Assert.ThrowsAsync<Exception>(async () => 
-                await UserAccessModule.ExecuteCommandAsync(command));
+            Assert.ThrowsAsync<Exception>(() => 
+                UserAccessModule.ExecuteCommandAsync(command));
         }
 
         [Test]

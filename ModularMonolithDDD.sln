@@ -9,13 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.env = .env
 		.env.example = .env.example
 		.env.production = .env.production
-		.env.staging = .env.staging
 		.gitignore = .gitignore
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.prod.yml = docker-compose.prod.yml
-		docker-compose.staging.yml = docker-compose.staging.yml
 		docker-compose.yml = docker-compose.yml
 		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
 	EndProjectSection
@@ -24,8 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{CDF1917A-094B-41C2-B945-97A729DCC16C}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql
-		modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql = modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql
+		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql		
 		modular-monolith-ddd\src\Database\start.sh = modular-monolith-ddd\src\Database\start.sh
 	EndProjectSection
 EndProject
@@ -44,9 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "drivers", "drivers", "{C88D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{5ABD3ADE-7822-4807-BCE5-BE476E5D104F}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql = modular-monolith-ddd\src\Database\liquibase\migrations\001-init-schema.sql
-		modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql = modular-monolith-ddd\src\Database\liquibase\migrations\002-init-users.sql
-		modular-monolith-ddd\src\Database\liquibase\migrations\003-init-openiddict-tables.sql = modular-monolith-ddd\src\Database\liquibase\migrations\003-init-openiddict-tables.sql
+		modular-monolith-ddd\src\Database\liquibase\migrations\001_init_schema.sql = modular-monolith-ddd\src\Database\liquibase\migrations\001_init_schema.sql
+		modular-monolith-ddd\src\Database\liquibase\migrations\002_init_users.sql = modular-monolith-ddd\src\Database\liquibase\migrations\002_init_users.sql		
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2EFD8C8A-419A-4FBD-BB3A-13B5B7FA4A45}"

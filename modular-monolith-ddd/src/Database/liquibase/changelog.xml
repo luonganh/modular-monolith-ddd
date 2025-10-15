@@ -4,15 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
-	<changeSet id="001-init-schema" author="yourname" runOnChange="false" runAlways="false">
-		<sqlFile path="migrations/001-init-schema.sql" />
+	<changeSet id="001_init_schema" author="yourname" runOnChange="false" runAlways="false">
+		<sqlFile path="migrations/001_init_schema.sql" />
 	</changeSet>
 
-	<changeSet id="002-init-tables-views" author="yourname" runOnChange="false" runAlways="false">
-		<sqlFile path="migrations/002-init-users.sql" />
+	<changeSet id="002_init_tables_views" author="yourname" runOnChange="false" runAlways="false">
+		<sqlFile path="migrations/002_init_users.sql" />
 	</changeSet>
-
-    <changeSet id="003-init-openiddict-tables" author="yourname" runOnChange="false" runAlways="false">
-        <sqlFile path="migrations/003-init-openiddict-tables.sql" />
-    </changeSet>
+   
 </databaseChangeLog>

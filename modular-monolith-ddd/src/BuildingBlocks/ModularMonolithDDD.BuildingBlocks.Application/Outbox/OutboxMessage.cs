@@ -24,13 +24,13 @@
         /// The type name of the domain event (e.g., fully qualified class name).
         /// Used for deserialization and routing the event to appropriate handlers.
         /// </summary>
-		public string Type { get; set; }
+		public string Type { get; set; } = default!;
 
 		/// <summary>
         /// Serialized JSON data of the domain event.
         /// Contains the actual event payload that will be published to external systems.
         /// </summary>
-		public string Data { get; set; }
+		public string Data { get; set; } = default!;
 
 		/// <summary>
         /// Timestamp when the message was successfully processed and published.

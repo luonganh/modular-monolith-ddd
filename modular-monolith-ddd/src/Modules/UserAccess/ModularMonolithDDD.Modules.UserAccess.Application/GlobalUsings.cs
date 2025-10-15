@@ -22,3 +22,12 @@ global using System.Security.Cryptography;
 
 global using ModularMonolithDDD.Modules.UserAccess.Application.Authentication.Authenticate;
 global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
+
+global using ModularMonolithDDD.BuildingBlocks.Application;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Authentication;
+
+global using System.Security.Claims;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Users.GetUser;
+
+global using FluentValidation;
+global using System.Text.RegularExpressions;

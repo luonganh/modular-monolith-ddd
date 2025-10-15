@@ -18,12 +18,12 @@
         /// Gets or sets the type name of the domain event notification.
         /// This is used to map the message back to its corresponding domain event type.
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the serialized data of the domain event notification.
         /// This contains the JSON representation of the domain event payload.
         /// </summary>
-        public string Data { get; set; }
+        public string Data { get; set; } = default!;
     }
 }

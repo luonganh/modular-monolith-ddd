@@ -26,5 +26,8 @@
     <!-- This helps prevent null reference exceptions and improves code quality -->
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Persistence\" />
+  </ItemGroup>
 
 </Project>

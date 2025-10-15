@@ -1,4 +1,4 @@
-﻿using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity.Stores;
+﻿using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity.CustomStores;
 
 namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 {
@@ -15,7 +15,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 		/// The dependency injection container instance for the UserAccess module.
 		/// This container manages all registered services and their lifetimes.
 		/// </summary>
-		private static IContainer _container;
+		private static IContainer _container = default!;
 
 		/// <summary>
 		/// Initializes the UserAccess module with all required dependencies and configurations.
@@ -36,12 +36,18 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 			ILogger logger,
 			EmailsConfiguration emailsConfiguration,
 			string textEncryptionKey,
-			IEmailSender emailSender,
-			IEventsBus eventsBus,
+			IEmailSender? emailSender = null,
+			IEventsBus? eventsBus = null,
 			long? internalProcessingPoolingInterval = null)
 		{
+            // Validate required parameters
+            //if (emailSender == null)
+            //    throw new ArgumentNullException(nameof(emailSender));
+            //if (eventsBus == null)
+            //    throw new ArgumentNullException(nameof(eventsBus));
+            
 			// Create a module-specific logger with "UserAccess" context for better log filtering
-			var moduleLogger = logger.ForContext("Module", "UserAccess");
+            var moduleLogger = logger.ForContext("Module", "UserAccess");
 
 			// Configure the dependency injection container with all required modules
 			ConfigureCompositionRoot(
@@ -96,8 +102,8 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 			var loggerFactory = new Serilog.Extensions.Logging.SerilogLoggerFactory(logger);
 			containerBuilder.RegisterModule(new DataAccessModule(connectionString, loggerFactory));
 
-			// Register custom Openiddict stores module
-            containerBuilder.RegisterModule(new CustomOpenIddictStoresModule());
+            //// Register custom Openiddict stores module
+            //containerBuilder.RegisterModule(new CustomOpenIddictStoresModule());
             
 			// Register processing module for command/query handling and validation
             containerBuilder.RegisterModule(new ProcessingModule());
@@ -115,10 +121,10 @@ namespace ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration
 			containerBuilder.RegisterModule(new QuartzModule());
 			
 			// Register email module for notification and communication services
-			containerBuilder.RegisterModule(new EmailModule(emailsConfiguration, emailSender));
+			//containerBuilder.RegisterModule(new EmailModule(emailsConfiguration, emailSender));
 			
 			// Register security module for encryption and security services
-			containerBuilder.RegisterModule(new SecurityModule(textEncryptionKey));
+			//containerBuilder.RegisterModule(new SecurityModule(textEncryptionKey));
 
 			// Register execution context accessor as a singleton instance
 			containerBuilder.RegisterInstance(executionContextAccessor);

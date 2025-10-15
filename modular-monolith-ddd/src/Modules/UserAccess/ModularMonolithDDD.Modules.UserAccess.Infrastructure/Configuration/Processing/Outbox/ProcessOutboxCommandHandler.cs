@@ -72,9 +72,17 @@
                 {
                     // Resolve the domain event notification type from the message type
                     var type = _domainNotificationsMapper.GetType(message.Type);
-                    
+                    if (type == null)
+                    {                       
+                        continue;
+                    }
+
                     // Deserialize the message data to the appropriate domain event notification
                     var @event = JsonConvert.DeserializeObject(message.Data, type) as IDomainEventNotification;
+                    if (@event == null)
+                    {                       
+                        continue;
+                    }
 
                     // Enrich logging context with outbox message information
                     using (Serilog.Context.LogContext.Push(new OutboxMessageContextEnricher(@event)))

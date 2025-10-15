@@ -15,5 +15,15 @@
         {
             this.Value = value;
         }
+
+        public static UserRole From(string value)
+        {
+            return value switch
+            {
+                "Administrator" => Administrator,
+                "Member" => Member,
+                _ => new UserRole(value) // hợp lệ vì đang ở bên trong class
+            };
+        }
     }
 }

@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="type">The domain event notification type to get the name for.</param>
         /// <returns>The string name representation of the type.</returns>
-        string GetName(Type type);
+        string? GetName(Type type);
 
         /// <summary>
         /// Gets the strongly-typed domain event notification type from its string name representation.
@@ -23,6 +23,6 @@
         /// </summary>
         /// <param name="name">The string name representation of the type.</param>
         /// <returns>The strongly-typed domain event notification type.</returns>
-        Type GetType(string name);
+        Type? GetType(string name);
     }
 }

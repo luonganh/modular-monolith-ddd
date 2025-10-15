@@ -30,7 +30,7 @@
                 .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any()).ToList();
 
             return domainEntities
-                .SelectMany(x => x.Entity.DomainEvents)
+                .SelectMany(x => x.Entity.DomainEvents ?? Enumerable.Empty<IDomainEvent>())
                 .ToList();
         }
 

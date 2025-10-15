@@ -37,7 +37,7 @@
         /// <param name="modelClrType">The CLR type of the model property</param>
         /// <param name="providerClrType">The CLR type of the database provider (optional)</param>
         /// <returns>An enumerable of value converter information for the specified types</returns>
-        public override IEnumerable<ValueConverterInfo> Select(Type modelClrType, Type providerClrType = null)
+        public override IEnumerable<ValueConverterInfo> Select(Type modelClrType, Type? providerClrType = null)
         {
             var baseConverters = base.Select(modelClrType, providerClrType);
             foreach (var converter in baseConverters)
@@ -50,17 +50,17 @@
 
             if (underlyingProviderType is null || underlyingProviderType == typeof(Guid))
             {
-                var isTypedIdValue = typeof(TypedIdValueBase).IsAssignableFrom(underlyingModelType);
+                var isTypedIdValue = typeof(TypedIdValueBase).IsAssignableFrom(underlyingModelType!);
                 if (isTypedIdValue)
                 {
-                    var converterType = typeof(TypedIdValueConverter<>).MakeGenericType(underlyingModelType);
+                    var converterType = typeof(TypedIdValueConverter<>).MakeGenericType(underlyingModelType!);
 
-                    yield return _converters.GetOrAdd((underlyingModelType, typeof(Guid)), _ =>
+                    yield return _converters.GetOrAdd((underlyingModelType!, typeof(Guid)), _ =>
                     {
                         return new ValueConverterInfo(
                             modelClrType: modelClrType,
                             providerClrType: typeof(Guid),
-                            factory: valueConverterInfo => (ValueConverter)Activator.CreateInstance(converterType, valueConverterInfo.MappingHints));
+                            factory: valueConverterInfo => (ValueConverter)Activator.CreateInstance(converterType, valueConverterInfo.MappingHints)!);
                     });
                 }
             }
@@ -73,14 +73,7 @@
         /// </summary>
         /// <param name="type">The type to unwrap</param>
         /// <returns>The underlying non-nullable type, or the original type if it's not nullable</returns>
-        private static Type UnwrapNullableType(Type type)
-        {
-            if (type is null)
-            {
-                return null;
-            }
-
-            return Nullable.GetUnderlyingType(type) ?? type;
-        }
+        private static Type? UnwrapNullableType(Type? type) => type is null ? null : Nullable.GetUnderlyingType(type) ?? type;
+        
     }
 }

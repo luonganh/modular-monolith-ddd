@@ -64,7 +64,11 @@
 
                 if (domainNotification != null)
                 {
-                    domainEventNotifications.Add(domainNotification as IDomainEventNotification<IDomainEvent>);
+                    var notification = domainNotification as IDomainEventNotification<IDomainEvent>;
+                    if (notification != null)
+                    {
+                        domainEventNotifications.Add(notification);
+                    }                    
                 }
             }
 
@@ -81,6 +85,11 @@
             foreach (var domainEventNotification in domainEventNotifications)
             {
                 var type = _domainNotificationsMapper.GetName(domainEventNotification.GetType());
+                if (type == null)
+                {
+                    // Skip this notification if we can't get its type name
+                    continue;
+                }
                 var data = JsonConvert.SerializeObject(domainEventNotification, new JsonSerializerSettings
                 {
                     ContractResolver = new AllPropertiesContractResolver()

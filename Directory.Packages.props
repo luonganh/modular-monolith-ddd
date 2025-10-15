@@ -32,11 +32,7 @@
     <PackageVersion Include="Polly" Version="8.2.0" />
     <!-- Event sourcing -->
     <PackageVersion Include="SqlStreamStore.MsSql" Version="1.1.3" />
-    <!-- OpenID Connect and OAuth 2.0 -->
-    <PackageVersion Include="OpenIddict.Server" Version="7.0.0" />
-    <PackageVersion Include="OpenIddict.AspNetCore" Version="7.0.0" />
-    <PackageVersion Include="OpenIddict.Validation.AspNetCore" Version="7.0.0" />
-    <PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="7.0.0" />
+   
     <!-- Testing frameworks -->
     <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
@@ -44,6 +40,7 @@
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
     <!-- Provides middleware to handle HTTP error responses according to RFC 7807 (Problem Details for HTTP APIs) standard -->
     <!-- Provides consistent error handling, replaces default ASP.NET Core error pages, and helps frontend easily parse error responses -->
     <PackageVersion Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
@@ -53,14 +50,27 @@
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
     <!-- Provides compact JSON formatting for better performance and storage efficiency in log aggregation -->
     <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
+
+      <!-- Keycloak: OpenID Connect and OAuth 2.0 -->     
+      <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+      <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" />
+      <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />  
+
+      <!-- OpenIddict: OpenID Connect and OAuth 2.0 -->
+      <PackageVersion Include="OpenIddict.Server" Version="7.0.0" />
+      <PackageVersion Include="OpenIddict.AspNetCore" Version="7.0.0" />
+      <PackageVersion Include="OpenIddict.Validation.AspNetCore" Version="7.0.0" />
+      <PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="7.0.0" />
+      
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
-    <PackageReference Include="DotNetEnv" />
+    <!--<PackageReference Include="DotNetEnv" />-->
     <PackageReference Include="Hellang.Middleware.ProblemDetails" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Domain'))">
     <PackageReference Include="MediatR" />
@@ -84,7 +94,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Polly" />
-    <PackageReference Include="SqlStreamStore.MsSql" />
+    <PackageReference Include="SqlStreamStore.MsSql" />    
+    <PackageReference Include="DotNetEnv" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
     <PackageReference Include="OpenIddict.Server" />
     <PackageReference Include="OpenIddict.AspNetCore" />
     <PackageReference Include="OpenIddict.Validation.AspNetCore" />
@@ -97,6 +111,8 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="DotNetEnv" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('UserAccess.Infrastructure'))">
     <PackageReference Include="Dapper" />

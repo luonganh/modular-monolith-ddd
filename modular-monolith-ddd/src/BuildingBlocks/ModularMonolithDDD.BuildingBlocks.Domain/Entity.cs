@@ -8,12 +8,12 @@
 		/// <summary>
 		/// Domain events occurred.
 		/// </summary>
-		private List<IDomainEvent> _domainEvents;
+		private List<IDomainEvent>? _domainEvents;
 
 		/// <summary>
 		/// Domain events occurred.
 		/// </summary>
-		public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+		public IReadOnlyCollection<IDomainEvent>? DomainEvents => _domainEvents?.AsReadOnly();
 
 		/// <summary>
 		/// Clear domain events.

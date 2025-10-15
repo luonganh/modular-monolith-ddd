@@ -29,7 +29,7 @@
 		/// </summary>
 		/// <param name="obj">The object to compare.</param>
 		/// <returns>True if the typed id value object is equal to another typed id value object, false otherwise.</returns>
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (ReferenceEquals(null, obj))
 			{
@@ -53,9 +53,9 @@
 		/// </summary>
 		/// <param name="other">The other typed id value object.</param>
 		/// <returns>True if the typed id value object is equal to another typed id value object, false otherwise.</returns>
-		public bool Equals(TypedIdValueBase other)
+		public bool Equals(TypedIdValueBase? other)
 		{
-			return this.Value == other?.Value;
+			return other is not null && this.Value == other.Value;
 		}
 
 		/// <summary>
@@ -64,19 +64,10 @@
 		/// <param name="obj1">The first typed id value object.</param>
 		/// <param name="obj2">The second typed id value object.</param>
 		/// <returns>True if the typed id value object is equal to another typed id value object, false otherwise.</returns>
-		public static bool operator ==(TypedIdValueBase obj1, TypedIdValueBase obj2)
+		public static bool operator ==(TypedIdValueBase? obj1, TypedIdValueBase obj2)
 		{
-			if (object.Equals(obj1, null))
-			{
-				if (object.Equals(obj2, null))
-				{
-					return true;
-				}
-
-				return false;
-			}
-
-			return obj1.Equals(obj2);
+			if (ReferenceEquals(obj1, null)) return ReferenceEquals(obj2, null);
+			return obj1.Equals(obj2);			
 		}
 
 		/// <summary>

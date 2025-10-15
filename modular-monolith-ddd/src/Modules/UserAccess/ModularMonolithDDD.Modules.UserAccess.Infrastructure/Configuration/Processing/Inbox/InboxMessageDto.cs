@@ -15,11 +15,11 @@
         /// <summary>
         /// Gets or sets the type name of the message for deserialization.
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the serialized message data.
         /// </summary>
-        public string Data { get; set; }
+        public string Data { get; set; } = default!;
     }
 }

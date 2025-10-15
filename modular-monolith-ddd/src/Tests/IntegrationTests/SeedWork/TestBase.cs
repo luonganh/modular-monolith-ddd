@@ -1,3 +1,7 @@
+using Microsoft.Extensions.Configuration;
+using ModularMonolithDDD.BuildingBlocks.Infrastructure.Configuration;
+using System.IO;
+
 namespace ModularMonolithDDD.Tests.IntegrationTests.SeedWork
 {
     public class TestBase
@@ -17,13 +21,29 @@ namespace ModularMonolithDDD.Tests.IntegrationTests.SeedWork
         [SetUp]
         public async Task BeforeEachTest()
         {
-            const string connectionStringEnvironmentVariable =
-                "ASPNETCORE_ModularMonolithDDD_IntegrationTests_ConnectionString";
-            ConnectionString = Environment.GetEnvironmentVariable(connectionStringEnvironmentVariable);
+            //// Load .env from root solution
+            //// Get .env container path from root solution
+            //var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));
+
+            //// Load by environment
+            //var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            //var envFile = environment == "Production" ? ".env.production" : ".env";
+            //var envPath = Path.Combine(rootPath, envFile);
+            //if (File.Exists(envPath))
+            //{
+            //    DotNetEnv.Env.Load(envPath);
+            //}
+
+            var solutionRoot = typeof(EnvironmentHelper).Assembly.Location;            
+            Console.WriteLine($"Solution Root: {solutionRoot}");
+            var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));
+            Console.WriteLine($"Root: {root}");
+            EnvironmentHelper.ConfigureEnvironment(root);            
+            ConnectionString = EnvironmentHelper.GetConnectionString(new ConfigurationBuilder().Build());
             if (ConnectionString == null)
             {
                 throw new ApplicationException(
-                    $"Define connection string to integration tests database using environment variable: {connectionStringEnvironmentVariable}");
+                    $"Define connection string to integration tests database");
             }
 
             using (var sqlConnection = new SqlConnection(ConnectionString))

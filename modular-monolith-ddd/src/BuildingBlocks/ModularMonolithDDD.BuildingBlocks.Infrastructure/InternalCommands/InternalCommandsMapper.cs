@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="type">The command type to get the name for</param>
         /// <returns>The string name of the command type, or null if not found</returns>
-        public string GetName(Type type)
+        public string? GetName(Type type)
         {
             return _internalCommandsMap.TryGetBySecond(type, out var name) ? name : null;
         }
@@ -40,7 +40,7 @@
         /// </summary>
         /// <param name="name">The string name of the command type</param>
         /// <returns>The command type, or null if not found</returns>
-        public Type GetType(string name)
+        public Type? GetType(string name)
         {
             return _internalCommandsMap.TryGetByFirst(name, out var type) ? type : null;
         }

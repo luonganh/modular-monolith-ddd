@@ -17,25 +17,25 @@
         /// Gets or sets the sender's email address.
         /// This property contains the email address of the person or system that sent the email.
         /// </summary>
-        public string From { get; set; }
+        public string From { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the recipient's email address.
         /// This property contains the email address of the person or system that received the email.
         /// </summary>
-        public string To { get; set; }
+        public string To { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the subject line of the email message.
         /// This property contains the brief description or title of the email content.
         /// </summary>
-        public string Subject { get; set; }
+        public string Subject { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the body content of the email message.
         /// This property contains the main text content of the email, which can be in plain text or HTML format.
         /// </summary>
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the date and time when the email was sent.

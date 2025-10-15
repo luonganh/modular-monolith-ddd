@@ -5,9 +5,9 @@
 	/// </summary>
 	public abstract class ValueObject : IEquatable<ValueObject>
 	{
-		private List<PropertyInfo> _properties;
+		private List<PropertyInfo>? _properties;
 
-		private List<FieldInfo> _fields;
+		private List<FieldInfo>? _fields;
 
 		/// <summary>
 		/// Check if two value objects are equal.
@@ -15,19 +15,10 @@
 		/// <param name="obj1">The first value object.</param>
 		/// <param name="obj2">The second value object.</param>
 		/// <returns>True if the two value objects are equal, false otherwise.</returns>
-		public static bool operator ==(ValueObject obj1, ValueObject obj2)
+		public static bool operator ==(ValueObject? obj1, ValueObject? obj2)
 		{
-			if (object.Equals(obj1, null))
-			{
-				if (object.Equals(obj2, null))
-				{
-					return true;
-				}
-
-				return false;
-			}
-
-			return obj1.Equals(obj2);
+			if (ReferenceEquals(obj1, null)) return ReferenceEquals(obj2, null);
+			return obj1.Equals(obj2);			
 		}
 
 		/// <summary>
@@ -36,32 +27,23 @@
 		/// <param name="obj1">The first value object.</param>
 		/// <param name="obj2">The second value object.</param>
 		/// <returns>True if the two value objects are not equal, false otherwise.</returns>
-		public static bool operator !=(ValueObject obj1, ValueObject obj2)
-		{
-			return !(obj1 == obj2);
-		}
+		public static bool operator !=(ValueObject? obj1, ValueObject? obj2) => !(obj1 == obj2);
 
 		/// <summary>
 		/// Check if two value objects are equal.
 		/// </summary>
 		/// <param name="obj">The value object to compare.</param>
 		/// <returns>True if the two value objects are equal, false otherwise.</returns>
-		public bool Equals(ValueObject obj)
-		{
-			return Equals(obj as object);
-		}
-
+		public bool Equals(ValueObject? obj) => Equals(obj as object);
+		
 		/// <summary>
 		/// Check if two value objects are equal.
 		/// </summary>
 		/// <param name="obj">The value object to compare.</param>
 		/// <returns>True if the two value objects are equal, false otherwise.</returns>
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
-			if (obj == null || GetType() != obj.GetType())
-			{
-				return false;
-			}
+			if (obj is null || GetType() != obj.GetType()) return false;
 
 			return GetProperties().All(p => PropertiesAreEqual(obj, p))
 				&& GetFields().All(f => FieldsAreEqual(obj, f));
@@ -78,13 +60,13 @@
 				int hash = 17;
 				foreach (var prop in GetProperties())
 				{
-					var value = prop.GetValue(this, null);
+					var value = prop.GetValue(this, null);					
 					hash = HashValue(hash, value);
 				}
 
 				foreach (var field in GetFields())
 				{
-					var value = field.GetValue(this);
+					var value = field.GetValue(this);					
 					hash = HashValue(hash, value);
 				}
 
@@ -168,10 +150,10 @@
 		/// <param name="seed">The seed for the hash code.</param>
 		/// <param name="value">The value to get the hash code of.</param>
 		/// <returns>The hash code of the value object.</returns>
-		private int HashValue(int seed, object value)
+		private int HashValue(int seed, object? value)
 		{
-			var currentHash = value?.GetHashCode() ?? 0;
-
+			if (value == null) return seed * 23;
+			var currentHash = value?.GetHashCode() ?? 0;			
 			return (seed * 23) + currentHash;
 		}
 	}

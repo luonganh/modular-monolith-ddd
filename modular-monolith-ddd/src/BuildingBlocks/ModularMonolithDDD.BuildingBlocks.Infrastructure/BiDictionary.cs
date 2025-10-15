@@ -9,6 +9,8 @@
     /// <typeparam name="TFirst">The first type in the bidirectional mapping</typeparam>
     /// <typeparam name="TSecond">The second type in the bidirectional mapping</typeparam>
     public class BiDictionary<TFirst, TSecond>
+        where TFirst : notnull
+		where TSecond : notnull
     {
         /// <summary>
         /// Internal dictionary that maps from the first type to the second type.
@@ -52,7 +54,7 @@
         /// <returns>True if the mapping exists; otherwise, false</returns>
         public bool TryGetByFirst(TFirst first, out TSecond second)
         {
-            return _firstToSecond.TryGetValue(first, out second);
+            return _firstToSecond.TryGetValue(first, out second!);
         }
 
         /// <summary>
@@ -65,7 +67,7 @@
         /// <returns>True if the mapping exists; otherwise, false</returns>
         public bool TryGetBySecond(TSecond second, out TFirst first)
         {
-            return _secondToFirst.TryGetValue(second, out first);
+            return _secondToFirst.TryGetValue(second, out first!);
         }
     }
 }

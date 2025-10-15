@@ -26,7 +26,7 @@
 				using (var connection = scope.Resolve<ISqlConnectionFactory>().GetOpenConnection())
 				{
 					// Get the full type name for event identification
-					string type = @event.GetType().FullName;
+					string type = @event.GetType().FullName ?? throw new InvalidOperationException("Event type name is null");
 					
 					// Serialize the event data using JSON with custom contract resolver
 					// AllPropertiesContractResolver ensures all properties are serialized

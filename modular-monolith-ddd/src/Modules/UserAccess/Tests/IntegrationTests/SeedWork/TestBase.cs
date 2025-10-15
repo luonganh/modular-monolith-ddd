@@ -2,6 +2,10 @@
 // Summary: Base class bootstrapping `UserAccess` module for integration tests.
 // - Reads connection string from env var
 // - Clears test DB and initializes module with test-friendly dependencies
+using Microsoft.Extensions.Configuration;
+using ModularMonolithDDD.BuildingBlocks.Infrastructure.Configuration;
+using System.IO;
+
 namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
 {
     public class TestBase
@@ -21,19 +25,23 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
         [SetUp]
         public async Task BeforeEachTest()
         {
-            const string connectionStringEnvironmentVariable =
-                "ASPNETCORE_ModularMonolithDDD_UserAccess_IntegrationTests_ConnectionString";
-            ConnectionString = Environment.GetEnvironmentVariable(connectionStringEnvironmentVariable);
+            var solutionRoot = typeof(EnvironmentHelper).Assembly.Location;
+          
+            var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", "..", "..", ".."));
+           
+            EnvironmentHelper.ConfigureEnvironment(root);
+            ConnectionString = EnvironmentHelper.GetConnectionString(new ConfigurationBuilder().Build());
+            
             if (ConnectionString == null)
             {
                 throw new ApplicationException(
-                    $"Define connection string to integration tests database using environment variable: {connectionStringEnvironmentVariable}");
+                    $"Define connection string to integration tests database using environment variable");
             }
 
-            using (var sqlConnection = new SqlConnection(ConnectionString))
-            {
-                await ClearDatabase(sqlConnection);
-            }
+            //using (var sqlConnection = new SqlConnection(ConnectionString))
+            //{
+            //    await ClearDatabase(sqlConnection);
+            //}
 
             Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -74,14 +82,14 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
 
         private static async Task ClearDatabase(IDbConnection connection)
         {
-            const string sql = "DELETE FROM [useraccess].[InboxMessages] " +
-                               "DELETE FROM [useraccess].[InternalCommands] " +
-                               "DELETE FROM [useraccess].[OutboxMessages] " +
-                               "DELETE FROM [useraccess].[UserRoles] " +
-                               "DELETE FROM [useraccess].[Users] " +
-                               "DELETE FROM [useraccess].[Roles] " +
-                               "DELETE FROM [useraccess].[Permissions] " +
-                               "DELETE FROM [useraccess].[RolePermissions] ";
+            const string sql = "DELETE FROM [users].[InboxMessages] " +
+                               "DELETE FROM [users].[InternalCommands] " +
+                               "DELETE FROM [users].[OutboxMessages] " +
+                               "DELETE FROM [users].[UserRoles] " +
+                               "DELETE FROM [users].[Users] " +
+                               "DELETE FROM [users].[Roles] " +
+                               "DELETE FROM [users].[Permissions] " +
+                               "DELETE FROM [users].[RolePermissions] ";
 
             await connection.ExecuteScalarAsync(sql);
         }

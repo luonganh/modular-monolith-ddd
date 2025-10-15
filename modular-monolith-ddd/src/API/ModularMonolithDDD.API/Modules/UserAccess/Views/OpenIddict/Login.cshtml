@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "/Modules/UserAccess/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Sign in";
+}
+<!-- Modules/UserAccess/Views/Authentication/Login.cshtml -->
+@model ModularMonolithDDD.API.Modules.UserAccess.AuthenticateRequest
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<style>
+  .error-list {
+    list-style: none;
+    padding-left: 0;
+}
+</style>
+<div class="auth-wrapper">
+  <div class="card shadow-sm auth-card">
+    <div class="card-body p-4">
+      <h5 class="brand mb-3 text-center">Admin Sign in</h5>
+
+      <form id="LoginForm" asp-action="Login" method="post" novalidate class="needs-validation">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+          <label asp-for="Login" class="small mb-1"></label>
+          <input asp-for="Login" class="form-control" />
+          <span asp-validation-for="Login" class="invalid-feedback d-block"></span>
+        </div>
+
+        <div class="form-group">
+          <label asp-for="Password" class="small mb-1"></label>
+          <input asp-for="Password" type="password" class="form-control" />
+          <span asp-validation-for="Password" class="invalid-feedback d-block"></span>
+        </div>
+
+        <input asp-for="ReturnUrl" type="hidden" />
+
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <button type="submit" class="btn btn-primary btn-block w-100">Sign in</button>
+        </div>
+
+        <div class="text-danger mt-2">
+          <span asp-validation-summary="All"></span>
+          @if (!ViewData.ModelState.IsValid)
+          {
+              <div class="alert alert-danger">
+                 
+                  <ul class="error-list">
+                      @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                      {
+                          <li>@error.ErrorMessage</li>
+                      }
+                  </ul>
+              </div>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

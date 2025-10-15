@@ -1,6 +1,6 @@
 ### docker-compose.yml (BASE - common for all environments)
 services:     
-  app-sqlserver:
+  database:
     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
     environment:     
       SA_PASSWORD: ${SA_PASSWORD}
@@ -9,7 +9,25 @@ services:
       - "${SQLSERVER_HOST_PORT}:${SQLSERVER_PORT}"
     volumes:
       - vol_sqlserver:/var/opt/mssql
-      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d    
+      - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d  
+ 
+    # Configure shared memory size for the SQL Server container
+    # SQL Server requires shared memory for connection pooling and internal operations
+    # Default is 64MB which is often insufficient for production workloads
+    # Increase shared memory from 64MB to 2GB for connection pooling    
+    shm_size: 2g    # Allocate 2GB of shared memory (increased from default 64MB)
+    # Configure resource limits and reservations for the SQL Server container
+    # This ensures optimal performance and prevents resource exhaustion
+    deploy:
+      resources:
+        # Maximum resource limits - container cannot exceed these values
+        limits:
+          memory: 4G    # Maximum 4GB RAM allocation
+          cpus: '2.0'   # Maximum 2 CPU cores allocation
+        # Minimum resource reservations - guaranteed resources for the container
+        reservations:
+          memory: 2G    # Guaranteed 2GB RAM allocation
+          cpus: '1.0'   # Guaranteed 1 CPU core allocation
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d ModularMonolithDDD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
       # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
@@ -27,7 +45,7 @@ services:
   liquibase:   
     image: liquibase/liquibase:4.23.2    
     environment:
-      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://app-sqlserver:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://database:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
       LIQUIBASE_COMMAND_USERNAME: ${SQLSERVER_USER}
       LIQUIBASE_COMMAND_PASSWORD: ${SQLSERVER_PASSWORD}
     command: ["update", "--changelog-file=changelog.xml"]
@@ -37,11 +55,11 @@ services:
       - ./modular-monolith-ddd/src/Database/liquibase/changelog.xml:/liquibase/changelog.xml
       - ./modular-monolith-ddd/src/Database/liquibase/liquibase.properties:/liquibase/liquibase.properties
     depends_on:
-      app-sqlserver:
+      database:
         condition: service_healthy
     networks:
       - modular-monolith-network
- 
+      
 volumes:
   vol_sqlserver:
 

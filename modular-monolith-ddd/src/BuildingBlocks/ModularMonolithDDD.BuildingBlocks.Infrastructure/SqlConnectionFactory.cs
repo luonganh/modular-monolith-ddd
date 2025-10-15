@@ -6,7 +6,7 @@
 	public class SqlConnectionFactory : ISqlConnectionFactory, IDisposable
 	{
 		private readonly string _connectionString;
-		private IDbConnection _connection;
+		private IDbConnection _connection = default!;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SqlConnectionFactory"/> class.

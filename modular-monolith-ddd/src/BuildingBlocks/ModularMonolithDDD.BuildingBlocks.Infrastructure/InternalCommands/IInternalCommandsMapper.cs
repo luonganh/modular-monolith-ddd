@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="type">The command type to get the name for</param>
         /// <returns>The string name of the command type, or null if not found</returns>
-        string GetName(Type type);
+        string? GetName(Type type);
 
         /// <summary>
         /// Gets the command type from its string name representation.
@@ -21,6 +21,6 @@
         /// </summary>
         /// <param name="name">The string name of the command type</param>
         /// <returns>The command type, or null if not found</returns>
-        Type GetType(string name);
+        Type? GetType(string name);
     }
 }

@@ -1,40 +1,82 @@
 ### docker-compose.override.yml (BASE - common for all environments)
 services:
-  app-api:   
-    build:
-      context: .
-      dockerfile: modular-monolith-ddd/Dockerfile      
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - SQLSERVER_HOST=${SQLSERVER_HOST}
-      - SQLSERVER_HOST_PORT=${SQLSERVER_HOST_PORT}
-      - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
-      - SQLSERVER_USER=${SQLSERVER_USER}
-      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
-    ports:
-      - "${API_HOST_PORT}:${API_PORT}"    
-    volumes:
-        - ./modular-monolith-ddd/src/API/ModularMonolithDDD.API/logs:/app/logs 
-    depends_on:
-      app-sqlserver:
-        condition: service_healthy
-      liquibase:
-        condition: service_completed_successfully
-    networks:
-      - modular-monolith-network
+  # api:   
+  #   build:
+  #     context: .
+  #     dockerfile: modular-monolith-ddd/Dockerfile      
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+  #     - SQLSERVER_HOST=${SQLSERVER_HOST}
+  #     - SQLSERVER_HOST_PORT=${SQLSERVER_HOST_PORT}
+  #     - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
+  #     - SQLSERVER_USER=${SQLSERVER_USER}
+  #     - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
+  #   ports:
+  #     - "${API_HOST_PORT}:${API_PORT}"    
+  #   volumes:
+  #       - ./modular-monolith-ddd/src/API/ModularMonolithDDD.API/logs:/app/logs 
+  #       - ./.env.production:/app/.env.production
+  #       - ./.env:/app/.env
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #     liquibase:
+  #       condition: service_completed_successfully
+  #   networks:
+  #     - modular-monolith-network
 
-  app-frontend:  
-    build:
-      context: ./modular-monolith-ddd-frontend-react
-      dockerfile: Dockerfile.fe      
+  # frontend-admin:  
+  #   build:
+  #     context: ./modular-monolith-ddd-frontend-admin
+  #     dockerfile: Dockerfile.fe      
+  #     args:
+  #       VITE_API_URL: ${VITE_API_URL}
+  #       VITE_AUTHORITY: ${VITE_AUTHORITY}
+  #       VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+  #       VITE_REDIRECT_URI: ${VITE_REDIRECT_URI}
+  #   environment:
+  #     - API_HOST_PORT=${API_HOST_PORT}
+  #     - API_PORT=${API_PORT} 
+  #     - ADMIN_HOST_PORT=${ADMIN_HOST_PORT}      
+  #   ports:
+  #       - "${ADMIN_HOST_PORT}:${ADMIN_PORT}"    
+  #   volumes:
+  #      - ./modular-monolith-ddd-frontend-admin/src:/app/src
+  #      - /app/node_modules            
+  #   networks:
+  #     - modular-monolith-network
+ 
+  # frontend-portal:  
+  #   build:
+  #     context: ./modular-monolith-ddd-frontend-portal
+  #     dockerfile: Dockerfile.fe            
+  #   environment:
+  #     - API_HOST_PORT=${API_HOST_PORT}
+  #     - API_PORT=${API_PORT} 
+  #     - PORTAL_HOST_PORT=${PORTAL_HOST_PORT}      
+  #   ports:
+  #       - "${PORTAL_HOST_PORT}:${PORTAL_PORT}"    
+  #   volumes:
+  #      - ./modular-monolith-ddd-frontend-portal/src:/app/src
+  #      - /app/node_modules            
+  #   networks:
+  #     - modular-monolith-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
     environment:
-      - API_HOST_PORT=${API_HOST_PORT}
-      - API_PORT=${API_PORT} 
-      - FRONTEND_HOST_PORT=${FRONTEND_HOST_PORT}      
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      # SQL Server Configuration
+      KC_DB: mssql
+      KC_DB_URL: jdbc:sqlserver://database:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false;      
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USERNAME}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
     ports:
-        - "${FRONTEND_HOST_PORT}:${FRONTEND_PORT}" 
-    # volumes:
-    #    - ./modular-monolith-ddd-frontend-react/src:/app/src
-    #    - /app/node_modules            
+      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"  
+    command: start-dev
+    depends_on:
+      database:
+        condition: service_healthy
     networks:
-      - modular-monolith-network
+      - modular-monolith-network  
