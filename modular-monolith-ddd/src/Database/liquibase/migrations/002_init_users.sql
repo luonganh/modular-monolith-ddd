@@ -119,8 +119,8 @@ FROM [users].UserRoles AS [UserRole]
 		ON [UserRole].RoleCode = [RolesToPermission].RoleCode
 GO
 
-INSERT INTO [users].[Users] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'admin', 'luonganh@gmail.com', 'AEyvqKswk+KUGYv9sGMl1g5q/zFAT1sHzD4uJ9hFudqOV/nhE9+fNrYkchz8RfE1vQ==', 1, 'Anh', 'Luong', 'Anh Luong')
-GO
+--INSERT INTO [users].[Users] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'admin', 'luonganh@gmail.com', 'AEyvqKswk+KUGYv9sGMl1g5q/zFAT1sHzD4uJ9hFudqOV/nhE9+fNrYkchz8RfE1vQ==', 1, 'Anh', 'Luong', 'Anh Luong')
+--GO
 
-INSERT INTO [users].[UserRoles] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'Administrator')
-GO
+--INSERT INTO [users].[UserRoles] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'Administrator')
+--GO
