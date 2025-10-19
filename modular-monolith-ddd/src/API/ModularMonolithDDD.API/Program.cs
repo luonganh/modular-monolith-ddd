@@ -1,6 +1,13 @@
 ﻿
 //ConfigureEnvironment();
 
+using System.Linq;
+using Autofac.Extensions.DependencyInjection;
+using ModularMonolithDDD.API.Configuration.ExecutionContext;
+using ModularMonolithDDD.API.Modules.UserAccess;
+using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
+using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
+using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -252,7 +259,22 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<ISqlConnectionFactory>(_ => new SqlConnectionFactory(builder.Configuration["ConnectionStrings:AppConnectionString"]));
 
-// Build the application    
+// Add authorization policy requiring API scope
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("ApiScope", policy =>
+	{
+		policy.RequireAuthenticatedUser();
+		policy.RequireAssertion(context =>
+		{
+			// Support both multiple "scope" claims and single space-delimited claim
+			var scopeClaims = context.User.FindAll("scope").Select(c => c.Value);
+			return scopeClaims.Any(v => v == "modular-monolith-ddd-api" || v.Split(' ').Contains("modular-monolith-ddd-api"));
+		});
+	});
+});
+
+// Build the application
 var app = builder.Build();
 
 
@@ -268,6 +290,10 @@ var logger = app.Services.GetRequiredService<ILogger>();
 // Get the Autofac root container from the built service provider
 var container = app.Services.GetAutofacRoot();
 
+app.UseCors(builder =>
+    builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 // Initialize modules   
 InitializeModules(container);
 
