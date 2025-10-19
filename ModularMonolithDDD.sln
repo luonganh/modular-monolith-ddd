@@ -10,12 +10,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.env.example = .env.example
 		.env.production = .env.production
 		.gitignore = .gitignore
+		docs\Business Analysis.md = docs\Business Analysis.md
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.prod.yml = docker-compose.prod.yml
 		docker-compose.yml = docker-compose.yml
 		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
+		docs\Software Requirements Specification.md = docs\Software Requirements Specification.md
+		docs\Sprint Planning.md = docs\Sprint Planning.md
+		docs\Technical Architecture.md = docs\Technical Architecture.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{E900537F-5688-47E6-B916-53964AC5B369}"

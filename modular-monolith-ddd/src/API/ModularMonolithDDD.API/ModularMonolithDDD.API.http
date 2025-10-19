@@ -1,3 +1,41 @@
+### PKCE Authorization Code flow (DEV)
+@host = https://localhost:7243
+@client_id = spa-dev
+@redirect_uri = http://localhost:3001/callback
+@scope = openid profile email offline_access modular-monolith-ddd-api
+
+# 1) Generate a code_verifier and code_challenge (S256)
+# - Example PowerShell to generate:
+#   $ver = -join ((48..57)+(65..90)+(97..122) | Get-Random -Count 64 | % {[char]$_})
+#   $bytes = [System.Text.Encoding]::ASCII.GetBytes($ver)
+#   $hash = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
+#   $challenge = [Convert]::ToBase64String($hash).TrimEnd('=').Replace('+','-').Replace('/','_')
+#   Write-Output "code_verifier=$ver"; Write-Output "code_challenge=$challenge"
+
+# BlIXJS4eHsRvUj9aZptu1hy57Vbzc0F3rCoTkQMOYPiEDGq2d8xgfw6LNmWAKn
+@code_verifier = BlIXJS4eHsRvUj9aZptu1hy57Vbzc0F3rCoTkQMOYPiEDGq2d8xgfw6LNmWAKn
+
+# hsWv1pLdXcLx75pyUM9RvUBdVfaQ1tmXp6TmMQpfJUQ
+@code_challenge = hsWv1pLdXcLx75pyUM9RvUBdVfaQ1tmXp6TmMQpfJUQ
+
+### 2) Start authorize request (copy the `code` from Location header's query)
+GET {{host}}/connect/authorize?response_type=code&client_id={{client_id}}&redirect_uri={{redirect_uri}}&scope={{scope}}&code_challenge={{code_challenge}}&code_challenge_method=S256
+
+### 3) Exchange authorization code for tokens
+@code = paste_code_from_step_2
+
+POST {{host}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&client_id={{client_id}}&redirect_uri={{redirect_uri}}&code_verifier={{code_verifier}}&code={{code}}
+
+### 4) Call protected API with the access token
+# Set the access token from step 3 below
+@access_token = paste_access_token_here
+
+GET {{host}}/api/protected/ping
+Authorization: Bearer {{access_token}}
+
 @ModularMonolithDDD.API_HostAddress = http://localhost:5168
 
 GET {{ModularMonolithDDD.API_HostAddress}}/
