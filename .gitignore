@@ -410,4 +410,5 @@ obj/
 .vs/
 .vscode/
 
-Sprint_Planning.md
+docs/*.md
+/docs/Business_Analysis.md
