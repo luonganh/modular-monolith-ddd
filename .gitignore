@@ -412,3 +412,7 @@ obj/
 
 docs/*.md
 /docs/Business_Analysis.md
+/docs/diagrams
+/docs/diagrams/aggregates-relationship.md
+/docs/diagrams/context-map.md
+/docs/diagrams/event-flow.md
