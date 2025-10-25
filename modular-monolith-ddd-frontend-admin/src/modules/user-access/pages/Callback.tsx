@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {  
   handleCallback as processOidcCallback, 
-} from '../../../auth/AuthenticationService';
+} from '../services/AuthenticationService';
 import { HttpClient } from '../../../shared/http-client';
-
-let isProcessingCallback = false;
-
+import Spinner from 'components/Elements/Spinner';
 export default function Callback() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-    
-  useEffect(() => {
-    if (isProcessingCallback){
+  const isProcessingCallback = useRef<boolean>(false);
+
+  useEffect(() => {   
+   if (isProcessingCallback.current){
       return;
     }
-   
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');   
     const state = urlParams.get('state');
@@ -41,10 +39,8 @@ export default function Callback() {
     console.log('Processing OIDC callback...');
     console.log('Code:', code);
     console.log('State:', state);
-    
-    //hasProcessed.current = true;
-    isProcessingCallback = true;
-    
+       
+    isProcessingCallback.current = true;
     const processCallback = async () => {
       try {
         setLoading(true);
@@ -69,7 +65,7 @@ export default function Callback() {
         setLoading(false);
       }
       finally {
-        isProcessingCallback = false;
+        isProcessingCallback.current = false;       
       }
     };
     
@@ -78,9 +74,11 @@ export default function Callback() {
 
   if (loading) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <div>Processing authentication...</div>
-      </div>
+      <div className="w-full min-h-[calc(100vh-64px)] pt-2 pl-2 pr-2 relative">
+                <div className="abs-center">
+                    <Spinner message="Loading" />
+                </div>
+            </div>
     );
   }
 

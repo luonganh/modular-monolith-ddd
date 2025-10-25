@@ -1,0 +1,15 @@
+{
+    "dashboard": "Panel",
+    "components": "Componentes",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+    "accordion": "Acordeón",
+    "alert": "Alerta",
+    "badge": "Insignia",
+    "button": "Botón",
+    "dropdown": "Desplegable",
+    "iconActionButton": "Botón de acción con icono",
+    "pagination": "Paginación",
+    "spinner": "Spinner",
+    "tab": "Pestaña"
+}

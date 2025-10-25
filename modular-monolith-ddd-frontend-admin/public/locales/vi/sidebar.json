@@ -1,0 +1,15 @@
+{
+    "dashboard": "Bảng điều khiển",
+    "components": "Thành phần",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "accordion": "Accordion",
+    "alert": "Cảnh báo",
+    "badge": "Huy hiệu",
+    "button": "Nút bấm",
+    "dropdown": "Danh sách thả xuống",
+    "iconActionButton": "Nút hành động có icon",
+    "pagination": "Phân trang",
+    "spinner": "Vòng quay tải",
+    "tab": "Tab"
+}

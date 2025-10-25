@@ -2,8 +2,8 @@ import { useEffect, useState, type ReactNode } from 'react';
 import {   
   login as oidcLogin, 
   isAuthenticated as checkAuth
-} from '../../../auth/AuthenticationService';
-
+} from '../services/AuthenticationService';
+import Spinner from 'components/Elements/Spinner';
 export default function RequireAuth({ children }: { children: ReactNode }) {   
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -59,9 +59,11 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
  
   if (loading) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <div>Loading...</div>
-      </div>
+      <div className="w-full min-h-[calc(100vh-64px)] pt-2 pl-2 pr-2 relative">
+                <div className="abs-center">
+                    <Spinner message="Loading" />
+                </div>
+            </div>
     );
   }
 

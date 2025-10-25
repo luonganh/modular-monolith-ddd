@@ -1,5 +1,5 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client-ts';
-import { ApplicationSettings } from '../configuration/application-settings';
+import { ApplicationSettings } from '../../../configuration/application-settings';
 
 // OIDC Client configuration - Functional approach
 const createUserManager = () => {
@@ -11,7 +11,7 @@ const createUserManager = () => {
     response_type: 'code',
     scope: ApplicationSettings.SCOPE,
 
-    // For get tokens (identity token, access token, refresh token) in localStorage after authenticate successfully
+    // Store tokens (identity token, access token, refresh token) in localStorage after authenticate successfully
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     
     //// Add state management configuration

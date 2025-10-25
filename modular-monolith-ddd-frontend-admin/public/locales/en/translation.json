@@ -1,0 +1,17 @@
+{
+    "language": {
+      "en": "English",
+      "de": "German", 
+      "es": "Spanish",
+      "vi": "Vietnamese"
+    },
+    "user": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+    },
+    "dashboard": {
+      "welcome": "Welcome to the dashboard",
+      "authenticated": "You have logged in successfully"
+    }   
+}

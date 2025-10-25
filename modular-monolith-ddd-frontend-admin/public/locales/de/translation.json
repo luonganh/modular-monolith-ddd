@@ -1,0 +1,17 @@
+{
+    "language": {
+      "en": "Englisch",
+      "de": "Deutsch", 
+      "es": "Spanisch",
+      "vi": "Vietnamesisch"
+    },
+    "user": {
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "logout": "Ausloggen"
+    },
+    "dashboard": {
+      "welcome": "Willkommen auf der Übersicht",
+      "authenticated": "Sie haben sich erfolgreich angemeldet"
+    }   
+}

@@ -1,0 +1,17 @@
+{
+    "language": {
+      "en": "Inglés",
+      "de": "Alemán", 
+      "es": "Español",
+      "vi": "Vietnamita"
+    },
+    "user": {
+      "profile": "Perfil",
+      "settings": "Configuración",
+      "logout": "Cerrar sesión"
+    },
+    "dashboard": {
+      "welcome": "Bienvenido a la plataforma de comercio electrónico",
+      "authenticated": "Has iniciado sesión correctamente"
+    }
+}

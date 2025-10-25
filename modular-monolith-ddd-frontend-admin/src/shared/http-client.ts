@@ -1,6 +1,7 @@
 import { ApplicationSettings } from "../configuration/application-settings";
-import { getAccessToken } from "../auth/AuthenticationService";
+import { getAccessToken } from "../modules/user-access/services/AuthenticationService";
 
+/* Infrastructure services */
 export class HttpClient {
     public static async post<TResult>(resource: string, body: string): Promise<TResult> {
         const headers = await HttpClient.GetHeaders();

@@ -1,0 +1,15 @@
+{
+    "dashboard": "Dashboard",
+    "components": "Components",
+    "settings": "Settings",
+    "logout": "Logout",
+    "accordion": "Accordion",
+    "alert": "Alert",
+    "badge": "Badge",
+    "button": "Button",
+    "dropdown": "Dropdown",
+    "iconActionButton": "Icon Action Button",
+    "pagination": "Pagination",
+    "spinner": "Spinner",
+    "tab": "Tab"
+}

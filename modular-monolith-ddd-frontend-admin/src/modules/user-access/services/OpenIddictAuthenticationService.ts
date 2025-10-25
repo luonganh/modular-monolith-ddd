@@ -1,5 +1,5 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client-ts';
-import { ApplicationSettings } from '../configuration/application-settings';
+import { ApplicationSettings } from '../../../configuration/application-settings';
 
 // OIDC Client configuration - Functional approach
 const createUserManager = () => {

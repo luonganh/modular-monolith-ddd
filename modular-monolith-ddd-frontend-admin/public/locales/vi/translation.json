@@ -1,0 +1,17 @@
+{
+    "language": {
+      "en": "Tiếng Anh",
+      "de": "Tiếng Đức", 
+      "es": "Tiếng Tây Ban Nha",
+      "vi": "Tiếng Việt"
+    },
+    "user": {
+    "profile": "Hồ sơ",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất"
+    },
+    "dashboard": {
+      "welcome": "Chào mừng bạn đến với bảng điều khiển",
+      "authenticated": "Bạn đã đăng nhập thành công"
+    }   
+}

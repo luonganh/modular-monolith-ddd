@@ -1,68 +1,167 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+    body {
+        @apply text-light-gray800 dark:text-dark-gray800 bg-light-accent50 dark:bg-dark-accent50 m-0 p-0;
+    }
+
+    #root {
+        @apply m-0 p-0 font-custom;
+    }
+
+    /* Heading Typography */
+    h1 {
+        @apply text-4xl font-bold uppercase;
+    }
+
+    h2 {
+        @apply text-3xl font-bold uppercase;
+    }
+
+    h3 {
+        @apply text-2xl font-semibold;
+    }
+
+    h4 {
+        @apply text-xl font-semibold;
+    }
+
+    h5 {
+        @apply text-lg font-semibold;
+    }
+
+    h6 {
+        @apply text-base font-semibold;
+    }
+
+    /* List Items */
+    li {
+        @apply inline-block;
+    }
+
+    /* Body Text */
+    p {
+        @apply text-sm;
+    }
+
+    /* Links */
+    a {
+        @apply hover:underline text-light-secondary500 dark:text-dark-secondary500 font-medium no-underline duration-300 ease-in focus:outline-0;
+    }
+
+    button {
+        @apply text-light-gray900 hover:text-light-gray200 dark:text-dark-gray900 dark:hover:text-dark-gray200
+    }
+
+    /* Input */
+    label {
+        @apply text-sm font-medium;
+    }
+
+    input,
+    textarea,
+    .rdw-editor-main {
+        @apply bg-light-primary50 dark:bg-dark-primary50 border-light-gray300 dark:border-dark-gray300 outline-light-primary300 dark:outline-dark-primary300 w-full rounded border py-2 px-2 leading-tight focus:outline-double;
+    }
+
+    select {
+        @apply border-light-gray300 dark:border-dark-gray300 bg-light-primary50 dark:bg-dark-primary50 outline-light-primary300 dark:outline-dark-primary300 w-full rounded border py-2 leading-tight focus:outline-double;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        @apply w-[5px];
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        @apply bg-light-accent200 dark:bg-dark-accent200;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        @apply bg-light-accent400 dark:bg-dark-accent400 rounded-lg;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-light-accent400 dark:bg-dark-accent400;
+    }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@layer components {
+    .card {
+        @apply bg-light-primary50 dark:bg-dark-primary50 mx-auto rounded-3xl shadow-md;
+    }
+
+    .caption {
+        @apply w-max text-xs text-[0.675rem] font-semibold italic;
+    }
+
+    .table {
+        @apply bg-light-primary50 dark:bg-dark-primary50 w-full table-auto;
+    }
+
+    .table-head-row {
+        @apply mr-auto p-4 text-left text-base font-medium uppercase;
+    }
+
+    .table-body-row {
+        @apply mr-auto p-4 text-sm;
+    }
+
+    .abs-center {
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform;
+    }
+
+    .radio {
+        @apply border-light-gray300 dark:border-dark-gray300 bg-light-primary200 dark:bg-dark-primary200 checked:bg-light-primary900 dark:checked:bg-dark-primary900 appearance-none rounded-full border-2 p-2 transition duration-300 ease-in-out;
+    }
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+    }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-in-out;
+    }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+    .animate-fade-in-up {
+        animation: fadeInUp 0.5s ease-in-out;
+    }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }

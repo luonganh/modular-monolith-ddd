@@ -1,0 +1,15 @@
+{
+    "dashboard": "Übersicht",
+    "components": "Komponenten",
+    "settings": "Einstellungen",
+    "logout": "Ausloggen",
+    "accordion": "Akkordeon",
+    "alert": "Warnung",
+    "badge": "Abzeichen",
+    "button": "Schaltfläche",
+    "dropdown": "Dropdown",
+    "iconActionButton": "Symbol-Aktionsschaltfläche",
+    "pagination": "Seitennummerierung",
+    "spinner": "Ladezeichen",
+    "tab": "Reiter"
+}
