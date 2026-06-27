@@ -427,3 +427,14 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# .env
+.env
+.env.*
+!.env.example
+
+# VS & build
+bin/
+obj/
+.vs/
+.vscode/

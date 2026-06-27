@@ -1,0 +1,10 @@
+﻿global using Dapper;
+global using ModularMonolithDDD.BuildingBlocks.Application;
+global using ModularMonolithDDD.Tests.SUT.SeedWork;
+global using ModularMonolithDDD.Tests.SUT.SeedWork.Probing;
+global using System;
+global using System.Data;
+global using System.Data.SqlClient;
+global using System.Diagnostics;
+global using System.Threading;
+global using System.Threading.Tasks;

@@ -1,0 +1,11 @@
+﻿global using FluentValidation;
+global using MediatR;
+global using ModularMonolithDDD.BuildingBlocks.Domain;
+global using NetArchTest.Rules;
+global using Newtonsoft.Json;
+global using NUnit.Framework;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Reflection;
+global using ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.SeedWork;
