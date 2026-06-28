@@ -24,6 +24,8 @@ global using ModularMonolithDDD.BuildingBlocks.Infrastructure.DomainEventsDispat
 
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Serialization;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.EventBus;
+
 global using ModularMonolithDDD.Modules.UserAccess.Application.Configuration.Commands;
 global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
 global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
@@ -33,6 +35,7 @@ global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Domain.Users;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Outbox;
+
 global using Newtonsoft.Json;
 global using Polly;
 global using Serilog.Core;
