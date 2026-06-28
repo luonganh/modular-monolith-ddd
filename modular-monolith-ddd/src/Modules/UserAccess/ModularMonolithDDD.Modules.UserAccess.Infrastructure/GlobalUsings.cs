@@ -3,6 +3,12 @@
 // without requiring explicit using statements in each file
 
 // Autofac dependency injection container
+global using Newtonsoft.Json;
+global using Polly;
+global using Serilog.Core;
+global using Serilog.Events;
+global using System.Collections.Concurrent;
+global using System.Reflection;
 global using Autofac;
 global using Autofac.Core;
 global using Autofac.Core.Activators.Reflection;
@@ -11,6 +17,12 @@ global using Dapper;
 global using FluentValidation;
 global using MediatR;
 global using MediatR.Pipeline;
+global using Quartz;
+global using Quartz.Impl;
+global using Quartz.Logging;
+global using TriggerBuilder = Quartz.TriggerBuilder;
+global using System.Collections.Specialized;
+
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -35,18 +47,13 @@ global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Domain.Users;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Outbox;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox;
 
-global using Newtonsoft.Json;
-global using Polly;
-global using Serilog.Core;
-global using Serilog.Events;
-global using System.Collections.Concurrent;
-global using System.Reflection;
 
 // Serilog logging interface - aliased to avoid conflicts with other logging frameworks
 global using ILogger = Serilog.ILogger;
-//global using Logger = Quartz.Logging.Logger;
-//global using LogLevel = Quartz.Logging.LogLevel;
+global using Logger = Quartz.Logging.Logger;
+global using LogLevel = Quartz.Logging.LogLevel;
 // Autofac module base class - aliased for clarity and to avoid naming conflicts
 global using Module = Autofac.Module;
-//global using TriggerBuilder = Quartz.TriggerBuilder;
