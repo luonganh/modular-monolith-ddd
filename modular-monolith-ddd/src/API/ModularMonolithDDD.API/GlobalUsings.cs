@@ -18,3 +18,5 @@ global using ModularMonolithDDD.API.Configuration.ExecutionContext;
 global using ModularMonolithDDD.API.Configuration.Extensions;
 global using ModularMonolithDDD.API.Middlewares;
 global using ModularMonolithDDD.API.Configuration.Validation;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;

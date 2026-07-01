@@ -1,4 +1,8 @@
 
+using ModularMonolithDDD.API.Modules.UserAccess;
+using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
+using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,7 +19,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 // Autofac module is used to register the modules
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    
+    containerBuilder.RegisterModule(new UserAccessAutofacModule());
 });
 
 // Register DbContext as a scoped service in the DI container
@@ -98,6 +102,9 @@ var logger = app.Services.GetRequiredService<ILogger>();
 // Get the Autofac root container from the built service provider
 var container = app.Services.GetAutofacRoot();
 
+// Initialize modules 
+InitializeModules(container);
+
 // Use CORS middleware
 // CORS is used to allow cross-origin requests
 // Must be placed before Authentication to handle preflight requests
@@ -147,6 +154,22 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Initialize modules
+// Modules are used to handle the request and return the response
+void InitializeModules(ILifetimeScope container)
+{
+    var httpContextAccessor = container.Resolve<IHttpContextAccessor>();
+    var executionContextAccessor = new ExecutionContextAccessor(httpContextAccessor);
+
+    var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found in configuration");  
+    UserAccessStartup.Initialize(
+        connectionString,
+        executionContextAccessor,
+        logger,      
+        null,
+        null);
+}
 
 /// <summary>
 /// Partial class declaration for the Program class to enable integration testing.

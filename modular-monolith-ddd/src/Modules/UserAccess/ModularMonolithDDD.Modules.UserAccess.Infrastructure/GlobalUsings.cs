@@ -49,7 +49,13 @@ global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.InternalComman
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Outbox;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox;
-
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.DataAccess;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.EventsBus;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Logging;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Mediation;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Quartz;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
 
 // Serilog logging interface - aliased to avoid conflicts with other logging frameworks
 global using ILogger = Serilog.ILogger;
