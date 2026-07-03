@@ -1,12 +1,13 @@
 ### docker-compose.yml (BASE - common for all environments)
 services:     
   database:
+    container_name: database  
     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
     environment:     
       SA_PASSWORD: ${SA_PASSWORD}
       ACCEPT_EULA: "Y"  
     ports:
-      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_PORT}"
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
     volumes:
       - vol_sqlserver:/var/opt/mssql
       - ./modular-monolith-ddd/src/Database:/docker-entrypoint-initdb.d  
@@ -43,9 +44,11 @@ services:
       - modular-monolith-network    
  
   liquibase:   
+    container_name: liquibase  
     image: liquibase/liquibase:4.23.2    
     environment:
-      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://database:1433;databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      # jdbc:sqlserver://database:1433
+      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://${SQLSERVER_SERVICE_NAME}:${SQLSERVER_HOST_PORT};databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
       LIQUIBASE_COMMAND_USERNAME: ${SQLSERVER_USER}
       LIQUIBASE_COMMAND_PASSWORD: ${SQLSERVER_PASSWORD}
     command: ["update", "--changelog-file=changelog.xml"]

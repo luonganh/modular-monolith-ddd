@@ -11,7 +11,7 @@ EnvironmentHelper.ConfigureEnvironment();
 
 // Set connection string
 // Connection string is used to connect to the database
-builder.Configuration["ConnectionStrings:AppConnectionString"] = EnvironmentHelper.GetConnectionString(new ConfigurationBuilder().Build());
+builder.Configuration["ConnectionStrings:AppConnectionString"] = EnvironmentHelper.GetConnectionString(builder.Configuration);
 
 // Configure the app to use Autofac as the DI container (service provider factory) instead of the default Microsoft DI
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());

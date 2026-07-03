@@ -67,6 +67,8 @@
         // Connection string is used to connect to the database
         public static string GetConnectionString(IConfiguration configuration)
         {
+            var isRunningInContainer = IsRunningInContainer();
+            Console.WriteLine($"Is Running in container: {isRunningInContainer}");
             var host = Environment.GetEnvironmentVariable("SQLSERVER_HOST");
             var port = Environment.GetEnvironmentVariable("SQLSERVER_HOST_PORT");
             var db = Environment.GetEnvironmentVariable("SQLSERVER_DATABASE_NAME");
@@ -76,13 +78,14 @@
 
             string connectionString;
 
-            if (!string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(port) &&
+            if (isRunningInContainer &&
+                !string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(port) &&
                 !string.IsNullOrEmpty(db) && !string.IsNullOrEmpty(user) &&
                 !string.IsNullOrEmpty(password))
             {
-                // Use environment variables (Docker/Production)
+                // Use environment variables inside Docker, where SQLSERVER_HOST can be the Docker service name.
                 connectionString = $"Server={host},{port};Database={db};User Id={user};Password={password};TrustServerCertificate=True;Max Pool Size=100;Min Pool Size=5;Connection Timeout=30;Pooling=true;";
-                Console.WriteLine("Using environment variables for connection string");
+                Console.WriteLine($"Using environment variables for connection string: Server={host},{port}");
             }
             else
             {
@@ -95,6 +98,15 @@
                 Console.WriteLine("Using appsettings.json for connection string");
             }            
             return connectionString;
+        }
+
+        private static bool IsRunningInContainer()
+        {
+            return string.Equals(
+                       Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"),
+                       "true",
+                       StringComparison.OrdinalIgnoreCase)
+                   || Directory.Exists("/app");
         }
     }
 }

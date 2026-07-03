@@ -119,8 +119,28 @@ FROM [users].UserRoles AS [UserRole]
 		ON [UserRole].RoleCode = [RolesToPermission].RoleCode
 GO
 
---INSERT INTO [users].[Users] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'admin', 'luonganh@gmail.com', 'AEyvqKswk+KUGYv9sGMl1g5q/zFAT1sHzD4uJ9hFudqOV/nhE9+fNrYkchz8RfE1vQ==', 1, 'Anh', 'Luong', 'Anh Luong')
---GO
+DECLARE @AdminUserId UNIQUEIDENTIFIER = '6BA5C4DA-8D91-4E9F-951B-632EC192FC3D'
 
---INSERT INTO [users].[UserRoles] VALUES ('6BA5C4DA-8D91-4E9F-951B-632EC192FC3D', 'Administrator')
---GO
+IF NOT EXISTS (SELECT 1 FROM [users].[Users] WHERE [Login] = 'admin')
+BEGIN
+	INSERT INTO [users].[Users]
+		([Id], [Login], [Email], [Password], [IsActive], [FirstName], [LastName], [Name], [ExternalId])
+	VALUES
+		(@AdminUserId, 'admin', 'luonganh@gmail.com', 'AEyvqKswk+KUGYv9sGMl1g5q/zFAT1sHzD4uJ9hFudqOV/nhE9+fNrYkchz8RfE1vQ==', 1, 'Anh', 'Luong', 'Anh Luong', CONVERT(NVARCHAR(64), @AdminUserId))
+END
+ELSE
+BEGIN
+	SELECT TOP (1) @AdminUserId = [Id]
+	FROM [users].[Users]
+	WHERE [Login] = 'admin'
+END
+
+IF NOT EXISTS (
+	SELECT 1
+	FROM [users].[UserRoles]
+	WHERE [UserId] = @AdminUserId
+		AND [RoleCode] = 'Administrator')
+BEGIN
+	INSERT INTO [users].[UserRoles] VALUES (@AdminUserId, 'Administrator')
+END
+GO

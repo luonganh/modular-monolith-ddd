@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		docker-compose.prod.yml = docker-compose.prod.yml
 		docker-compose.yml = docker-compose.yml
 		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{62C86FE0-F7C5-4041-9B5F-17633C133DC0}"
@@ -23,7 +24,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{BA1B80BF-5663-4F97-A9D4-F5B6935770D9}"
 	ProjectSection(SolutionItems) = preProject
 		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql
-		modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql = modular-monolith-ddd\src\Database\Create_OpenIddict_Tables.sql
 		modular-monolith-ddd\src\Database\start.sh = modular-monolith-ddd\src\Database\start.sh
 	EndProjectSection
 EndProject
