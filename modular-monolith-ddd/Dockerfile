@@ -15,6 +15,9 @@ RUN addgroup --system $APP_GROUP && \
     mkdir -p $APP_HOME && \
     chown -R $APP_USER:$APP_GROUP $APP_HOME
 
+# Install curl
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Switch to non-root user for application execution
 USER $APP_USER
 

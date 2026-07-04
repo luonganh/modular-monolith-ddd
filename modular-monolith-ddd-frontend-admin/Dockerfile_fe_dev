@@ -21,10 +21,10 @@ RUN npm run build
 
 
 # ===== Stage 2: Serve with NGINX =====
-# FROM nginx:stable-alpine AS staging
-FROM nginx:stable AS staging
+# FROM nginx:stable-alpine AS dev
+FROM nginx:stable AS dev
 
-# Install netcat for wait-for-api-stag-prod script running
+# Install netcat for wait-for-api-dev script running
 RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
 # Copy the build output from stage 1 to the Nginx directory for serving
@@ -35,8 +35,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy script wait-for-api
-COPY wait-for-api-staging.sh /wait-for-api-staging.sh
-RUN chmod +x /wait-for-api-staging.sh
+COPY wait-for-api-dev.sh /wait-for-api-dev.sh
+RUN chmod +x /wait-for-api-dev.sh
 
 # Expose port (HTTP)
 EXPOSE 80
@@ -44,9 +44,9 @@ EXPOSE 80
 # Start NGINX
 ENV API_HOST_PORT=$API_HOST_PORT
 
-ENTRYPOINT ["/wait-for-api-staging.sh"]
+ENTRYPOINT ["/wait-for-api-dev.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
 ## JSON Array form
-# ENTRYPOINT ["/wait-for-api-staging.sh", "api", "5000"]
+# ENTRYPOINT ["/wait-for-api-dev.sh", "api", "5000"]
 # CMD ["npm", "run", "dev", "--", "--port", "3000", "--host", "0.0.0.0"]

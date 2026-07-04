@@ -41,6 +41,11 @@ services:
       - modular-monolith-network
   
   liquibase:   
+    environment:
+      # jdbc:sqlserver://database:1433
+      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://${SQLSERVER_SERVICE_NAME}:${SQLSERVER_DOCKER_CONTAINER_PORT};databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
+      LIQUIBASE_COMMAND_USERNAME: ${SQLSERVER_USER}
+      LIQUIBASE_COMMAND_PASSWORD: ${SQLSERVER_PASSWORD}  
     restart: "no"
     networks: 
       - modular-monolith-network 

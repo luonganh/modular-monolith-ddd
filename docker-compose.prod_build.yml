@@ -35,7 +35,7 @@ services:
     container_name: frontend-admin  
     build:
         context: ./modular-monolith-ddd-frontend-admin
-        dockerfile: Dockerfile_fe_dev      
+        dockerfile: Dockerfile_fe_prod      
         args:
           VITE_API_URL: http://${API_HOST}:${API_HOST_PORT}/
           VITE_AUTHORITY: http://${API_HOST}:8082/realms/modular-monolith-ddd

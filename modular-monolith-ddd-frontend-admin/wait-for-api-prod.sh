@@ -9,7 +9,7 @@ host="api"
 # port="$2"
 port="${API_DOCKER_CONTAINER_PORT}"
 while ! nc -z "$host" "$port"; do
-  echo "Waiting for api prod..."
+  echo "Waiting for API Production..."
   sleep 1
 done
 

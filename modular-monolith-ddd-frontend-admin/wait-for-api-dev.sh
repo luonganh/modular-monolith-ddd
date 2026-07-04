@@ -1,5 +1,5 @@
 #!/bin/bash
-# wait-for-api-staging.sh
+# wait-for-api-dev.sh
 set -e
 
 # host="$1"
@@ -10,7 +10,7 @@ host="api"
 port="${API_DOCKER_CONTAINER_PORT}"
 
 until nc -z "$host" "$port"; do
-  echo "Waiting for api staging..."
+  echo "Waiting for API Development..."
   sleep 2
 done
 
