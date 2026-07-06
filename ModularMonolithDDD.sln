@@ -5,18 +5,17 @@ VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\.dockerignore = modular-monolith-ddd\.dockerignore
+		.dockerignore = .dockerignore
 		.env = .env
 		.env.example = .env.example
 		.env.production = .env.production
 		.gitignore = .gitignore
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
+		docker-compose.deploy.yml = docker-compose.deploy.yml
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.prod.yml = docker-compose.prod.yml
-		docker-compose.prod_build.yml = docker-compose.prod_build.yml
 		docker-compose.yml = docker-compose.yml
-		modular-monolith-ddd\Dockerfile = modular-monolith-ddd\Dockerfile
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -24,8 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{BA1B80BF-5663-4F97-A9D4-F5B6935770D9}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql = modular-monolith-ddd\src\Database\CreateDatabase_Linux.sql
-		modular-monolith-ddd\src\Database\start.sh = modular-monolith-ddd\src\Database\start.sh
+		mmdddshop-backend\src\Database\CreateDatabase_Linux.sql = mmdddshop-backend\src\Database\CreateDatabase_Linux.sql
+		mmdddshop-backend\src\Database\db-init.sh = mmdddshop-backend\src\Database\db-init.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{8A3937A3-338A-4E09-A6BC-E72E673739BB}"
@@ -36,60 +35,73 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{C7063BA0-E06
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "liquibase", "liquibase", "{6F8958B0-F55E-46B4-980C-E8FC2A2746F2}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\liquibase\changelog.xml = modular-monolith-ddd\src\Database\liquibase\changelog.xml
-		modular-monolith-ddd\src\Database\liquibase\liquibase.properties = modular-monolith-ddd\src\Database\liquibase\liquibase.properties
+		mmdddshop-backend\src\Database\liquibase\changelog.xml = mmdddshop-backend\src\Database\liquibase\changelog.xml
+		mmdddshop-backend\src\Database\liquibase\liquibase.properties = mmdddshop-backend\src\Database\liquibase\liquibase.properties
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "drivers", "drivers", "{52054767-EB42-448B-A2DD-F655B48CE8D4}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\liquibase\drivers\mssql-jdbc.jar = modular-monolith-ddd\src\Database\liquibase\drivers\mssql-jdbc.jar
+		mmdddshop-backend\src\Database\liquibase\drivers\mssql-jdbc.jar = mmdddshop-backend\src\Database\liquibase\drivers\mssql-jdbc.jar
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{E9C5D29D-DC55-46B8-A6AE-35163A647411}"
 	ProjectSection(SolutionItems) = preProject
-		modular-monolith-ddd\src\Database\liquibase\migrations\001_init_schema.sql = modular-monolith-ddd\src\Database\liquibase\migrations\001_init_schema.sql
-		modular-monolith-ddd\src\Database\liquibase\migrations\002_init_users.sql = modular-monolith-ddd\src\Database\liquibase\migrations\002_init_users.sql
+		mmdddshop-backend\src\Database\liquibase\migrations\001_init_schema.sql = mmdddshop-backend\src\Database\liquibase\migrations\001_init_schema.sql
+		mmdddshop-backend\src\Database\liquibase\migrations\002_init_users.sql = mmdddshop-backend\src\Database\liquibase\migrations\002_init_users.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{95D44D10-B028-418C-9D77-E4A1541C9E35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.API", "modular-monolith-ddd\src\API\ModularMonolithDDD.API\ModularMonolithDDD.API.csproj", "{37082582-49CD-469E-B740-B8D228AE1494}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.API", "mmdddshop-backend\src\API\ModularMonolithDDD.API\ModularMonolithDDD.API.csproj", "{37082582-49CD-469E-B740-B8D228AE1494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Domain", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\ModularMonolithDDD.BuildingBlocks.Domain.csproj", "{0DF1E31D-3CCE-49D2-919E-C88A5E51C205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Domain", "mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\ModularMonolithDDD.BuildingBlocks.Domain.csproj", "{0DF1E31D-3CCE-49D2-919E-C88A5E51C205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Logging", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\ModularMonolithDDD.BuildingBlocks.Logging.csproj", "{CBCC26D9-58AC-4DA6-8AC8-A224EE2B4C2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Logging", "mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\ModularMonolithDDD.BuildingBlocks.Logging.csproj", "{CBCC26D9-58AC-4DA6-8AC8-A224EE2B4C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Infrastructure", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj", "{275FF624-A76E-49C7-B816-46374FDFD00F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Infrastructure", "mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj", "{275FF624-A76E-49C7-B816-46374FDFD00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application", "modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\ModularMonolithDDD.BuildingBlocks.Application.csproj", "{4BCE29B5-1973-4C65-8348-1FAE51238AEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application", "mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\ModularMonolithDDD.BuildingBlocks.Application.csproj", "{4BCE29B5-1973-4C65-8348-1FAE51238AEF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserAccess", "UserAccess", "{EC9F1CA6-A2F1-4437-8649-DFB0BEF1CA71}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5989027-FC6E-4679-AE6E-D888B4DE82E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Domain", "modular-monolith-ddd\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Domain\ModularMonolithDDD.Modules.UserAccess.Domain.csproj", "{091E2E2C-0166-4253-8FBE-DB2BC0654FFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Domain", "mmdddshop-backend\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Domain\ModularMonolithDDD.Modules.UserAccess.Domain.csproj", "{091E2E2C-0166-4253-8FBE-DB2BC0654FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.IntegrationEvents", "modular-monolith-ddd\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents.csproj", "{12DC774F-C36F-44AE-8B35-D147C47E97BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.IntegrationEvents", "mmdddshop-backend\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents\ModularMonolithDDD.Modules.UserAccess.IntegrationEvents.csproj", "{12DC774F-C36F-44AE-8B35-D147C47E97BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Application", "modular-monolith-ddd\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Application\ModularMonolithDDD.Modules.UserAccess.Application.csproj", "{E996E7AE-9549-4749-B780-74654235AFA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Application", "mmdddshop-backend\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Application\ModularMonolithDDD.Modules.UserAccess.Application.csproj", "{E996E7AE-9549-4749-B780-74654235AFA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Infrastructure", "modular-monolith-ddd\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Infrastructure\ModularMonolithDDD.Modules.UserAccess.Infrastructure.csproj", "{F6E17594-0CEE-4255-8403-C5E242D77FAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Infrastructure", "mmdddshop-backend\src\Modules\UserAccess\ModularMonolithDDD.Modules.UserAccess.Infrastructure\ModularMonolithDDD.Modules.UserAccess.Infrastructure.csproj", "{F6E17594-0CEE-4255-8403-C5E242D77FAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application.UnitTests", "modular-monolith-ddd\src\BuildingBlocks\Tests\Application.UnitTests\ModularMonolithDDD.BuildingBlocks.Application.UnitTests.csproj", "{430B6DB0-222D-451F-87C3-C48A332DA8AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.Application.UnitTests", "mmdddshop-backend\src\BuildingBlocks\Tests\Application.UnitTests\ModularMonolithDDD.BuildingBlocks.Application.UnitTests.csproj", "{430B6DB0-222D-451F-87C3-C48A332DA8AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.IntegrationTests", "modular-monolith-ddd\src\BuildingBlocks\Tests\IntegrationTests\ModularMonolithDDD.BuildingBlocks.IntegrationTests.csproj", "{7E751E11-E18F-4AB3-8E2D-F1DCD786BB6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.BuildingBlocks.IntegrationTests", "mmdddshop-backend\src\BuildingBlocks\Tests\IntegrationTests\ModularMonolithDDD.BuildingBlocks.IntegrationTests.csproj", "{7E751E11-E18F-4AB3-8E2D-F1DCD786BB6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.ArchTests", "modular-monolith-ddd\src\Tests\ArchTests\ModularMonolithDDD.Tests.ArchTests.csproj", "{43B901F1-E6BC-4E7B-B2C8-77C9A82E40C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.ArchTests", "mmdddshop-backend\src\Tests\ArchTests\ModularMonolithDDD.Tests.ArchTests.csproj", "{43B901F1-E6BC-4E7B-B2C8-77C9A82E40C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.SUT", "modular-monolith-ddd\src\Tests\SUT\ModularMonolithDDD.Tests.SUT.csproj", "{7C035AD2-9570-4E83-A342-038FD4B47143}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.SUT", "mmdddshop-backend\src\Tests\SUT\ModularMonolithDDD.Tests.SUT.csproj", "{7C035AD2-9570-4E83-A342-038FD4B47143}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.IntegrationTests", "modular-monolith-ddd\src\Tests\IntegrationTests\ModularMonolithDDD.Tests.IntegrationTests.csproj", "{03079256-EBF5-4E0E-B97C-EF056682693C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Tests.IntegrationTests", "mmdddshop-backend\src\Tests\IntegrationTests\ModularMonolithDDD.Tests.IntegrationTests.csproj", "{03079256-EBF5-4E0E-B97C-EF056682693C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.ArchTests", "modular-monolith-ddd\src\Modules\UserAccess\Tests\ArchTests\ModularMonolithDDD.Modules.UserAccess.ArchTests.csproj", "{199D6B2D-9909-4ED4-8716-EAF53650416D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.ArchTests", "mmdddshop-backend\src\Modules\UserAccess\Tests\ArchTests\ModularMonolithDDD.Modules.UserAccess.ArchTests.csproj", "{199D6B2D-9909-4ED4-8716-EAF53650416D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Domain.UnitTests", "modular-monolith-ddd\src\Modules\UserAccess\Tests\UnitTests\ModularMonolithDDD.Modules.UserAccess.Domain.UnitTests.csproj", "{0E297161-BA47-468C-8AF3-15C641FC57CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.Domain.UnitTests", "mmdddshop-backend\src\Modules\UserAccess\Tests\UnitTests\ModularMonolithDDD.Modules.UserAccess.Domain.UnitTests.csproj", "{0E297161-BA47-468C-8AF3-15C641FC57CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.IntegrationTests", "modular-monolith-ddd\src\Modules\UserAccess\Tests\IntegrationTests\ModularMonolithDDD.Modules.UserAccess.IntegrationTests.csproj", "{B155A968-73AB-4BC6-A37C-FEE73EB0033F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithDDD.Modules.UserAccess.IntegrationTests", "mmdddshop-backend\src\Modules\UserAccess\Tests\IntegrationTests\ModularMonolithDDD.Modules.UserAccess.IntegrationTests.csproj", "{B155A968-73AB-4BC6-A37C-FEE73EB0033F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{BC6AB3DE-E98B-4580-A60F-93A40E0F6E1D}"
+	ProjectSection(SolutionItems) = preProject
+		mmdddshop-backend\.dockerignore = mmdddshop-backend\.dockerignore
+		mmdddshop-backend\Dockerfile_backend = mmdddshop-backend\Dockerfile_backend
+		mmdddshop-backend\src\Database\Dockerfile_db_init = mmdddshop-backend\src\Database\Dockerfile_db_init
+		mmdddshop-backend\src\Database\liquibase\Dockerfile_liquibase = mmdddshop-backend\src\Database\liquibase\Dockerfile_liquibase
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{CF32484C-CCE1-4D8D-B7E4-6D2059140E0C}"
+	ProjectSection(SolutionItems) = preProject
+		mmdddshop-frontend-admin\Dockerfile_fe = mmdddshop-frontend-admin\Dockerfile_fe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +205,8 @@ Global
 		{199D6B2D-9909-4ED4-8716-EAF53650416D} = {C5989027-FC6E-4679-AE6E-D888B4DE82E7}
 		{0E297161-BA47-468C-8AF3-15C641FC57CF} = {C5989027-FC6E-4679-AE6E-D888B4DE82E7}
 		{B155A968-73AB-4BC6-A37C-FEE73EB0033F} = {C5989027-FC6E-4679-AE6E-D888B4DE82E7}
+		{BC6AB3DE-E98B-4580-A60F-93A40E0F6E1D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CF32484C-CCE1-4D8D-B7E4-6D2059140E0C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F86F7506-BFF9-41FA-88B4-2D3013EE1FEE}

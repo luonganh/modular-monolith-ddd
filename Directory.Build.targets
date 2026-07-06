@@ -2,11 +2,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   
   <PropertyGroup>
-    <BBDomainPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\*.csproj</BBDomainPath>
-    <BBApplicationPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\*.csproj</BBApplicationPath>
-    <BBInfrastructurePath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\*.csproj</BBInfrastructurePath>
-    <BBIntegrationTestsPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\Tests\IntegrationTests\*.csproj</BBIntegrationTestsPath>
-    <BBLoggingPath>$(MSBuildThisFileDirectory)modular-monolith-ddd\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\*.csproj</BBLoggingPath>
+    <BBDomainPath>$(MSBuildThisFileDirectory)mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Domain\*.csproj</BBDomainPath>
+    <BBApplicationPath>$(MSBuildThisFileDirectory)mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Application\*.csproj</BBApplicationPath>
+    <BBInfrastructurePath>$(MSBuildThisFileDirectory)mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Infrastructure\*.csproj</BBInfrastructurePath>
+    <BBIntegrationTestsPath>$(MSBuildThisFileDirectory)mmdddshop-backend\src\BuildingBlocks\Tests\IntegrationTests\*.csproj</BBIntegrationTestsPath>
+    <BBLoggingPath>$(MSBuildThisFileDirectory)mmdddshop-backend\src\BuildingBlocks\ModularMonolithDDD.BuildingBlocks.Logging\*.csproj</BBLoggingPath>
   </PropertyGroup>
 
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">

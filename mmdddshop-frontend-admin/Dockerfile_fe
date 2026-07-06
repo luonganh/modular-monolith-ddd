@@ -1,4 +1,4 @@
-# ===== Stage 1: Build app =====
+# ===== Build static files =====
 FROM node:20 AS builder
 
 WORKDIR /app
@@ -9,39 +9,35 @@ RUN npm install
 
 # Copy all source code and build the project
 COPY . .
+
 ARG VITE_API_URL
 ARG VITE_AUTHORITY
 ARG VITE_CLIENT_ID
 ARG VITE_REDIRECT_URI
+
 ENV VITE_API_URL=$VITE_API_URL \
     VITE_AUTHORITY=$VITE_AUTHORITY \
     VITE_CLIENT_ID=$VITE_CLIENT_ID \
     VITE_REDIRECT_URI=$VITE_REDIRECT_URI
+
 RUN npm run build
 
 
-# ===== Stage 2: Serve with NGINX =====
-# FROM nginx:stable-alpine AS production
-FROM nginx:stable AS production
+# ===== Runtime: Nginx =====
+FROM nginx:stable AS runtime
+ARG ADMIN_DOCKER_CONTAINER_PORT
 
-# Install netcat for wait-for-api-stag-prod script running
+# Install netcat for wait-for-api dev (environment) target script running
 RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
 # Copy the build output from stage 1 to the Nginx directory for serving
 COPY --from=builder /app/dist /usr/share/nginx/html
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the custom Nginx configuration if available
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy script wait-for-api-prod
-COPY wait-for-api-prod.sh /wait-for-api-prod.sh
-RUN chmod +x /wait-for-api-prod.sh
+COPY wait-for-api.sh /wait-for-api.sh
+RUN chmod +x /wait-for-api.sh
 
 # Expose port (HTTP)
-EXPOSE 80
+EXPOSE ${ADMIN_DOCKER_CONTAINER_PORT}
 
-# Start NGINX
-ENV API_HOST_PORT=$API_HOST_PORT
-
-ENTRYPOINT ["/wait-for-api-prod.sh"]
+ENTRYPOINT ["/wait-for-api.sh"]
+CMD ["nginx", "-g", "daemon off;"]

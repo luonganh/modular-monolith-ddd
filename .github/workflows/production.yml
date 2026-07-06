@@ -1,0 +1,89 @@
+name: Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print image tag
+        run: echo "IMAGE_TAG=${IMAGE_TAG}"
+        
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build production images with SHA tag
+        run: |
+          set -euo pipefail
+          docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml build
+
+      - name: Push SHA images
+        run: |
+          set -euo pipefail
+          docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml push
+
+      - name: Tag images as prod
+        run: |
+          set -euo pipefail
+          docker tag luongtuananh/mmdddshop-backend-api:${IMAGE_TAG} luongtuananh/mmdddshop-backend-api:prod
+          docker tag luongtuananh/mmdddshop-frontend-admin:${IMAGE_TAG} luongtuananh/mmdddshop-frontend-admin:prod          
+          docker tag luongtuananh/mmdddshop-liquibase:${IMAGE_TAG} luongtuananh/mmdddshop-liquibase:prod
+
+      - name: Push prod images
+        run: |
+          set -euo pipefail
+          docker push luongtuananh/mmdddshop-backend-api:prod
+          docker push luongtuananh/mmdddshop-frontend-admin:prod         
+          docker push luongtuananh/mmdddshop-liquibase:prod
+          
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /home/${{ secrets.SSH_USER }}
+                        
+            # Create .env.production from Github Secrets
+            echo "ASPNETCORE_ENVIRONMENT=Production" > .env.production
+            echo "BUILD_CONFIGURATION=Release" >> .env.production
+            echo "API_HOST=${{ secrets.API_HOST }}" >> .env.production
+            echo "API_HOST_PORT=${{ secrets.API_HOST_PORT }}" >> .env.production
+            echo "API_DOCKER_CONTAINER_PORT=${{ secrets.API_DOCKER_CONTAINER_PORT }}" >> .env.production
+            echo "ADMIN_HOST=${{ secrets.ADMIN_HOST }}" >> .env.production
+            echo "ADMIN_HOST_PORT=${{ secrets.ADMIN_HOST_PORT }}" >> .env.production
+            echo "ADMIN_DOCKER_CONTAINER_PORT=${{ secrets.ADMIN_DOCKER_CONTAINER_PORT }}" >> .env.production  
+            echo "PORTAL_HOST=${{ secrets.PORTAL_HOST }}" >> .env.production
+            echo "PORTAL_HOST_PORT=${{ secrets.PORTAL_HOST_PORT }}" >> .env.production
+            echo "PORTAL_DOCKER_CONTAINER_PORT=${{ secrets.PORTAL_DOCKER_CONTAINER_PORT }}" >> .env.production                              
+            echo "SQLSERVER_HOST=${{ secrets.SQLSERVER_HOST }}" >> .env.production
+            echo "SQLSERVER_HOST_PORT=${{ secrets.SQLSERVER_HOST_PORT }}" >> .env.production
+            echo "SQLSERVER_SERVICE_NAME=${{ secrets.SQLSERVER_SERVICE_NAME }}" >> .env.production
+            echo "SQLSERVER_DOCKER_CONTAINER_PORT=${{ secrets.SQLSERVER_DOCKER_CONTAINER_PORT }}" >> .env.production            
+            echo "SQLSERVER_DATABASE_NAME=${{ secrets.SQLSERVER_DATABASE_NAME }}" >> .env.production
+            echo "SQLSERVER_USER=${{ secrets.SQLSERVER_USER }}" >> .env.production
+            echo "SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}" >> .env.production
+            echo "SA_PASSWORD=${{ secrets.SA_PASSWORD }}" >> .env.production
+            
+            docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml pull
+            docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml up -d --remove-orphans
