@@ -1,0 +1,8 @@
+FROM liquibase/liquibase:4.23.2
+
+COPY drivers /liquibase/drivers
+COPY migrations /liquibase/migrations
+COPY changelog.xml /liquibase/changelog.xml
+COPY liquibase.properties /liquibase/liquibase.properties
+
+CMD ["update", "--changelog-file=changelog.xml"]

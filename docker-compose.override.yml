@@ -1,10 +1,11 @@
 ### docker-compose.override.yml (Development environment)
 services:
   api:   
-    container_name: api  
+    container_name: api
+    image: luongtuananh/mmdddshop-backend-api
     build:
       context: .
-      dockerfile: modular-monolith-ddd/Dockerfile      
+      dockerfile: mmdddshop-backend/Dockerfile_backend    
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - SQLSERVER_HOST=${SQLSERVER_HOST}
@@ -14,9 +15,9 @@ services:
       - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
     ports:
       - "${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"    
-    volumes:
-        - ./modular-monolith-ddd/src/API/ModularMonolithDDD.API/logs:/app/logs       
-        - ./.env:/app/.env
+    # volumes:
+    #     - ./mmdddshop-backend/src/API/ModularMonolithDDD.API/logs:/app/logs       
+    #     - ./.env:/app/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/api/home"]
       interval: 10s
@@ -29,29 +30,31 @@ services:
       liquibase:
         condition: service_completed_successfully
     networks:
-      - modular-monolith-network
+      - mmdddshop-network
 
   frontend-admin:  
     container_name: frontend-admin  
     build:
-        context: ./modular-monolith-ddd-frontend-admin
-        dockerfile: Dockerfile_fe_dev      
+        context: ./mmdddshop-frontend-admin
+        dockerfile: Dockerfile_fe        
         args:
+          ADMIN_DOCKER_CONTAINER_PORT: ${ADMIN_DOCKER_CONTAINER_PORT}
           VITE_API_URL: http://${API_HOST}:${API_HOST_PORT}/
-          VITE_AUTHORITY: http://${API_HOST}:8082/realms/modular-monolith-ddd
+          VITE_AUTHORITY: http://${API_HOST}:8082/realms/mmdddshop
           VITE_CLIENT_ID: admin-spa
           VITE_REDIRECT_URI: http://${ADMIN_HOST}:${ADMIN_HOST_PORT}/callback
     environment:
         - API_HOST_PORT=${API_HOST_PORT}
         - API_DOCKER_CONTAINER_PORT=${API_DOCKER_CONTAINER_PORT} 
-        - ADMIN_HOST_PORT=${ADMIN_HOST_PORT}      
+        - ADMIN_HOST_PORT=${ADMIN_HOST_PORT}
+        - ADMIN_DOCKER_CONTAINER_PORT=${ADMIN_DOCKER_CONTAINER_PORT} 
     ports:
         - "${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"    
-    volumes:
-        - ./modular-monolith-ddd-frontend-admin/src:/app/src
-        - /app/node_modules            
+    # volumes:
+    #     - .mmdddshop-frontend-admin:/app
+    #     - /app/node_modules            
     depends_on:
       api:
        condition: service_healthy
     networks:
-        - modular-monolith-network
+        - mmdddshop-network

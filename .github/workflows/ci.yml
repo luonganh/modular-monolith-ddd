@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main     
+      - develop
+  pull_request:
+    branches:
+      - main     
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore ModularMonolithDDD.sln
+
+      - name: Build
+        run: dotnet build ModularMonolithDDD.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ModularMonolithDDD.sln --configuration Release --no-build --verbosity normal
+
+  frontend-admin:
+    name: Frontend admin
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: modular-monolith-ddd-frontend-admin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: modular-monolith-ddd-frontend-admin/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build

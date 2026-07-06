@@ -1,4 +1,4 @@
-﻿USE [ModularMonolithDDD]
+﻿USE [ModularMonolithDDDShop]
 GO
 
 CREATE TABLE [users].[Users]

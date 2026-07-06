@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/mssql-tools
+
+COPY db-init.sh /db-init.sh
+COPY CreateDatabase_Linux.sql /CreateDatabase_Linux.sql
+
+USER root
+RUN chmod +x /db-init.sh
+
+ENTRYPOINT ["/db-init.sh"]
