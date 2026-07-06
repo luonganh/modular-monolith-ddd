@@ -43,7 +43,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: modular-monolith-ddd-frontend-admin
+        working-directory: mmdddshop-frontend-admin
 
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: modular-monolith-ddd-frontend-admin/package-lock.json
+          cache-dependency-path: mmdddshop-frontend-admin/package-lock.json
 
       - name: Install dependencies
         run: npm ci
