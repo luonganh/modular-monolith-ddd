@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }} 
 
-      - name: Create production env file          
+      - name: Create production env file (.env.production) from Github Secrets on Github Runner         
         run: |
             cat > .env.production <<'EOF'
             ASPNETCORE_ENVIRONMENT=Production
@@ -91,5 +91,29 @@ jobs:
             
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
                         
+            # Create production env file (.env.production) from Github Secrets on VPS Linux
+            cat > .env.production <<'EOF'
+            COMPOSE_PROJECT_NAME=mmdddshop
+            ASPNETCORE_ENVIRONMENT=Production
+            BUILD_CONFIGURATION=Release
+            API_HOST=${{ secrets.API_HOST }}
+            API_HOST_PORT=${{ secrets.API_HOST_PORT }}
+            API_DOCKER_CONTAINER_PORT=${{ secrets.API_DOCKER_CONTAINER_PORT }}
+            ADMIN_HOST=${{ secrets.ADMIN_HOST }}
+            ADMIN_HOST_PORT=${{ secrets.ADMIN_HOST_PORT }}
+            ADMIN_DOCKER_CONTAINER_PORT=${{ secrets.ADMIN_DOCKER_CONTAINER_PORT }}
+            PORTAL_HOST=${{ secrets.PORTAL_HOST }}
+            PORTAL_HOST_PORT=${{ secrets.PORTAL_HOST_PORT }}
+            PORTAL_DOCKER_CONTAINER_PORT=${{ secrets.PORTAL_DOCKER_CONTAINER_PORT }}
+            SQLSERVER_HOST=${{ secrets.SQLSERVER_HOST }}
+            SQLSERVER_HOST_PORT=${{ secrets.SQLSERVER_HOST_PORT }}
+            SQLSERVER_SERVICE_NAME=${{ secrets.SQLSERVER_SERVICE_NAME }}
+            SQLSERVER_DOCKER_CONTAINER_PORT=${{ secrets.SQLSERVER_DOCKER_CONTAINER_PORT }}
+            SQLSERVER_DATABASE_NAME=${{ secrets.SQLSERVER_DATABASE_NAME }}
+            SQLSERVER_USER=${{ secrets.SQLSERVER_USER }}
+            SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}
+            SA_PASSWORD=${{ secrets.SA_PASSWORD }}
+            EOF
+            
             docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml pull
             docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml up -d --remove-orphans
