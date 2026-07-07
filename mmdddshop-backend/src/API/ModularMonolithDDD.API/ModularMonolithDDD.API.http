@@ -1,4 +1,4 @@
-@ModularMonolithDDD.API_HostAddress = https://localhost:5001
+@ModularMonolithDDD.API_HostAddress = https://localhost:5011
 
 ### OpenAPI document
 GET {{ModularMonolithDDD.API_HostAddress}}/swagger/v1/swagger.json

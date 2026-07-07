@@ -1,7 +1,7 @@
 ### docker-compose.override.yml (Development environment)
 services:
-  api:   
-    container_name: api
+  backend-api:   
+    container_name: mmdddshop-backend-api
     image: luongtuananh/mmdddshop-backend-api
     build:
       context: .
@@ -25,7 +25,7 @@ services:
       retries: 10
       start_period: 30s
     depends_on:
-      database:
+      db-sqlserver:
         condition: service_healthy
       liquibase:
         condition: service_completed_successfully
@@ -33,7 +33,7 @@ services:
       - mmdddshop-network
 
   frontend-admin:  
-    container_name: frontend-admin  
+    container_name: mmdddshop-frontend-admin  
     build:
         context: ./mmdddshop-frontend-admin
         dockerfile: Dockerfile_fe        
@@ -54,7 +54,7 @@ services:
     #     - .mmdddshop-frontend-admin:/app
     #     - /app/node_modules            
     depends_on:
-      api:
+      backend-api:
        condition: service_healthy
     networks:
         - mmdddshop-network

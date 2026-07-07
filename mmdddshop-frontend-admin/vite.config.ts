@@ -15,7 +15,7 @@ export default defineConfig({
     viteTsconfigPaths()
   ],
   server: {
-      port: 3002,
+      port: 3010,
       strictPort: true, 
       host: true
     } 
