@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-host="${API_HOST:-api}"
+host="${API_HOST:-backend-api}"
 port="${API_DOCKER_CONTAINER_PORT}"
 
 until nc -z "$host" "$port"; do

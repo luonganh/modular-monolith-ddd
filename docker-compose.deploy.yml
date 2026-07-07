@@ -1,6 +1,6 @@
 ### docker-compose.prod.yml (Production environment)
 services:
-  api:     
+  backend-api:     
     image: luongtuananh/mmdddshop-backend-api:prod
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
@@ -27,7 +27,7 @@ services:
     networks: 
       - mmdddshop-network
   
-  database:
+  db-sqlserver:
     # environment:
     #   - SA_PASSWORD=${SA_PASSWORD}
     #   - ACCEPT_EULA=Y
@@ -50,6 +50,3 @@ services:
     restart: "no"
     networks: 
       - mmdddshop-network 
-
-volumes:
-  vol_sqlserver_prod:

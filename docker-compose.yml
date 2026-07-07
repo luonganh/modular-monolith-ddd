@@ -1,7 +1,7 @@
 ### docker-compose.yml (BASE - common for all environments)
 services:     
-  database:
-    container_name: database  
+  db-sqlserver:
+    container_name: mmdddshop-db-sqlserver  
     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
     environment:     
       SA_PASSWORD: ${SA_PASSWORD}
@@ -9,7 +9,7 @@ services:
     ports:
       - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
     volumes:
-      - vol_sqlserver:/var/opt/mssql     
+      - mmdddshop-sqlserver:/var/opt/mssql     
     # Configure shared memory size for the SQL Server container
     # SQL Server requires shared memory for connection pooling and internal operations
     # Default is 64MB which is often insufficient for production workloads
@@ -42,30 +42,30 @@ services:
       - mmdddshop-network    
   
   db-init:
-    container_name:  db-init  
+    container_name:  mmdddshop-db-init  
     image: luongtuananh/mmdddshop-db-init
     build:
       context: ./mmdddshop-backend/src/Database
       dockerfile: Dockerfile_db_init
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
-      SQLSERVER_SERVICE_NAME: database
+      SQLSERVER_SERVICE_NAME: ${SQLSERVER_SERVICE_NAME}
       SQLSERVER_DOCKER_CONTAINER_PORT: ${SQLSERVER_DOCKER_CONTAINER_PORT}
     depends_on:
-      database:
+      db-sqlserver:
         condition: service_healthy
     networks:
       - mmdddshop-network
     restart: "no"
   
   liquibase:   
-    container_name: liquibase
+    container_name: mmdddshop-liquibase
     image: luongtuananh/mmdddshop-liquibase:${IMAGE_TAG:-prod}
     build:
       context: ./mmdddshop-backend/src/Database/liquibase
       dockerfile: Dockerfile_liquibase
     environment:
-      # jdbc:sqlserver://database:1433
+      # jdbc:sqlserver://db-sqlserver:1433
       LIQUIBASE_COMMAND_URL: jdbc:sqlserver://${SQLSERVER_SERVICE_NAME}:${SQLSERVER_DOCKER_CONTAINER_PORT};databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false
       LIQUIBASE_COMMAND_USERNAME: ${SQLSERVER_USER}
       LIQUIBASE_COMMAND_PASSWORD: ${SQLSERVER_PASSWORD}
@@ -82,7 +82,7 @@ services:
       - mmdddshop-network
       
 volumes:
-  vol_sqlserver:
+  mmdddshop-sqlserver:
 
 networks:
   mmdddshop-network:
