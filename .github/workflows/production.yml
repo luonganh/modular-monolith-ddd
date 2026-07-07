@@ -90,27 +90,6 @@ jobs:
             cd /home/${{ secrets.SSH_USER }}
             
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-            
-            # Create .env.production from Github Secrets
-            echo "ASPNETCORE_ENVIRONMENT=Production" > .env.production
-            echo "BUILD_CONFIGURATION=Release" >> .env.production
-            echo "API_HOST=${{ secrets.API_HOST }}" >> .env.production
-            echo "API_HOST_PORT=${{ secrets.API_HOST_PORT }}" >> .env.production
-            echo "API_DOCKER_CONTAINER_PORT=${{ secrets.API_DOCKER_CONTAINER_PORT }}" >> .env.production
-            echo "ADMIN_HOST=${{ secrets.ADMIN_HOST }}" >> .env.production
-            echo "ADMIN_HOST_PORT=${{ secrets.ADMIN_HOST_PORT }}" >> .env.production
-            echo "ADMIN_DOCKER_CONTAINER_PORT=${{ secrets.ADMIN_DOCKER_CONTAINER_PORT }}" >> .env.production  
-            echo "PORTAL_HOST=${{ secrets.PORTAL_HOST }}" >> .env.production
-            echo "PORTAL_HOST_PORT=${{ secrets.PORTAL_HOST_PORT }}" >> .env.production
-            echo "PORTAL_DOCKER_CONTAINER_PORT=${{ secrets.PORTAL_DOCKER_CONTAINER_PORT }}" >> .env.production                              
-            echo "SQLSERVER_HOST=${{ secrets.SQLSERVER_HOST }}" >> .env.production
-            echo "SQLSERVER_HOST_PORT=${{ secrets.SQLSERVER_HOST_PORT }}" >> .env.production
-            echo "SQLSERVER_SERVICE_NAME=${{ secrets.SQLSERVER_SERVICE_NAME }}" >> .env.production
-            echo "SQLSERVER_DOCKER_CONTAINER_PORT=${{ secrets.SQLSERVER_DOCKER_CONTAINER_PORT }}" >> .env.production            
-            echo "SQLSERVER_DATABASE_NAME=${{ secrets.SQLSERVER_DATABASE_NAME }}" >> .env.production
-            echo "SQLSERVER_USER=${{ secrets.SQLSERVER_USER }}" >> .env.production
-            echo "SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}" >> .env.production
-            echo "SA_PASSWORD=${{ secrets.SA_PASSWORD }}" >> .env.production
-            
+                        
             docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml pull
             docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.deploy.yml up -d --remove-orphans
