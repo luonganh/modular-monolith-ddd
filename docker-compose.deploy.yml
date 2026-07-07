@@ -1,6 +1,7 @@
 ### docker-compose.prod.yml (Production environment)
 services:
-  backend-api:     
+  backend-api:
+    container_name: mmdddshop-backend-api    
     image: luongtuananh/mmdddshop-backend-api:prod
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
@@ -15,7 +16,8 @@ services:
     networks: 
       - mmdddshop-network
   
-  frontend-admin:       
+  frontend-admin:
+    container_name: mmdddshop-frontend-admin    
     image: luongtuananh/mmdddshop-frontend-admin:prod
     environment:
       - API_HOST_PORT=${API_HOST_PORT}
