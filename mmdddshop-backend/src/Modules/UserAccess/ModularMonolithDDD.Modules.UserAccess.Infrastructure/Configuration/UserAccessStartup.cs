@@ -15,21 +15,27 @@
 		/// </summary>
 		private static IContainer _container = default!;
 
-		/// <summary>
-		/// Initializes the UserAccess module with all required dependencies and configurations.
-		/// This method sets up the composition root, configures background processing with Quartz,
-		/// and initializes the event bus system for integration events.
-		/// </summary>
-		/// <param name="connectionString">Database connection string for the UserAccess module.</param>
-		/// <param name="executionContextAccessor">Service for accessing execution context information.</param>
-		/// <param name="logger">Serilog logger instance for logging module operations.</param>				
-		/// <param name="eventsBus">Event bus for publishing and subscribing to integration events.</param>
-		/// <param name="internalProcessingPoolingInterval">Optional polling interval in milliseconds for internal command processing. If null, uses default cron schedule.</param>
-		public static void Initialize(
+        /// <summary>
+        /// Initializes the UserAccess module with all required dependencies and configurations.
+        /// This method sets up the composition root, configures background processing with Quartz,
+        /// and initializes the event bus system for integration events.
+        /// </summary>
+        /// <param name="connectionString">Database connection string for the UserAccess module.</param>
+        /// <param name="executionContextAccessor">Service for accessing execution context information.</param>
+        /// <param name="logger">Serilog logger instance for logging module operations.</param>			
+        /// <param name="emailsConfiguration">Configuration for email services including SMTP settings.</param>
+		/// <param name="textEncryptionKey">Encryption key for securing sensitive text data.</param>
+		/// <param name="emailSender">Service for sending emails (notifications, confirmations, etc.).</param>
+        /// <param name="eventsBus">Event bus for publishing and subscribing to integration events.</param>
+        /// <param name="internalProcessingPoolingInterval">Optional polling interval in milliseconds for internal command processing. If null, uses default cron schedule.</param>
+        public static void Initialize(
 			string connectionString,
 			IExecutionContextAccessor executionContextAccessor,
-			ILogger logger,						
-			IEventsBus? eventsBus = null,
+			ILogger logger,
+            EmailsConfiguration emailsConfiguration,
+            string textEncryptionKey,
+            IEmailSender? emailSender = null,
+            IEventsBus? eventsBus = null,
 			long? internalProcessingPoolingInterval = null)
 		{
 			
@@ -40,8 +46,11 @@
 			ConfigureCompositionRoot(
 				connectionString,
 				executionContextAccessor,
-				logger,				
-				eventsBus);
+				logger,
+                emailsConfiguration,
+                textEncryptionKey,
+                emailSender,
+                eventsBus);
 
 			// Initialize Quartz.NET scheduler for background job processing
 			// This handles outbox messages, inbox messages, and internal commands
@@ -52,20 +61,26 @@
 			EventsBusStartup.Initialize(moduleLogger);
 		}
 
-		/// <summary>
-		/// Configures the dependency injection container for the UserAccess module.
-		/// This method registers all required modules and services using Autofac,
-		/// establishing the complete composition root for the module.
-		/// </summary>
-		/// <param name="connectionString">Database connection string for data access.</param>
-		/// <param name="executionContextAccessor">Service for accessing execution context.</param>
-		/// <param name="logger">Serilog logger instance.</param>		
-		/// <param name="eventsBus">Event bus for integration events.</param>
-		private static void ConfigureCompositionRoot(
+        /// <summary>
+        /// Configures the dependency injection container for the UserAccess module.
+        /// This method registers all required modules and services using Autofac,
+        /// establishing the complete composition root for the module.
+        /// </summary>
+        /// <param name="connectionString">Database connection string for data access.</param>
+        /// <param name="executionContextAccessor">Service for accessing execution context.</param>
+        /// <param name="logger">Serilog logger instance.</param>		
+        /// <param name="emailsConfiguration">Email service configuration.</param>
+        /// <param name="textEncryptionKey">Encryption key for text security.</param>
+        /// <param name="emailSender">Email sending service.</param>
+        /// <param name="eventsBus">Event bus for integration events.</param>
+        private static void ConfigureCompositionRoot(
 			string connectionString,
 			IExecutionContextAccessor executionContextAccessor,
-			ILogger logger,						
-			IEventsBus eventsBus)
+			ILogger logger,
+            EmailsConfiguration emailsConfiguration,
+            string textEncryptionKey,
+            IEmailSender emailSender,
+            IEventsBus eventsBus)
 		{
 			// Create a new Autofac container builder
 			var containerBuilder = new ContainerBuilder();
@@ -94,9 +109,15 @@
 
 			// Register Quartz module for background job scheduling
 			containerBuilder.RegisterModule(new QuartzModule());
-						
-			// Register execution context accessor as a singleton instance
-			containerBuilder.RegisterInstance(executionContextAccessor);
+
+            // Register email module for notification and communication services
+            containerBuilder.RegisterModule(new EmailModule(emailsConfiguration, emailSender));
+
+            // Register security module for encryption and security services
+            containerBuilder.RegisterModule(new SecurityModule(textEncryptionKey));
+
+            // Register execution context accessor as a singleton instance
+            containerBuilder.RegisterInstance(executionContextAccessor);
 
 			// Build the container from the blueprint (containerBuilder) into a working DI container
 			// This converts all registered services from "plans" into actual usable instances

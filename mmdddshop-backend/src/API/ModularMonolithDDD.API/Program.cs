@@ -162,11 +162,23 @@ void InitializeModules(ILifetimeScope container)
     var httpContextAccessor = container.Resolve<IHttpContextAccessor>();
     var executionContextAccessor = new ExecutionContextAccessor(httpContextAccessor);
 
-    var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found in configuration");  
+    var connectionString = builder.Configuration.GetConnectionString("AppConnectionString") ?? throw new InvalidOperationException("Connection string 'AppConnectionString' not found in configuration");
+
+    string fromEmail = builder.Configuration["EmailsConfiguration:FromEmail"] ?? string.Empty;
+    string apiKey = builder.Configuration["EmailsConfiguration:ApiKey"] ?? string.Empty;
+    string domain = builder.Configuration["EmailsConfiguration:Domain"] ?? string.Empty;
+    string secretKey = builder.Configuration["EmailsConfiguration:SecretKey"] ?? string.Empty;
+    string smtpServer = builder.Configuration["EmailsConfiguration:SMTPServer"] ?? string.Empty;
+    string sslPort = builder.Configuration["EmailsConfiguration:SSLPort"] ?? string.Empty;
+    string tlsPort = builder.Configuration["EmailsConfiguration:TLSPort"] ?? string.Empty;
+    var emailsConfiguration = new EmailsConfiguration(fromEmail, apiKey, domain, secretKey, smtpServer, sslPort, tlsPort);
+    string textEncryption = builder.Configuration["Security:TextEncryptionKey"] ?? string.Empty;
     UserAccessStartup.Initialize(
         connectionString,
         executionContextAccessor,
-        logger,      
+        logger,
+        emailsConfiguration,
+        textEncryption,
         null,
         null);
 }

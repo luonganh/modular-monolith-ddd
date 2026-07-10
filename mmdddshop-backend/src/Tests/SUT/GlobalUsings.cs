@@ -8,3 +8,4 @@ global using System.Data.SqlClient;
 global using System.Diagnostics;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using NUnit.Framework;

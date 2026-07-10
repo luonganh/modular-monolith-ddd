@@ -19,3 +19,5 @@ global using Microsoft.Extensions.Configuration;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Configuration;
 global using System.IO;
 global using ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;

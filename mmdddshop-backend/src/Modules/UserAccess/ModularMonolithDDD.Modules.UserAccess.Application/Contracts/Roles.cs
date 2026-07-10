@@ -14,6 +14,6 @@
         /// <summary>
         /// Standard user role with limited access.
         /// </summary>
-        public const string User = "User";
+        public const string User = "Member";
     }
 }

@@ -22,6 +22,8 @@ global using Quartz.Impl;
 global using Quartz.Logging;
 global using TriggerBuilder = Quartz.TriggerBuilder;
 global using System.Collections.Specialized;
+global using System.Security.Cryptography;
+global using System.Text;
 
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -33,6 +35,8 @@ global using ModularMonolithDDD.BuildingBlocks.Application.Events;
 global using ModularMonolithDDD.BuildingBlocks.Application.Outbox;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.DomainEventsDispatching;
+global using ModularMonolithDDD.BuildingBlocks.Application.Emails;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
 
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.InternalCommands;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Serialization;
@@ -56,6 +60,8 @@ global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Quartz;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Email;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Security;
 
 // Serilog logging interface - aliased to avoid conflicts with other logging frameworks
 global using ILogger = Serilog.ILogger;

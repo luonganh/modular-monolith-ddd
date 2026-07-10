@@ -5,9 +5,4 @@
         <IsTestProject>true</IsTestProject>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
-    <ItemGroup>
-      <Folder Include="Application\" />
-      <Folder Include="Domain\" />
-      <Folder Include="Module\" />
-    </ItemGroup>
 </Project>
