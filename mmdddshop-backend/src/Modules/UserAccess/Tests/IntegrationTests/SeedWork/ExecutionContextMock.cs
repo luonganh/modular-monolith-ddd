@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
+namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
 {
     public class ExecutionContextMock : IExecutionContextAccessor
     {
@@ -7,15 +7,10 @@
             UserId = userId;
         }
 
-        public Guid UserId { get; private set; }
+        public Guid UserId { get; }
 
         public Guid CorrelationId { get; }
 
         public bool IsAvailable { get; }
-
-        public void SetUserId(Guid userId)
-        {
-            this.UserId = userId;
-        }
     }
 }

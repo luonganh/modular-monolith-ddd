@@ -18,3 +18,4 @@ global using System.Data;
 global using System.Data.SqlClient;
 global using ModularMonolithDDD.BuildingBlocks.Application.Emails;
 global using Dapper;
+global using ModularMonolithDDD.Tests.IntegrationTests.SeedWork;
