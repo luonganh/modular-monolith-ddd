@@ -16,20 +16,7 @@ namespace ModularMonolithDDD.Tests.IntegrationTests.SeedWork
 
         [SetUp]
         public async Task BeforeEachTest()
-        {
-            //// Load .env from root solution
-            //// Get .env container path from root solution
-            //var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));
-
-            //// Load by environment
-            //var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-            //var envFile = environment == "Production" ? ".env.production" : ".env";
-            //var envPath = Path.Combine(rootPath, envFile);
-            //if (File.Exists(envPath))
-            //{
-            //    DotNetEnv.Env.Load(envPath);
-            //}
-
+        {           
             var solutionRoot = typeof(EnvironmentHelper).Assembly.Location;
             Console.WriteLine($"Solution Root: {solutionRoot}");
             var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));

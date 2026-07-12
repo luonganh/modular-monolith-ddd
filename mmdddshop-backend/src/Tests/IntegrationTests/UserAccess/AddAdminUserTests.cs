@@ -1,5 +1,7 @@
 namespace ModularMonolithDDD.Tests.IntegrationTests.UserAccess
 {
+    //[Ignore("Temporarily disabled: requires SQL Server integration test database in CI.")]
+    [Category("Integration")]
     public class AddAdminUserTests : TestBase
     {
         [Test]

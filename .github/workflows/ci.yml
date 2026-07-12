@@ -19,6 +19,27 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
 
+    # services:
+    #   sqlserver:
+    #     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
+    #     env:
+    #       ACCEPT_EULA: Y
+    #       SA_PASSWORD: Alo1234567@@
+    #     ports:
+    #       - 1433:1433
+    #     options: >-
+    #       --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Alo1234567@@ -C -Q 'SELECT 1'"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 10
+
+    # env:
+    #   SQLSERVER_HOST: localhost
+    #   SQLSERVER_HOST_PORT: 1433
+    #   SQLSERVER_DATABASE_NAME: ModularMonolithDDDShop
+    #   SQLSERVER_USER: sa
+    #   SQLSERVER_PASSWORD: Alo1234567@@
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +56,7 @@ jobs:
         run: dotnet build ModularMonolithDDD.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test ModularMonolithDDD.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test ModularMonolithDDD.sln --configuration Release --no-build --filter "TestCategory!=Integration" --verbosity normal
 
   frontend-admin:
     name: Frontend admin

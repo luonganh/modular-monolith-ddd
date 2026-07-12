@@ -4,8 +4,4 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Api\" />
-    <Folder Include="Modules\" />
-  </ItemGroup>
 </Project>

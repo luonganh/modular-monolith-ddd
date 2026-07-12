@@ -78,25 +78,38 @@
 
             string connectionString;
 
-            if (isRunningInContainer &&
-                !string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(port) &&
-                !string.IsNullOrEmpty(db) && !string.IsNullOrEmpty(user) &&
-                !string.IsNullOrEmpty(password))
+            var hasSqlServerEnvironmentVariables =
+                !string.IsNullOrEmpty(host) &&
+                !string.IsNullOrEmpty(port) &&
+                !string.IsNullOrEmpty(db) &&
+                !string.IsNullOrEmpty(user) &&
+                !string.IsNullOrEmpty(password);
+
+            //var isRunningInGitHubActions = string.Equals(
+            //    Environment.GetEnvironmentVariable("GITHUB_ACTIONS"),
+            //    "true",
+            //    StringComparison.OrdinalIgnoreCase);
+            // (isRunningInContainer || isRunningInGitHubActions) && hasSqlServerEnvironmentVariables
+
+            if (isRunningInContainer && hasSqlServerEnvironmentVariables)
             {
                 // Use environment variables inside Docker, where SQLSERVER_HOST can be the Docker service name.
                 connectionString = $"Server={host},{port};Database={db};User Id={user};Password={password};TrustServerCertificate=True;Max Pool Size=100;Min Pool Size=5;Connection Timeout=30;Pooling=true;";
                 Console.WriteLine($"Using environment variables for connection string: Server={host},{port}");
             }
+
+            // Use appsettings.json (Local Development)
             else
             {
-                // Use appsettings.json (Local Development)
                 connectionString = configuration?.GetConnectionString("AppConnectionString") ?? string.Empty;
                 if (string.IsNullOrEmpty(connectionString))
                 {
                     throw new InvalidOperationException("Connection string not found in appsettings.json and environment variables are not set.");
-                }                
+                }
+
                 Console.WriteLine("Using appsettings.json for connection string");
-            }            
+            }
+                
             return connectionString;
         }
 

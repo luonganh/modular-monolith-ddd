@@ -20,3 +20,6 @@ global using ModularMonolithDDD.API.Middlewares;
 global using ModularMonolithDDD.API.Configuration.Validation;
 global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
 global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;
+global using ModularMonolithDDD.API.Modules.UserAccess;
+global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;

@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Module
+namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Module
 {
     [TestFixture]
     public class LayersTests : TestBase
@@ -19,7 +19,7 @@
         {
             var result = Types.InAssembly(DomainAssembly)
                 .Should()
-                .NotHaveDependencyOn(ApplicationAssembly.GetName().Name)
+                .NotHaveDependencyOn(InfrastructureAssembly.GetName().Name)
                 .GetResult();
 
             AssertArchTestResult(result);
@@ -31,6 +31,28 @@
             var result = Types.InAssembly(ApplicationAssembly)
                 .Should()
                 .NotHaveDependencyOn(InfrastructureAssembly.GetName().Name)
+                .GetResult();
+
+            AssertArchTestResult(result);
+        }
+
+        [Test]
+        public void DomainLayer_DoesNotHaveDependency_ToApi()
+        {
+            var result = Types.InAssembly(DomainAssembly)
+                .Should()
+                .NotHaveDependencyOn("ModularMonolithDDD.API")
+                .GetResult();
+
+            AssertArchTestResult(result);
+        }
+
+        [Test]
+        public void ApplicationLayer_DoesNotHaveDependency_ToApi()
+        {
+            var result = Types.InAssembly(ApplicationAssembly)
+                .Should()
+                .NotHaveDependencyOn("ModularMonolithDDD.API")
                 .GetResult();
 
             AssertArchTestResult(result);

@@ -1,8 +1,4 @@
 
-using ModularMonolithDDD.API.Modules.UserAccess;
-using ModularMonolithDDD.BuildingBlocks.Infrastructure.Emails;
-using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
