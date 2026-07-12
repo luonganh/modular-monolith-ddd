@@ -22,3 +22,4 @@ global using System.Security.Cryptography;
 
 global using ModularMonolithDDD.Modules.UserAccess.Application.Authentication.Authenticate;
 global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Configuration.Queries;

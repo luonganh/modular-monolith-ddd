@@ -5,7 +5,4 @@
         <IsTestProject>true</IsTestProject>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
-    <ItemGroup>
-      <Folder Include="Users\" />
-    </ItemGroup>
 </Project>

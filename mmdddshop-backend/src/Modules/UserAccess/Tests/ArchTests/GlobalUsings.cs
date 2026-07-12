@@ -9,3 +9,8 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Reflection;
 global using ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.SeedWork;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Configuration.Commands;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Configuration.Queries;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;

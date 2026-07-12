@@ -4,7 +4,7 @@
     /// Handler for the AddAdminUserCommand.
     /// Processes the command to create a new administrator user in the system.
     /// </summary>
-    public class AddAdminUserCommandHandler : ICommandHandler<AddAdminUserCommand>
+    internal class AddAdminUserCommandHandler : ICommandHandler<AddAdminUserCommand>
     {
         private readonly IUserRepository _userRepository;
 

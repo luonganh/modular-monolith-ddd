@@ -41,6 +41,8 @@
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    
     <!-- Provides middleware to handle HTTP error responses according to RFC 7807 (Problem Details for HTTP APIs) standard -->
     <!-- Provides consistent error handling, replaces default ASP.NET Core error pages, and helps frontend easily parse error responses -->
     <PackageVersion Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
@@ -49,23 +51,28 @@
     <!-- Adds environment information to log entries - machine name, process ID, thread ID, environment variables -->
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
     <!-- Provides compact JSON formatting for better performance and storage efficiency in log aggregation -->
-    <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
-    
+    <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />    
   </ItemGroup>
+
+   <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
+   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />   
     <PackageReference Include="Hellang.Middleware.ProblemDetails" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />   
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+   
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Domain'))">
-    <PackageReference Include="MediatR" />
+    <PackageReference Include="MediatR" />   
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Logging'))">
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Enrichers.Environment" />
     <PackageReference Include="Serilog.Formatting.Compact" />
+   
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Application'))">
     <PackageReference Include="Newtonsoft.Json" />
@@ -73,6 +80,7 @@
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="Quartz" />
     <PackageReference Include="Serilog.AspNetCore" />
+    
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('BuildingBlocks.Infrastructure'))">
     <PackageReference Include="Autofac" />
@@ -82,7 +90,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Polly" />
     <PackageReference Include="SqlStreamStore.MsSql" />    
-    <PackageReference Include="DotNetEnv" />      
+    <PackageReference Include="DotNetEnv" />
+   
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectFullPath.Contains('Tests'))">
     <PackageReference Include="NetArchTest.Rules" />
@@ -92,9 +101,9 @@
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <PackageReference Include="DotNetEnv" />
+    <PackageReference Include="DotNetEnv" />    
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('UserAccess.Infrastructure'))">
-    <PackageReference Include="Dapper" />
+    <PackageReference Include="Dapper" />    
   </ItemGroup>
 </Project>

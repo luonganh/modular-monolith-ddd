@@ -1,4 +1,4 @@
-﻿global using Dapper;
+global using Dapper;
 global using MediatR;
 global using Microsoft.Identity.Client;
 global using ModularMonolithDDD.BuildingBlocks.Application;
@@ -17,5 +17,10 @@ global using System.Reflection;
 global using System.Threading.Tasks;
 global using Microsoft.Extensions.Configuration;
 global using ModularMonolithDDD.BuildingBlocks.Infrastructure.Configuration;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration;
 global using System.IO;
+global using System.Data.SqlClient;
 global using ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork;
+global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
+global using ModularMonolithDDD.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;
