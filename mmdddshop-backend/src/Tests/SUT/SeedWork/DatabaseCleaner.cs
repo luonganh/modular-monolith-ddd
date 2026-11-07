@@ -1,7 +1,7 @@
 // File: Tests/SUT/SeedWork/DatabaseCleaner.cs
 // Summary: Utility for clearing state in the UserAccess schema between
 // tests. Keep statements idempotent and safe when tables are empty.
-namespace ModularMonolithDDD.Tests.SUT.SeedWork
+namespace Mmdddshop.Tests.SUT.SeedWork
 {
     internal static class DatabaseCleaner
     {

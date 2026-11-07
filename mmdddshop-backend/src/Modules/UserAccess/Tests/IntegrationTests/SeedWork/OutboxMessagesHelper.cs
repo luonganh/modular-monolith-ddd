@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.SeedWork
+﻿namespace Mmdddshop.Modules.UserAccess.Tests.IntegrationTests.SeedWork
 {
     public class OutboxMessagesHelper
     {

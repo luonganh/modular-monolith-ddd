@@ -1,7 +1,7 @@
 // File: BuildingBlocks/Tests/IntegrationTests/EnvironmentVariablesProvider.cs
 // Summary: Small helper to read/write/clear environment variables used
 //          by integration tests (e.g., database connection strings).
-namespace ModularMonolithDDD.BuildingBlocks.Tests.IntegrationTests
+namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests
 {
     public static class EnvironmentVariablesProvider
     {

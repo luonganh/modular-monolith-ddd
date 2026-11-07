@@ -1,4 +1,4 @@
-﻿USE [ModularMonolithDDDShop]
+﻿USE [mmdddshop]
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'app')

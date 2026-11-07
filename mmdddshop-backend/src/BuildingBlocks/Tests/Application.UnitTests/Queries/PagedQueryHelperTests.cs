@@ -1,7 +1,7 @@
 // File: BuildingBlocks/Tests/Application.UnitTests/Queries/PagedQueryHelperTests.cs
 // Purpose: Exercises pagination helper to verify offset/next-page
 // calculations for various (page, perPage) combinations.
-namespace ModularMonolithDDD.BuildingBlocks.Tests.Application.UnitTests.Queries
+namespace Mmdddshop.BuildingBlocks.Tests.Application.UnitTests.Queries
 {
     [TestFixture]
     public class PagedQueryHelperTests

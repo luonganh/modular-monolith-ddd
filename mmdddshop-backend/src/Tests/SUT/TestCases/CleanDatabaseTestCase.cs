@@ -1,4 +1,4 @@
-namespace ModularMonolithDDD.Tests.SUT.TestCases
+namespace Mmdddshop.Tests.SUT.TestCases
 {
     public class CleanDatabaseTestCase : TestBase
     {

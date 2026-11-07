@@ -21,7 +21,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-        
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,    
     "paths": {
       "components/*": ["./src/components/*"],
       "layout/*": ["./src/layout/*"],

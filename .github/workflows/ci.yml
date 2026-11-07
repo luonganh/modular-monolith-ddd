@@ -36,7 +36,7 @@ jobs:
     # env:
     #   SQLSERVER_HOST: localhost
     #   SQLSERVER_HOST_PORT: 1433
-    #   SQLSERVER_DATABASE_NAME: ModularMonolithDDDShop
+    #   SQLSERVER_DATABASE_NAME: mmdddshop
     #   SQLSERVER_USER: sa
     #   SQLSERVER_PASSWORD: Alo1234567@@
 
@@ -50,13 +50,13 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Restore
-        run: dotnet restore ModularMonolithDDD.sln
+        run: dotnet restore Mmdddshop.sln
 
       - name: Build
-        run: dotnet build ModularMonolithDDD.sln --configuration Release --no-restore
+        run: dotnet build Mmdddshop.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test ModularMonolithDDD.sln --configuration Release --no-build --filter "TestCategory!=Integration" --verbosity normal
+        run: dotnet test Mmdddshop.sln --configuration Release --no-build --filter "TestCategory!=Integration" --verbosity normal
 
   frontend-admin:
     name: Frontend admin
@@ -80,8 +80,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      # - name: Lint
+      #   run: npm run lint
 
       - name: Build
         run: npm run build

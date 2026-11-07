@@ -2,7 +2,7 @@
 // Purpose: Architecture rules for Application layer of UserAccess.
 // Verifies correct dependencies (to Domain only) and naming/namespace
 // conventions for Commands and Queries.
-namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Application
+namespace Mmdddshop.Modules.UserAccess.Tests.ArchTests.Application
 {
     [TestFixture]
     public class ApplicationTests : TestBase

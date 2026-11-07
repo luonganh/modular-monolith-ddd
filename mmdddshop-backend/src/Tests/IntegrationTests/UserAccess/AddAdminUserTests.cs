@@ -1,4 +1,4 @@
-namespace ModularMonolithDDD.Tests.IntegrationTests.UserAccess
+namespace Mmdddshop.Tests.IntegrationTests.UserAccess
 {
     //[Ignore("Temporarily disabled: requires SQL Server integration test database in CI.")]
     [Category("Integration")]

@@ -1,0 +1,125 @@
+﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.Configuration
+{
+    public static class EnvironmentHelper
+    {
+        public static void ConfigureEnvironment(string? rootPath = null)
+        {
+            // Load .env by environment
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
+            // If rootPath has value
+            var basePath = rootPath;
+
+            // If rootPath has novalue, check /app (Docker), if in Docker, .env file will have copy into /app (app folder in docker container)
+            if (string.IsNullOrWhiteSpace(basePath) && Directory.Exists("/app"))
+                basePath = "/app";
+            else
+            {
+                basePath = FindSolutionRoot(Directory.GetCurrentDirectory(), "Mmdddshop.sln");
+            }           
+            Console.WriteLine($"GET .ENV PATH: {basePath}");
+            // Finally, fallback current directory
+            basePath ??= Directory.GetCurrentDirectory();
+           
+            // Checkin if API run in Docker
+            // Get .env container path from root solution
+            //var rootPath = Directory.GetCurrentDirectory();
+
+            //// If in Docker, .env file will have copy into /app (app folder in docker container)
+            //if (Directory.Exists("/app"))
+            //{
+            //    // Production environment
+            //    rootPath = "/app";
+            //}
+            //else
+            //{
+            //    // Local development
+            //    rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", ".."));
+            //}
+
+            // The priority: .env.{Environment} -> .env
+            var envFiles = environment == "Development" ? new[] { ".env" } : new[] { $".env.{environment.ToLower()}", ".env" };
+
+            foreach (var envFile in envFiles)
+            {
+                var envPath = Path.Combine(basePath, envFile);
+                if (File.Exists(envPath))
+                {
+                    Env.Load(envPath);
+                    return;
+                }
+            }
+        }
+
+        private static string? FindSolutionRoot(string startDir, string slnName)
+        {
+            var dir = new DirectoryInfo(startDir);
+            while (dir != null)
+            {
+                if (File.Exists(Path.Combine(dir.FullName, slnName)))
+                    return dir.FullName;
+                dir = dir.Parent;
+            }
+            return null;
+        }
+
+        // Set connection string
+        // Connection string is used to connect to the database
+        public static string GetConnectionString(IConfiguration configuration)
+        {
+            var isRunningInContainer = IsRunningInContainer();
+            Console.WriteLine($"Is Running in container: {isRunningInContainer}");
+            var host = Environment.GetEnvironmentVariable("SQLSERVER_HOST");
+            var port = Environment.GetEnvironmentVariable("SQLSERVER_HOST_PORT");
+            var db = Environment.GetEnvironmentVariable("SQLSERVER_DATABASE_NAME");
+            var user = Environment.GetEnvironmentVariable("SQLSERVER_USER");
+            var password = Environment.GetEnvironmentVariable("SQLSERVER_PASSWORD");
+            Console.WriteLine($"=====SQL: {host},{port}");
+
+            string connectionString;
+
+            var hasSqlServerEnvironmentVariables =
+                !string.IsNullOrEmpty(host) &&
+                !string.IsNullOrEmpty(port) &&
+                !string.IsNullOrEmpty(db) &&
+                !string.IsNullOrEmpty(user) &&
+                !string.IsNullOrEmpty(password);
+
+            //var isRunningInGitHubActions = string.Equals(
+            //    Environment.GetEnvironmentVariable("GITHUB_ACTIONS"),
+            //    "true",
+            //    StringComparison.OrdinalIgnoreCase);
+            // (isRunningInContainer || isRunningInGitHubActions) && hasSqlServerEnvironmentVariables
+
+            if (isRunningInContainer && hasSqlServerEnvironmentVariables)
+            {
+                // Use environment variables inside Docker, where SQLSERVER_HOST can be the Docker service name.
+                connectionString = $"Server={host},{port};Database={db};User Id={user};Password={password};TrustServerCertificate=True;Max Pool Size=100;Min Pool Size=5;Connection Timeout=30;Pooling=true;";
+                Console.WriteLine($"Using environment variables for connection string: Server={host},{port}");
+            }
+
+            // Use appsettings.json (Local Development)
+            else
+            {
+                connectionString = configuration?.GetConnectionString("AppConnectionString") ?? string.Empty;
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    throw new InvalidOperationException("Connection string not found in appsettings.json and environment variables are not set.");
+                }
+                Console.WriteLine($"Connection String of local: {connectionString}");
+                Console.WriteLine("Using appsettings.json for connection string");
+            }
+                
+            return connectionString;
+        }
+
+        private static bool IsRunningInContainer()
+        {
+            return string.Equals(
+                       Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"),
+                       "true",
+                       StringComparison.OrdinalIgnoreCase)
+                   || Directory.Exists("/app");
+        }
+    }
+}

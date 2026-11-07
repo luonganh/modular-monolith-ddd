@@ -2,7 +2,7 @@
 // Purpose: Architecture tests for Domain layer of UserAccess.
 // Ensures Domain does not depend on Application/Infrastructure or other modules
 // and that value objects remain immutable.
-namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Domain
+namespace Mmdddshop.Modules.UserAccess.Tests.ArchTests.Domain
 {
     public class DomainTests : TestBase
     {
