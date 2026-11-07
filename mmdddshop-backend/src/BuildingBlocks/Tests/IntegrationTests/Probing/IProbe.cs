@@ -2,7 +2,7 @@
 // Summary: Basic probing contract for eventual consistency tests.
 // AssertEventually: Check multiple times within a period of time. Only fail if it is still wrong after the timeout.
 
-namespace ModularMonolithDDD.BuildingBlocks.Tests.IntegrationTests.Probing
+namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests.Probing
 {
     /// <summary>
     /// A class that describes “what condition I need to wait for.”

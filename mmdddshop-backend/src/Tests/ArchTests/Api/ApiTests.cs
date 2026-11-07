@@ -2,7 +2,7 @@
 // Purpose: Architectural checks for the public API surface.
 // Ensures API layer respects module boundaries and does not
 // depend on lower-level infrastructure directly.
-namespace ModularMonolithDDD.Tests.ArchTests.Api
+namespace Mmdddshop.Tests.ArchTests.Api
 {
     [TestFixture]
     public class ApiTests : TestBase
@@ -14,11 +14,11 @@ namespace ModularMonolithDDD.Tests.ArchTests.Api
             // This test ensures UserAccess API doesn't have dependencies to other modules
             var result = Types.InAssembly(ApiAssembly)
                 .That()
-                .ResideInNamespace("ModularMonolithDDD.API.Modules.UserAccess")
+                .ResideInNamespace("Mmdddshop.API.Modules.UserAccess")
                 .Should()
-                .NotHaveDependencyOnAny("ModularMonolithDDD.Modules.Registrations",
-                                      "ModularMonolithDDD.Modules.Products",
-                                      "ModularMonolithDDD.Modules.Orders")
+                .NotHaveDependencyOnAny("Mmdddshop.Modules.Registrations",
+                                      "Mmdddshop.Modules.Products",
+                                      "Mmdddshop.Modules.Orders")
                 .GetResult();
 
             AssertArchTestResult(result);
@@ -29,9 +29,9 @@ namespace ModularMonolithDDD.Tests.ArchTests.Api
         {
             var result = Types.InAssembly(ApiAssembly)
                 .That()
-                .ResideInNamespace("ModularMonolithDDD.API.Controllers")
+                .ResideInNamespace("Mmdddshop.API.Controllers")
                 .Should()
-                .NotHaveDependencyOnAny("ModularMonolithDDD.Modules.UserAccess.Infrastructure")
+                .NotHaveDependencyOnAny("Mmdddshop.Modules.UserAccess.Infrastructure")
                 .GetResult();
 
             AssertArchTestResult(result);

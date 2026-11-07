@@ -1,0 +1,11 @@
+@Mmdddshop.API_HostAddress = https://localhost:5011
+
+### PKCE Authorization Code flow (DEV)
+@host = https://localhost:7243
+@client_id = spa-dev
+@redirect_uri = http://localhost:3001/callback
+@scope = openid profile email mmdddshop-backend-api
+
+### OpenAPI document
+GET {{Mmdddshop.API_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json

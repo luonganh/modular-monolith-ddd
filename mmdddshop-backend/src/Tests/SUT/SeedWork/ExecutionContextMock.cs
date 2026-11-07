@@ -2,7 +2,7 @@
 // Purpose: Lightweight implementation of `IExecutionContextAccessor`
 // for tests. Allows setting a synthetic `UserId` and is safe to
 // use across test runs.
-namespace ModularMonolithDDD.Tests.SUT.SeedWork
+namespace Mmdddshop.Tests.SUT.SeedWork
 {
     public class ExecutionContextMock : IExecutionContextAccessor
     {

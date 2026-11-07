@@ -23,3 +23,6 @@ values.dev.yaml
 .vscode/
 .idea/
 .DS_Store
+
+# Production build
+dist/

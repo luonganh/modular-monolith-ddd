@@ -1,4 +1,4 @@
-namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Module
+namespace Mmdddshop.Modules.UserAccess.Tests.ArchTests.Module
 {
     [TestFixture]
     public class LayersTests : TestBase
@@ -41,7 +41,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Module
         {
             var result = Types.InAssembly(DomainAssembly)
                 .Should()
-                .NotHaveDependencyOn("ModularMonolithDDD.API")
+                .NotHaveDependencyOn("Mmdddshop.API")
                 .GetResult();
 
             AssertArchTestResult(result);
@@ -52,7 +52,7 @@ namespace ModularMonolithDDD.Modules.UserAccess.Tests.ArchTests.Module
         {
             var result = Types.InAssembly(ApplicationAssembly)
                 .Should()
-                .NotHaveDependencyOn("ModularMonolithDDD.API")
+                .NotHaveDependencyOn("Mmdddshop.API")
                 .GetResult();
 
             AssertArchTestResult(result);

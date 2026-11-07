@@ -1,16 +1,16 @@
-﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ModularMonolithDDDShop')
+﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'mmdddshop')
 BEGIN
-    CREATE DATABASE [ModularMonolithDDDShop]
+    CREATE DATABASE [mmdddshop]
     CONTAINMENT = NONE;
-    PRINT 'Database ModularMonolithDDDShop created.';    
+    PRINT 'Database mmdddshop created.';    
 END
 ELSE
 BEGIN
-    PRINT 'Database ModularMonolithDDDShop already exists.';
+    PRINT 'Database mmdddshop already exists.';
 END
 GO
 
-USE [ModularMonolithDDDShop]
+USE [mmdddshop]
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = 'mmdddshop')
@@ -23,7 +23,7 @@ BEGIN
 END  
 GO   
 
-USE [ModularMonolithDDDShop]
+USE [mmdddshop]
 GO
     
 IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'mmdddshop')
@@ -35,7 +35,7 @@ BEGIN
     PRINT 'User mmdddshop already exists.';
 END
 
-USE [ModularMonolithDDDShop]
+USE [mmdddshop]
 GO
 
 IF NOT EXISTS (
@@ -48,5 +48,5 @@ IF NOT EXISTS (
         ALTER ROLE db_owner ADD MEMBER mmdddshop;       
     END    
 
-USE [ModularMonolithDDDShop]
+USE [mmdddshop]
 GO     

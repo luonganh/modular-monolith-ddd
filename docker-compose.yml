@@ -29,7 +29,7 @@ services:
           cpus: '1.0'   # Guaranteed 1 CPU core allocation
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q \"SELECT 1\" -b"]
-      # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d ModularMonolithDDDShop -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
+      # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d mmdddshop -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
       # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name='app_admin'\" -h -1 -W | grep -q 1"]
       # test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q 'SELECT 1'"]
       interval: 10s # Check every 10 seconds
@@ -81,6 +81,7 @@ services:
     networks:
       - mmdddshop-network
       
+ 
 volumes:
   mmdddshop-sqlserver:
 

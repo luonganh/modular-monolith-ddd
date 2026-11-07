@@ -2,7 +2,7 @@
 // Purpose: Enforce module boundaries for `UserAccess`.
 // Verifies module does not reference other modules and
 // domain/application layers don't depend on infrastructure.
-namespace ModularMonolithDDD.Tests.ArchTests.Modules
+namespace Mmdddshop.Tests.ArchTests.Modules
 {
     [TestFixture]
     public class ModuleTests : TestBase
@@ -12,9 +12,9 @@ namespace ModularMonolithDDD.Tests.ArchTests.Modules
         {
             // Currently only UserAccess module exists
             // This test ensures UserAccess module doesn't have dependencies to other modules
-            List<string> otherModules = ["ModularMonolithDDD.Modules.Registrations",
-                                      "ModularMonolithDDD.Modules.Products",
-                                      "ModularMonolithDDD.Modules.Orders"];
+            List<string> otherModules = ["Mmdddshop.Modules.Registrations",
+                                      "Mmdddshop.Modules.Products",
+                                      "Mmdddshop.Modules.Orders"];
             
             List<Assembly> userAccessAssemblies =
             [
@@ -40,9 +40,9 @@ namespace ModularMonolithDDD.Tests.ArchTests.Modules
         {
             var result = Types.InAssembly(typeof(User).Assembly)
                 .That()
-                .ResideInNamespace("ModularMonolithDDD.Modules.UserAccess.Domain")
+                .ResideInNamespace("Mmdddshop.Modules.UserAccess.Domain")
                 .Should()
-                .NotHaveDependencyOnAny("ModularMonolithDDD.Modules.UserAccess.Infrastructure")
+                .NotHaveDependencyOnAny("Mmdddshop.Modules.UserAccess.Infrastructure")
                 .GetResult();
 
             AssertArchTestResult(result);
@@ -53,9 +53,9 @@ namespace ModularMonolithDDD.Tests.ArchTests.Modules
         {
             var result = Types.InAssembly(typeof(IUserAccessModule).Assembly)
                 .That()
-                .ResideInNamespace("ModularMonolithDDD.Modules.UserAccess.Application")
+                .ResideInNamespace("Mmdddshop.Modules.UserAccess.Application")
                 .Should()
-                .NotHaveDependencyOnAny("ModularMonolithDDD.Modules.UserAccess.Infrastructure")
+                .NotHaveDependencyOnAny("Mmdddshop.Modules.UserAccess.Infrastructure")
                 .GetResult();
 
             AssertArchTestResult(result);
