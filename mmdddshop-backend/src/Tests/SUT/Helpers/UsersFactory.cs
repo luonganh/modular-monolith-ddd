@@ -1,4 +1,4 @@
-namespace ModularMonolithDDD.Tests.SUT.Helpers
+namespace Mmdddshop.Tests.SUT.Helpers
 {
     internal static class UsersFactory
     {

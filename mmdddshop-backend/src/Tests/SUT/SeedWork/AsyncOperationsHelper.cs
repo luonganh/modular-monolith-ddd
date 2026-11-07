@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.Tests.SUT.SeedWork
+﻿namespace Mmdddshop.Tests.SUT.SeedWork
 {
     internal static class AsyncOperationsHelper
     {

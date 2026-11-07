@@ -1,10 +1,10 @@
 // File: Modules/UserAccess/Tests/IntegrationTests/Users/AddAdminUserTests.cs
 // Purpose: Happy-path and validation scenarios for AddAdminUser command
 // executed through the `IUserAccessModule` facade.
-using ModularMonolithDDD.Modules.UserAccess.Application.Users.AddAdminUser;
-using ModularMonolithDDD.Modules.UserAccess.Infrastructure;
+using Mmdddshop.Modules.UserAccess.Application.Users.AddAdminUser;
+using Mmdddshop.Modules.UserAccess.Infrastructure;
 
-namespace ModularMonolithDDD.Modules.UserAccess.Tests.IntegrationTests.Users
+namespace Mmdddshop.Modules.UserAccess.Tests.IntegrationTests.Users
 {
     public class AddAdminUserTests : TestBase
     {

@@ -28,27 +28,27 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /
 
 # Copy solution and project files for dependency restoration
-COPY ModularMonolithDDD.sln Directory.Packages.props Directory.Build.targets ./
-COPY ["mmdddshop-backend/src/API/ModularMonolithDDD.API/ModularMonolithDDD.API.csproj", "mmdddshop-backend/src/API/ModularMonolithDDD.API/"]
-COPY ["mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Domain/ModularMonolithDDD.BuildingBlocks.Domain.csproj", "mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Domain/"]
-COPY ["mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Application/ModularMonolithDDD.BuildingBlocks.Application.csproj", "mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Application/"]
-COPY ["mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Infrastructure/ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj", "mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Infrastructure/"]
-COPY ["mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Logging/ModularMonolithDDD.BuildingBlocks.Logging.csproj", "mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Logging/"]
-COPY ["mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Domain/ModularMonolithDDD.Modules.UserAccess.Domain.csproj", "mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Domain/"]
-COPY ["mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Application/ModularMonolithDDD.Modules.UserAccess.Application.csproj", "mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Application/"]
-COPY ["mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Infrastructure/ModularMonolithDDD.Modules.UserAccess.Infrastructure.csproj", "mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Infrastructure/"]
-COPY ["mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.IntegrationEvents/ModularMonolithDDD.Modules.UserAccess.IntegrationEvents.csproj", "mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.IntegrationEvents/"]
+COPY Mmdddshop.sln Directory.Packages.props Directory.Build.targets ./
+COPY ["mmdddshop-backend/src/API/Mmdddshop.API/Mmdddshop.API.csproj", "mmdddshop-backend/src/API/Mmdddshop.API/"]
+COPY ["mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Domain/Mmdddshop.BuildingBlocks.Domain.csproj", "mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Domain/"]
+COPY ["mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Application/Mmdddshop.BuildingBlocks.Application.csproj", "mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Application/"]
+COPY ["mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Infrastructure/Mmdddshop.BuildingBlocks.Infrastructure.csproj", "mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Infrastructure/"]
+COPY ["mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Logging/Mmdddshop.BuildingBlocks.Logging.csproj", "mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Logging/"]
+COPY ["mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Domain/Mmdddshop.Modules.UserAccess.Domain.csproj", "mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Domain/"]
+COPY ["mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Application/Mmdddshop.Modules.UserAccess.Application.csproj", "mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Application/"]
+COPY ["mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Infrastructure/Mmdddshop.Modules.UserAccess.Infrastructure.csproj", "mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Infrastructure/"]
+COPY ["mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.IntegrationEvents/Mmdddshop.Modules.UserAccess.IntegrationEvents.csproj", "mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.IntegrationEvents/"]
 
 # Restore NuGet packages for each project (production only)
-RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Domain/ModularMonolithDDD.BuildingBlocks.Domain.csproj
-RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Application/ModularMonolithDDD.BuildingBlocks.Application.csproj
-RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Infrastructure/ModularMonolithDDD.BuildingBlocks.Infrastructure.csproj
-RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/ModularMonolithDDD.BuildingBlocks.Logging/ModularMonolithDDD.BuildingBlocks.Logging.csproj
-RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Domain/ModularMonolithDDD.Modules.UserAccess.Domain.csproj
-RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Application/ModularMonolithDDD.Modules.UserAccess.Application.csproj
-RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.Infrastructure/ModularMonolithDDD.Modules.UserAccess.Infrastructure.csproj
-RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/ModularMonolithDDD.Modules.UserAccess.IntegrationEvents/ModularMonolithDDD.Modules.UserAccess.IntegrationEvents.csproj
-RUN dotnet restore mmdddshop-backend/src/API/ModularMonolithDDD.API/ModularMonolithDDD.API.csproj
+RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Domain/Mmdddshop.BuildingBlocks.Domain.csproj
+RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Application/Mmdddshop.BuildingBlocks.Application.csproj
+RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Infrastructure/Mmdddshop.BuildingBlocks.Infrastructure.csproj
+RUN dotnet restore mmdddshop-backend/src/BuildingBlocks/Mmdddshop.BuildingBlocks.Logging/Mmdddshop.BuildingBlocks.Logging.csproj
+RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Domain/Mmdddshop.Modules.UserAccess.Domain.csproj
+RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Application/Mmdddshop.Modules.UserAccess.Application.csproj
+RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.Infrastructure/Mmdddshop.Modules.UserAccess.Infrastructure.csproj
+RUN dotnet restore mmdddshop-backend/src/Modules/UserAccess/Mmdddshop.Modules.UserAccess.IntegrationEvents/Mmdddshop.Modules.UserAccess.IntegrationEvents.csproj
+RUN dotnet restore mmdddshop-backend/src/API/Mmdddshop.API/Mmdddshop.API.csproj
 
 # Copy source code for build
 COPY mmdddshop-backend/src/API ./mmdddshop-backend/src/API
@@ -60,7 +60,7 @@ COPY mmdddshop-backend/src/Modules ./mmdddshop-backend/src/Modules
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /
-RUN dotnet publish "mmdddshop-backend/src/API/ModularMonolithDDD.API/ModularMonolithDDD.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "mmdddshop-backend/src/API/Mmdddshop.API/Mmdddshop.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # FINAL STAGE
 # Copies the published files from /app/publish and runs
@@ -68,4 +68,4 @@ RUN dotnet publish "mmdddshop-backend/src/API/ModularMonolithDDD.API/ModularMono
 FROM runtime AS final
 WORKDIR $APP_HOME
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ModularMonolithDDD.API.dll"]
+ENTRYPOINT ["dotnet", "Mmdddshop.API.dll"]

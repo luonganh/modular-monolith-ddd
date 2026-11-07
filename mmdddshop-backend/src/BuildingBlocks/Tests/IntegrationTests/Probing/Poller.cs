@@ -1,7 +1,7 @@
 // File: BuildingBlocks/Tests/IntegrationTests/Probing/Poller.cs
 // Purpose: Actively polls a probe until satisfied or times out. Helps
 // test eventually consistent workflows without flakiness.
-namespace ModularMonolithDDD.BuildingBlocks.Tests.IntegrationTests.Probing
+namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests.Probing
 {
     /// <summary>
     /// used to repeatedly check a condition until that condition becomes true or the timeout expires.

@@ -3,7 +3,7 @@
 // it explains how the test system is started, configured, seeded, authenticated, connected to DB, etc
 // - Initializes `UserAccess` module with in-memory dependencies
 // - Provides helpers for waiting and scripted DB actions
-namespace ModularMonolithDDD.Tests.SUT.SeedWork
+namespace Mmdddshop.Tests.SUT.SeedWork
 {
     public class TestBase
     {
@@ -95,7 +95,7 @@ namespace ModularMonolithDDD.Tests.SUT.SeedWork
 
         private void SetConnectionString()
         {
-            const string connectionStringEnvironmentVariable = "ModularMonolithDDDShop_SUTDatabaseConnectionString";
+            const string connectionStringEnvironmentVariable = "Mmdddshop_SUTDatabaseConnectionString";
             ConnectionString = Environment.GetEnvironmentVariable(connectionStringEnvironmentVariable);
             if (ConnectionString == null)
             {

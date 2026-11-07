@@ -1,12 +1,12 @@
 ﻿global using MediatR;
 global using Microsoft.VisualStudio.TestPlatform.TestHost;
-global using ModularMonolithDDD.Tests.ArchTests.SeedWork;
+global using Mmdddshop.Tests.ArchTests.SeedWork;
 global using NetArchTest.Rules;
 global using NUnit.Framework;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Reflection;
-global using ModularMonolithDDD.Modules.UserAccess.Application.Contracts;
-global using ModularMonolithDDD.Modules.UserAccess.Domain.Users;
-global using ModularMonolithDDD.Modules.UserAccess.Infrastructure;
+global using Mmdddshop.Modules.UserAccess.Application.Contracts;
+global using Mmdddshop.Modules.UserAccess.Domain.Users;
+global using Mmdddshop.Modules.UserAccess.Infrastructure;

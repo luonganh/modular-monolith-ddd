@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.BuildingBlocks.Tests.IntegrationTests.Probing
+﻿namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests.Probing
 {
     public class AssertErrorException : Exception
     {

@@ -29,6 +29,7 @@ jobs:
       - name: Create production env file (.env.production) from Github Secrets on Github Runner         
         run: |
             cat > .env.production <<'EOF'
+            COMPOSE_PROJECT_NAME=mmdddshop
             ASPNETCORE_ENVIRONMENT=Production
             BUILD_CONFIGURATION=Release
             API_HOST=${{ secrets.API_HOST }}

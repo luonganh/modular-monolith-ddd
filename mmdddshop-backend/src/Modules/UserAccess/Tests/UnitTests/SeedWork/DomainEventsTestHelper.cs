@@ -1,4 +1,4 @@
-﻿namespace ModularMonolithDDD.Modules.UserAccess.Tests.UnitTests.SeedWork
+﻿namespace Mmdddshop.Modules.UserAccess.Tests.UnitTests.SeedWork
 {
     public class DomainEventsTestHelper
     {

@@ -2,13 +2,13 @@
 // Summary: Shared helpers and constants for architecture tests.
 // - Exposes `ApiAssembly` for arch scans
 // - Provides small assertion helpers to keep tests concise
-namespace ModularMonolithDDD.Tests.ArchTests.SeedWork
+namespace Mmdddshop.Tests.ArchTests.SeedWork
 {
     public abstract class TestBase
     {
         protected static Assembly ApiAssembly => typeof(Program).Assembly;
 
-        public const string UserAccessNamespace = "ModularMonolithDDD.Modules.UserAccess";
+        public const string UserAccessNamespace = "Mmdddshop.Modules.UserAccess";
 
         protected static void AssertAreImmutable(IEnumerable<Type> types)
         {
