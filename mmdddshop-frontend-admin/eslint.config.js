@@ -23,9 +23,6 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      // TODO: fix existing violations, then remove these two lines (see fix/frontend-lint)
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unsafe-function-type': 'warn',
     },
   },
 )

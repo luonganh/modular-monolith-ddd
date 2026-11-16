@@ -1,15 +1,26 @@
 // src/modules/user-access/store/slices/authSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { IdTokenClaims, User as OidcUser } from 'oidc-client-ts';
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  profile: any;
+  profile: IdTokenClaims;
   access_token?: string;
   expired?: boolean;
 }
+
+// Maps the oidc-client-ts User class instance to the plain object kept in the store.
+export const toAuthUser = (user: OidcUser): User => ({
+  id: user.profile.sub,
+  name: user.profile.name ?? user.profile.preferred_username ?? '',
+  email: user.profile.email ?? '',
+  profile: user.profile,
+  access_token: user.access_token,
+  expired: user.expired,
+});
 
 export interface AuthState {
   user: User | null;

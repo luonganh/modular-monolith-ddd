@@ -1,19 +1,23 @@
 // src/modules/user-access/store/sagas/authSaga.ts
 import { call, put, take, takeLatest } from 'redux-saga/effects';
-import { 
-  setUser, 
-  setLoading, 
-  setError, 
+import type { SagaIterator } from 'redux-saga';
+import type { User as OidcUser } from 'oidc-client-ts';
+import {
+  setUser,
+  setLoading,
+  setError,
   setInitialized,
-  clearAuth 
+  clearAuth,
+  toAuthUser
 } from '../slices/authSlice';
-import { 
-  login, 
-  logout, 
-  handleCallback, 
-  getUser, 
-  isAuthenticated 
+import {
+  login,
+  logout,
+  handleCallback,
+  getUser,
+  isAuthenticated
 } from '../../services/AuthenticationService';
+import { getErrorMessage } from 'shared/utils/errors';
 
 // Action types
 export const AUTH_ACTIONS = {
@@ -28,52 +32,55 @@ export const AUTH_ACTIONS = {
 export const loginRequest = () => ({ type: AUTH_ACTIONS.LOGIN_REQUEST });
 export const logoutRequest = () => ({ type: AUTH_ACTIONS.LOGOUT_REQUEST });
 export const checkAuthRequest = () => ({ type: AUTH_ACTIONS.CHECK_AUTH_REQUEST });
-export const handleCallbackRequest = (callbackUrl: string) => ({ 
-  type: AUTH_ACTIONS.HANDLE_CALLBACK_REQUEST, 
-  payload: callbackUrl 
+export const handleCallbackRequest = (callbackUrl: string) => ({
+  type: AUTH_ACTIONS.HANDLE_CALLBACK_REQUEST,
+  payload: callbackUrl
 });
 export const initializeAuth = () => ({ type: AUTH_ACTIONS.INITIALIZE_AUTH });
 
+type HandleCallbackRequestAction = ReturnType<typeof handleCallbackRequest>;
+type HandleCallbackResult = Awaited<ReturnType<typeof handleCallback>>;
+
 // Sagas với return type annotations
-function* loginSaga(): Generator<any, void, any> {
+function* loginSaga(): SagaIterator<void> {
   try {
     yield put(setLoading(true));
     yield put(setError(null));
-    
+
     yield call(login);
     // Login will redirect, so we don't need to set user here
-  } catch (error: any) {
-    yield put(setError(error.message || 'Login failed'));
+  } catch (error: unknown) {
+    yield put(setError(getErrorMessage(error, 'Login failed')));
   } finally {
     yield put(setLoading(false));
   }
 }
 
-function* logoutSaga(): Generator<any, void, any> {
+function* logoutSaga(): SagaIterator<void> {
   try {
     yield put(setLoading(true));
     yield call(logout);
     yield put(clearAuth());
-  } catch (error: any) {
-    yield put(setError(error.message || 'Logout failed'));
+  } catch (error: unknown) {
+    yield put(setError(getErrorMessage(error, 'Logout failed')));
   } finally {
     yield put(setLoading(false));
   }
 }
 
-function* checkAuthSaga(): Generator<any, void, any> {
+function* checkAuthSaga(): SagaIterator<void> {
   try {
     yield put(setLoading(true));
     const isAuth: boolean = yield call(isAuthenticated);
-    
+
     if (isAuth) {
-      const user: any = yield call(getUser);
-      yield put(setUser(user));
+      const user: OidcUser | null = yield call(getUser);
+      yield put(setUser(user ? toAuthUser(user) : null));
     } else {
       yield put(setUser(null));
     }
-  } catch (error: any) {
-    yield put(setError(error.message || 'Auth check failed'));
+  } catch (error: unknown) {
+    yield put(setError(getErrorMessage(error, 'Auth check failed')));
     yield put(setUser(null));
   } finally {
     yield put(setLoading(false));
@@ -81,44 +88,40 @@ function* checkAuthSaga(): Generator<any, void, any> {
   }
 }
 
-function* handleCallbackSaga(): Generator<any, void, any> {
-// (action: PayloadAction<string>) 
+function* handleCallbackSaga(): SagaIterator<void> {
+// (action: PayloadAction<string>)
   try {
     yield put(setLoading(true));
     yield put(setError(null));
-    
-    const action = yield take(AUTH_ACTIONS.HANDLE_CALLBACK_REQUEST);
+
+    const action: HandleCallbackRequestAction = yield take(AUTH_ACTIONS.HANDLE_CALLBACK_REQUEST);
     if (!action.payload) {
       throw new Error('Callback URL is required');
     }
-    
-     const result: { user: any; returnUrl: string } = yield call(
-        handleCallback as any,        
-      action.payload
-    );
-    //const result: { user: any; returnUrl: string } = yield call(handleCallback, callbackUrl);
-    yield put(setUser(result.user));
-    
+
+    const result: HandleCallbackResult = yield call(handleCallback, action.payload);
+    yield put(setUser(toAuthUser(result.user)));
+
     // Redirect to return URL
     window.location.href = result.returnUrl;
-  } catch (error: any) {
-    yield put(setError(error.message || 'Callback handling failed'));
+  } catch (error: unknown) {
+    yield put(setError(getErrorMessage(error, 'Callback handling failed')));
   } finally {
     yield put(setLoading(false));
   }
 }
 
-function* initializeAuthSaga(): Generator<any, void, any> {
+function* initializeAuthSaga(): SagaIterator<void> {
   try {
     yield put(setLoading(true));
     const isAuth: boolean = yield call(isAuthenticated);
-    
+
     if (isAuth) {
-      const user: any = yield call(getUser);
-      yield put(setUser(user));
+      const user: OidcUser | null = yield call(getUser);
+      yield put(setUser(user ? toAuthUser(user) : null));
     }
-  } catch (error: any) {
-    yield put(setError(error.message || 'Auth initialization failed'));
+  } catch (error: unknown) {
+    yield put(setError(getErrorMessage(error, 'Auth initialization failed')));
   } finally {
     yield put(setLoading(false));
     yield put(setInitialized(true));
@@ -126,7 +129,7 @@ function* initializeAuthSaga(): Generator<any, void, any> {
 }
 
 // Root saga
-export function* authSaga(): Generator<any, void, any> {
+export function* authSaga(): SagaIterator<void> {
   yield takeLatest(AUTH_ACTIONS.LOGIN_REQUEST, loginSaga);
   yield takeLatest(AUTH_ACTIONS.LOGOUT_REQUEST, logoutSaga);
   yield takeLatest(AUTH_ACTIONS.CHECK_AUTH_REQUEST, checkAuthSaga);

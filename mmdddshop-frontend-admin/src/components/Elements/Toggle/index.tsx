@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface IToggle {
     isActive: boolean;
-    onToggle: Function;
+    onToggle: () => void;
     showMessage?: boolean;
     className?: string;
 }
