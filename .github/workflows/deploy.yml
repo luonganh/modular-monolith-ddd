@@ -80,8 +80,7 @@ jobs:
           VITE_SCOPE=openid profile mmdddshop-backend-api
           DASHBOARD_API=${{ vars.VITE_API_URL }}v1/dashboard
           DASHBOARD_SITE_NAME=Admin Dashboard
-          EOF
-          chmod 600 .env.production
+          EOF         
 
       - name: Validate compose
         run: docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml config --quiet
