@@ -1,9 +1,10 @@
 // src/modules/user-access/store/selectors/authSelectors.ts
 import { createSelector } from '@reduxjs/toolkit';
+import type { AuthState } from '../slices/authSlice';
 
-// Root state type
+// Shape of the root state these selectors expect (auth slice mounted under "auth").
 interface RootState {
-  auth: any; 
+  auth: AuthState;
 }
 
 const selectAuthState = (state: RootState) => state.auth;
