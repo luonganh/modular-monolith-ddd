@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.gitignore = .gitignore
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		Directory.Build.targets = Directory.Build.targets
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.prod.yml = docker-compose.prod.yml
 		docker-compose.yml = docker-compose.yml
-		.github\workflows\production.yml = .github\workflows\production.yml
 		README.md = README.md
 	EndProjectSection
 EndProject

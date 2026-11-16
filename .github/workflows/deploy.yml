@@ -1,0 +1,125 @@
+﻿name: Deploy
+
+on:
+  push:
+    branches: [main, "release/**"] # release/** → staging, main → production        
+  workflow_dispatch: # manual action: re-deploy or rollback
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        required: true
+      image_tag:
+        description: "Commit SHA to deploy (leave empty = current commit)"
+        type: string
+        required: false  
+  
+permissions:
+  contents: read
+
+jobs:
+  ci: 
+     if: ${{ !inputs.image_tag }}          # rollback thì không cần test lại
+     uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: ci
+    if: ${{ !failure() && !cancelled() }} # CI fail → không deploy; CI bị skip (rollback) → vẫn deploy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'production' || 'staging') }}
+    concurrency:
+      group: deploy-${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'production' || 'staging') }}
+      cancel-in-progress: false           # không huỷ giữa chừng một lần deploy
+    env:
+      TARGET_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'production' || 'staging') }}
+      IMAGE_TAG: ${{ inputs.image_tag || github.sha }}
+      BUILD_IMAGES: ${{ !inputs.image_tag }}
+      
+    steps:         
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.image_tag || github.sha }}   # rollback: lấy đúng file compose của bản cũ
+
+      - name: Write .env.production
+        run: |
+          cat > .env.production <<'EOF'
+          COMPOSE_PROJECT_NAME=${{ vars.COMPOSE_PROJECT_NAME }}
+          ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}
+          IMAGE_TAG=${{ env.IMAGE_TAG }}
+          DEPLOY_ENV=${{ vars.DEPLOY_ENV }}
+
+          API_HOST_PORT=${{ vars.API_HOST_PORT }}
+          API_DOCKER_CONTAINER_PORT=8080
+          ADMIN_HOST_PORT=${{ vars.ADMIN_HOST_PORT }}
+          ADMIN_DOCKER_CONTAINER_PORT=80
+          ADMIN_ORIGIN=${{ vars.ADMIN_ORIGIN }}
+          PORTAL_ORIGIN=${{ vars.PORTAL_ORIGIN }}
+
+          SQLSERVER_HOST=db-sqlserver
+          SQLSERVER_SERVICE_NAME=db-sqlserver
+          SQLSERVER_HOST_PORT=${{ vars.SQLSERVER_HOST_PORT }}
+          SQLSERVER_DOCKER_CONTAINER_PORT=1433
+          SQLSERVER_DATABASE_NAME=${{ vars.SQLSERVER_DATABASE_NAME }}
+          SQLSERVER_USER=${{ vars.SQLSERVER_USER }}
+          SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}
+          SA_PASSWORD=${{ secrets.SA_PASSWORD }}
+
+          IDENTITY_HOST_PORT=${{ vars.IDENTITY_HOST_PORT }}
+          IDENTITY_PORT=8080
+          KEYCLOAK_ADMIN=${{ vars.KEYCLOAK_ADMIN }}
+          KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
+          KC_HOSTNAME=${{ vars.KC_HOSTNAME }}
+          KEYCLOAK_AUTHORITY=${{ vars.KC_HOSTNAME }}/realms/mmdddshop
+          KEYCLOAK_METADATA_ADDRESS=${{ vars.KC_HOSTNAME }}/realms/mmdddshop/.well-known/openid-configuration
+          KEYCLOAK_AUDIENCE=mmdddshop-backend-api
+
+          VITE_API_URL=${{ vars.VITE_API_URL }}
+          VITE_AUTHORITY=${{ vars.KC_HOSTNAME }}/realms/mmdddshop
+          VITE_CLIENT_ID=admin-spa
+          VITE_REDIRECT_URI=${{ vars.ADMIN_ORIGIN }}/callback
+          VITE_SCOPE=openid profile mmdddshop-backend-api
+          DASHBOARD_API=${{ vars.VITE_API_URL }}v1/dashboard
+          DASHBOARD_SITE_NAME=Admin Dashboard
+          EOF
+          chmod 600 .env.production
+
+      - name: Validate compose
+        run: docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml config --quiet
+     
+      - name: Log in to Docker Hub
+        if: env.BUILD_IMAGES == 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+     
+      - name: Build and push images
+        if: env.BUILD_IMAGES == 'true'
+        run: |
+          set -euo pipefail
+          docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml build
+          docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml push
+
+      - name: Copy compose files and env to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: docker-compose.yml,docker-compose.prod.yml,.env.production
+          target: /home/${{ secrets.SSH_USER }}/mmdddshop-${{ env.TARGET_ENV }}
+      
+      - name: Pull and start on VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -euo pipefail
+            cd /home/${{ secrets.SSH_USER }}/mmdddshop-${{ env.TARGET_ENV }}
+            chmod 600 .env.production
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build --remove-orphans
+            docker image prune -f     

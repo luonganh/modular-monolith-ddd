@@ -1,15 +1,16 @@
-name: CI
+﻿name: CI
 
 on:
-  push:
-    branches:
-      - main     
-      - develop
   pull_request:
-    branches:
-      - main     
-      - develop
-  workflow_dispatch:
+    branches: [develop, main, "release/**"]
+  push:
+    branches: [develop]
+  workflow_call:
+  # workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true  # push liên tục thì huỷ lượt chạy cũ
 
 permissions:
   contents: read
@@ -18,28 +19,7 @@ jobs:
   backend:
     name: Backend
     runs-on: ubuntu-latest
-
-    # services:
-    #   sqlserver:
-    #     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
-    #     env:
-    #       ACCEPT_EULA: Y
-    #       SA_PASSWORD: Alo1234567@@
-    #     ports:
-    #       - 1433:1433
-    #     options: >-
-    #       --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Alo1234567@@ -C -Q 'SELECT 1'"
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 10
-
-    # env:
-    #   SQLSERVER_HOST: localhost
-    #   SQLSERVER_HOST_PORT: 1433
-    #   SQLSERVER_DATABASE_NAME: mmdddshop
-    #   SQLSERVER_USER: sa
-    #   SQLSERVER_PASSWORD: Alo1234567@@
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,8 +35,9 @@ jobs:
       - name: Build
         run: dotnet build Mmdddshop.sln --configuration Release --no-restore
 
-      - name: Test
+      - name: Unit + architecture tests
         run: dotnet test Mmdddshop.sln --configuration Release --no-build --filter "TestCategory!=Integration" --verbosity normal
+        # integration tests with SQL Server - remove about filter (TestCategory!=Integration)
 
   frontend-admin:
     name: Frontend admin
@@ -80,8 +61,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Lint
-      #   run: npm run lint
+      - name: Lint
+        run: npm run lint
 
       - name: Build
         run: npm run build
+ 
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare .env from example
+        run: cp .env.example .env
+
+      - name: Validate compose (dev + server)
+        run: |         
+          docker compose config --quiet
+
+          IMAGE_TAG=ci DEPLOY_ENV=ci KC_HOSTNAME=https://example.com \
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml config --quiet
+      - name: Build all images (also validates base + override)
+        run: docker compose --profile local-docker build
