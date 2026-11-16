@@ -91,7 +91,7 @@ Each test project also has a `*TestScenarios.md` that lists its intended scenari
 - Feature code lives in `src/modules/<feature>/` (`pages/`, `services/`, `store/`, `index.ts`). Shared Redux store, sagas, API layer and hooks are in `src/shared/store/`.
 - Use the path aliases from `tsconfig.app.json` (`components/*`, `modules/*`, `shared/*`, `store/*`, `utils/*`, `configuration/*`, and others) rather than long relative imports.
 - Auth is OIDC (authorization code) against Keycloak via `oidc-client-ts`, using client `admin-spa` with the redirect at `/callback`.
-- ESLint currently downgrades `@typescript-eslint/no-explicit-any` and `Function`-type rules to warnings during a cleanup. Don't add new violations.
+- ESLint enforces `@typescript-eslint/no-explicit-any` and `@typescript-eslint/no-unsafe-function-type` as errors (CI fails on them). Type callback props with explicit signatures (e.g. `(page: number) => void`, `() => React.ReactNode`) and use `unknown` plus narrowing for genuinely unknown values such as caught errors; `shared/utils/errors.ts` has `getErrorMessage` for the latter.
 
 ## Rules
 
