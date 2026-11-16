@@ -3,7 +3,8 @@ import { getAccessToken, refreshAccessToken } from "../modules/user-access/servi
 
 /* Infrastructure services */
 export class HttpClient {
-    public static async post<TResult>(resource: string, body: string): Promise<TResult> {
+    // Resolves with the raw fetch Response (the body is not parsed).
+    public static async post(resource: string, body: string): Promise<Response> {
         const headers = await HttpClient.GetHeaders();
         const requestOptions: RequestInit = {
             method: 'POST',
@@ -16,7 +17,7 @@ export class HttpClient {
         const response = await HttpClient.send(url, requestOptions);
         
         if (response.status === 200) {
-            return Promise.resolve(response as any);
+            return response;
         }
         else {
             return Promise.reject(new Error(response.statusText));
@@ -43,7 +44,8 @@ export class HttpClient {
         }
     }
 
-    public static async patch<TResult>(resource: string, body: string | null): Promise<TResult> {
+    // Resolves with the parsed JSON only when the body was already read; otherwise with the raw Response.
+    public static async patch<TResult>(resource: string, body: string | null): Promise<TResult | Response> {
         const headers = await HttpClient.GetHeaders();
         const requestOptions: RequestInit = {
             method: 'PATCH',
@@ -60,7 +62,7 @@ export class HttpClient {
                 return Promise.resolve(response.json());
             }
             else {
-                return response as any;
+                return response;
             }
         }
         else {
