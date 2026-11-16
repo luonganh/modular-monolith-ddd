@@ -5,9 +5,9 @@ export interface IConfirmAlert {
     subTitle: string;
     type: 'normal' | 'danger';
     primaryActionTitle: string;
-    onPrimaryActionClick: Function;
+    onPrimaryActionClick: () => void;
     secondaryActionTitle: string;
-    onSecondaryActionClick: Function;
+    onSecondaryActionClick: () => void;
 }
 
 const ConfirmAlert: React.FC<IConfirmAlert> = ({

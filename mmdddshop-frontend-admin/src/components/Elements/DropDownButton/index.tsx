@@ -3,7 +3,7 @@ import { type MouseEventHandler, useState } from 'react';
 export interface IListItem {
     title: string;
     handleClick: MouseEventHandler<HTMLDivElement>;
-    renderIcon?: Function;
+    renderIcon?: () => React.ReactNode;
     iconFirst?: boolean;
     disabled?: boolean;
 }
@@ -12,7 +12,7 @@ export interface IDropDownButton {
     title: string;
     itemList: IListItem[];
     variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
-    renderIcon?: Function;
+    renderIcon?: () => React.ReactNode;
     iconFirst?: boolean;
     disabled?: boolean;
     className?: string;

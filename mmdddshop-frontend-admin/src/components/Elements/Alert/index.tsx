@@ -1,7 +1,7 @@
 export interface IAlert {
     content: string;
     variant?: 'success' | 'warning' | 'fail' | 'normal';
-    renderIcon?: Function;
+    renderIcon?: () => React.ReactNode;
     className?: string;
 }
 
