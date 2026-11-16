@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type ReactElement, useEffect, useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 export interface IPagination {
@@ -6,7 +6,7 @@ export interface IPagination {
     totalItem?: number;
     numberOfPages: number;
     currentPage: number;
-    setCurrentPage: Function;
+    setCurrentPage: (page: number) => void;
     hideMessage?: boolean;
     className?: string;
 }
@@ -20,7 +20,7 @@ const Pagination: React.FC<IPagination> = ({
     hideMessage = false,
     className,
 }) => {
-    const [items, setItems] = useState<any>([]);
+    const [items, setItems] = useState<ReactElement[]>([]);
 
     useEffect(() => {
         setItems([]);
@@ -31,7 +31,7 @@ const Pagination: React.FC<IPagination> = ({
         const bonusFromHigher = Math.abs(currentPage + 2 - higherRange);
 
         if (lowerRange > 1) {
-            setItems((elements: any) => [
+            setItems((elements) => [
                 ...elements,
                 <div
                     key={1}
@@ -62,7 +62,7 @@ const Pagination: React.FC<IPagination> = ({
             number <= Math.min(higherRange + bonusFromLower, numberOfPages);
             number++
         ) {
-            setItems((elements: any) => [
+            setItems((elements) => [
                 ...elements,
                 <div
                     key={number}
@@ -82,7 +82,7 @@ const Pagination: React.FC<IPagination> = ({
         }
 
         if (higherRange < numberOfPages) {
-            setItems((elements: any) => [
+            setItems((elements) => [
                 ...elements,
                 <div key={'....'} className={'card rounded px-4 py-2'}>
                     {'...'}
@@ -102,7 +102,7 @@ const Pagination: React.FC<IPagination> = ({
                 </div>,
             ]);
         }
-    }, [currentPage, numberOfPages]);
+    }, [currentPage, numberOfPages, setCurrentPage]);
 
     const nextPage = () => {
         if (currentPage < numberOfPages) {
