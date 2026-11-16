@@ -1,94 +1,29 @@
 ### docker-compose.override.yml (Development environment)
 services:
-  backend-api:   
-    container_name: mmdddshop-backend-api
-    image: luongtuananh/mmdddshop-backend-api
-    build:
-      context: .
-      dockerfile: mmdddshop-backend/Dockerfile_backend    
+  backend-api:      
+    profiles: ["local-docker"]
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - SQLSERVER_HOST=${SQLSERVER_HOST}
-      - SQLSERVER_HOST_PORT=${SQLSERVER_DOCKER_CONTAINER_PORT}
-      - SQLSERVER_DATABASE_NAME=${SQLSERVER_DATABASE_NAME}
-      - SQLSERVER_USER=${SQLSERVER_USER}
-      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}        
-      - KEYCLOAK_AUTHORITY=${KEYCLOAK_AUTHORITY}
-      - KEYCLOAK_AUDIENCE=${KEYCLOAK_AUDIENCE}
       - KEYCLOAK_METADATA_ADDRESS=http://keycloak:8080/realms/mmdddshop/.well-known/openid-configuration
-      # - Cors__AllowedOrigins__0=${ADMIN_ORIGIN}
-      # - Cors__AllowedOrigins__1=${PORTAL_ORIGIN} 
     ports:
       - "${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"    
     # volumes:
     #     - ./mmdddshop-backend/src/API/Mmdddshop.API/logs:/app/logs       
-    #     - ./.env:/app/.env
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/home"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
-    depends_on:
-      db-sqlserver:
-        condition: service_healthy
-      liquibase:
-        condition: service_completed_successfully
-    networks:
-      - mmdddshop-network
+    #     - ./.env:/app/.env    
 
-  frontend-admin:  
-    container_name: mmdddshop-frontend-admin  
-    build:
-        context: ./mmdddshop-frontend-admin
-        dockerfile: Dockerfile_fe        
-        args:
-          ADMIN_DOCKER_CONTAINER_PORT: ${ADMIN_DOCKER_CONTAINER_PORT}
-          VITE_API_URL: ${VITE_API_URL}
-          VITE_AUTHORITY: ${VITE_AUTHORITY}
-          VITE_CLIENT_ID: ${VITE_CLIENT_ID}
-          VITE_REDIRECT_URI: ${VITE_REDIRECT_URI}
-          # ADMIN_DOCKER_CONTAINER_PORT: ${ADMIN_DOCKER_CONTAINER_PORT}
-          # VITE_API_URL: http://${API_HOST}:${API_HOST_PORT}/
-          # VITE_AUTHORITY: http://${API_HOST}:8082/realms/mmdddshop
-          # VITE_CLIENT_ID: admin-spa
-          # VITE_REDIRECT_URI: http://${ADMIN_HOST}:${ADMIN_HOST_PORT}/callback
-    environment:
-        - API_HOST_PORT=${API_HOST_PORT}
-        - API_DOCKER_CONTAINER_PORT=${API_DOCKER_CONTAINER_PORT} 
-        - ADMIN_HOST_PORT=${ADMIN_HOST_PORT}
-        - ADMIN_DOCKER_CONTAINER_PORT=${ADMIN_DOCKER_CONTAINER_PORT} 
+  frontend-admin:     
+    profiles: ["local-docker"]                  
     ports:
         - "${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"    
     # volumes:
     #     - .mmdddshop-frontend-admin:/app
-    #     - /app/node_modules            
-    depends_on:
-      backend-api:
-       condition: service_healthy
-    networks:
-        - mmdddshop-network
+    #     - /app/node_modules                
 
-  keycloak:
-    container_name: mmdddshop-keycloak
-    image: quay.io/keycloak/keycloak:26.7.0
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      # SQL Server Configuration
-      KC_DB: mssql
-      KC_DB_URL: jdbc:sqlserver://${SQLSERVER_SERVICE_NAME}:${SQLSERVER_DOCKER_CONTAINER_PORT};databaseName=${SQLSERVER_DATABASE_NAME};encrypt=false;      
-      KC_DB_USERNAME: ${SQLSERVER_USER}
-      KC_DB_PASSWORD: ${SQLSERVER_PASSWORD}
+  db-sqlserver:      
     ports:
-      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"  
-    command: start-dev --import-realm
-    volumes:
-      - ./keycloak/import:/opt/keycloak/data/import:ro
-    depends_on:
-      db-sqlserver:
-        condition: service_healthy
-      db-init:
-        condition: service_completed_successfully
-    networks:
-      - mmdddshop-network  
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
+       
+  keycloak:  
+    # volumes:
+    #     - ./keycloak/import:/opt/keycloak/data/import:ro    
+    ports:
+      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"     
