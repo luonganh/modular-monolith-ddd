@@ -105,7 +105,7 @@ export class HttpClient {
     private static async GetHeaders(contentType: null | string = 'application/json'): Promise<Record<string, string>> {
         const token = await getAccessToken();
 
-        let headers: Record<string, string> = {};
+        const headers: Record<string, string> = {};
 
         if (token != null) {
             headers['Authorization'] = 'Bearer ' + token;
