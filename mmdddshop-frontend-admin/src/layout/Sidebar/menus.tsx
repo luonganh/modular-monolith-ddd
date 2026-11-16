@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 // Icons
 import { TbPackages, TbSquareNumber1 } from 'react-icons/tb';
 import { CgWebsite, CgLogOut, CgSpinner } from 'react-icons/cg';
@@ -8,7 +10,7 @@ import { FaToggleOn } from 'react-icons/fa';
 
 export interface SideBarItemInterface {
     id: string;
-    icon: Function;
+    icon: () => ReactNode;
     url: string;
     subMenus?: SideBarItemInterface[];
     level: number;
