@@ -119,7 +119,7 @@ export const isAuthenticated = async (): Promise<boolean> => {
   return user != null && !user.expired;
 };
 
-export const getUser = async (): Promise<any> => {
+export const getUser = async (): Promise<User | null> => {
   return await userManager.getUser();
 };
 
