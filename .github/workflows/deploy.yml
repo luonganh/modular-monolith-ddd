@@ -44,42 +44,50 @@ jobs:
         run: |
           cat > .env.production <<'EOF'
           COMPOSE_PROJECT_NAME=${{ vars.COMPOSE_PROJECT_NAME }}
-          ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}
-          IMAGE_TAG=${{ env.IMAGE_TAG }}
-          DEPLOY_ENV=${{ vars.DEPLOY_ENV }}
-
-          API_HOST_PORT=${{ vars.API_HOST_PORT }}
-          API_DOCKER_CONTAINER_PORT=8080
-          ADMIN_HOST_PORT=${{ vars.ADMIN_HOST_PORT }}
-          ADMIN_DOCKER_CONTAINER_PORT=80
+          ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}    
+                   
           ADMIN_ORIGIN=${{ vars.ADMIN_ORIGIN }}
           PORTAL_ORIGIN=${{ vars.PORTAL_ORIGIN }}
 
-          SQLSERVER_HOST=db-sqlserver
-          SQLSERVER_SERVICE_NAME=db-sqlserver
+          API_HOST=${{ vars.API_HOST }}
+          API_HOST_PORT=${{ vars.API_HOST_PORT }}
+          API_DOCKER_CONTAINER_PORT=${{ vars.API_DOCKER_CONTAINER_PORT }}
+
+          ADMIN_HOST=${{ vars.ADMIN_HOST }}
+          ADMIN_HOST_PORT=${{ vars.ADMIN_HOST_PORT }}
+          ADMIN_DOCKER_CONTAINER_PORT=${{ vars.ADMIN_DOCKER_CONTAINER_PORT }}
+         
+          PORTAL_HOST=${{ vars.PORTAL_HOST }}
+          PORTAL_HOST_PORT=${{ vars.PORTAL_HOST_PORT }}
+          PORTAL_DOCKER_CONTAINER_PORT=${{ vars.PORTAL_DOCKER_CONTAINER_PORT }}
+
+          IDENTITY_HOST_PORT=${{ vars.IDENTITY_HOST_PORT }}
+          IDENTITY_PORT=${{ vars.IDENTITY_PORT }}
+          KEYCLOAK_ADMIN=${{ vars.KEYCLOAK_ADMIN }}
+          KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}    
+          KEYCLOAK_AUDIENCE=${{ vars.KEYCLOAK_AUDIENCE }}
+          KEYCLOAK_AUTHORITY=${{ vars.KEYCLOAK_AUTHORITY }}
+          KEYCLOAK_METADATA_ADDRESS=${{ vars.KEYCLOAK_METADATA_ADDRESS }}
+
+          VITE_API_URL=${{ vars.VITE_API_URL }}
+          VITE_AUTHORITY=${{ vars.VITE_AUTHORITY }}
+          VITE_CLIENT_ID=${{ vars.VITE_CLIENT_ID }}
+          VITE_REDIRECT_URI=${{ vars.VITE_REDIRECT_URI }}
+          VITE_SCOPE=${{ vars.VITE_SCOPE }}
+          DASHBOARD_SITE_NAME=${{ vars.DASHBOARD_SITE_NAME }}
+          DASHBOARD_API=${{ vars.DASHBOARD_API }}
+          
+          SQLSERVER_HOST=${{ vars.SQLSERVER_HOST }}
+          SQLSERVER_SERVICE_NAME=${{ vars.SQLSERVER_SERVICE_NAME }}
           SQLSERVER_HOST_PORT=${{ vars.SQLSERVER_HOST_PORT }}
-          SQLSERVER_DOCKER_CONTAINER_PORT=1433
+          SQLSERVER_DOCKER_CONTAINER_PORT=${{ vars.SQLSERVER_DOCKER_CONTAINER_PORT }}
           SQLSERVER_DATABASE_NAME=${{ vars.SQLSERVER_DATABASE_NAME }}
           SQLSERVER_USER=${{ vars.SQLSERVER_USER }}
           SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}
           SA_PASSWORD=${{ secrets.SA_PASSWORD }}
-
-          IDENTITY_HOST_PORT=${{ vars.IDENTITY_HOST_PORT }}
-          IDENTITY_PORT=8080
-          KEYCLOAK_ADMIN=${{ vars.KEYCLOAK_ADMIN }}
-          KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
+                   
+          DEPLOY_ENV=${{ vars.DEPLOY_ENV }}
           KC_HOSTNAME=${{ vars.KC_HOSTNAME }}
-          KEYCLOAK_AUTHORITY=${{ vars.KC_HOSTNAME }}/realms/mmdddshop
-          KEYCLOAK_METADATA_ADDRESS=${{ vars.KC_HOSTNAME }}/realms/mmdddshop/.well-known/openid-configuration
-          KEYCLOAK_AUDIENCE=mmdddshop-backend-api
-
-          VITE_API_URL=${{ vars.VITE_API_URL }}
-          VITE_AUTHORITY=${{ vars.KC_HOSTNAME }}/realms/mmdddshop
-          VITE_CLIENT_ID=admin-spa
-          VITE_REDIRECT_URI=${{ vars.ADMIN_ORIGIN }}/callback
-          VITE_SCOPE=openid profile mmdddshop-backend-api
-          DASHBOARD_API=${{ vars.VITE_API_URL }}v1/dashboard
-          DASHBOARD_SITE_NAME=Admin Dashboard
           EOF         
 
       - name: Validate compose
