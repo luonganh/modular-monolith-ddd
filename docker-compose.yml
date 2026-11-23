@@ -6,7 +6,7 @@
 services:
 
   backend-api:
-    image: luongtuananh/mmdddshop-backend-api:${IMAGE_TAG:-local}
+    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:-local}
     build:
       context: .
       dockerfile: mmdddshop-backend/Dockerfile_backend
@@ -35,7 +35,7 @@ services:
       - mmdddshop
 
   frontend-admin:
-    image: luongtuananh/mmdddshop-frontend-admin:${IMAGE_TAG:-local}
+    image: mmdddshop/mmdddshop-frontend-admin:${IMAGE_TAG:-local}
     build:
       context: ./mmdddshop-frontend-admin
       dockerfile: Dockerfile_fe
@@ -59,7 +59,7 @@ services:
       - mmdddshop
 
   liquibase:
-    image: luongtuananh/mmdddshop-liquibase:${IMAGE_TAG:-local}
+    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:-local}
     build:
       context: ./mmdddshop-backend/src/Database/liquibase
       dockerfile: Dockerfile_liquibase
@@ -71,7 +71,7 @@ services:
       - mmdddshop
 
   keycloak:
-    image: luongtuananh/mmdddshop-keycloak:${IMAGE_TAG:-local}
+    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:-local}
     build:
       context: ./keycloak
       dockerfile: Dockerfile_keycloak

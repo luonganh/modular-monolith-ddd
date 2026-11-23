@@ -28,7 +28,7 @@ services:
       - mmdddshop
 
   db-init:
-    image: luongtuananh/mmdddshop-db-init:${IMAGE_TAG:-local}
+    image: mmdddshop/mmdddshop-db-init:${IMAGE_TAG:-local}
     build:
       context: ./mmdddshop-backend/src/Database
       dockerfile: Dockerfile_db_init
