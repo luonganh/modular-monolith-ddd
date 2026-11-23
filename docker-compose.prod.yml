@@ -1,38 +1,40 @@
-### docker-compose.override.yml (Staging/Production environment)
+### docker-compose.prod.yml (STAGING / PRODUCTION trên VPS)
+# Chạy: docker compose --env-file .env.production -f docker-compose.yml -f docker-compose.prod.yml ...
+# (khi có -f, docker-compose.override.yml KHÔNG được áp dụng → không có db-sqlserver/db-init)
+#
+# Dùng chung SQL Server của kq88 (service sqlserver-kq88-vn, project kq88-vn).
+# Database + login của mỗi môi trường được tạo MỘT LẦN bằng tay (không cần SA_PASSWORD của kq88 ở đây).
+# .env của từng môi trường:
+#   SQLSERVER_HOST=sqlserver-kq88-vn
+#   SQLSERVER_SERVICE_NAME=sqlserver-kq88-vn
+#   SQLSERVER_DOCKER_CONTAINER_PORT=1433
+#   SQLSERVER_DATABASE_NAME=mmdddshop_production   (staging: mmdddshop_staging)
+#   SQLSERVER_USER=mmdddshop_prod                  (staging: mmdddshop_staging)
 services:
-  backend-api:       
-    image: luongtuananh/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}       
+
+  backend-api:
+    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}
     ports:
       - "127.0.0.1:${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"
-    restart: always 
-    # volumes:
-    #     - ./mmdddshop-backend/src/API/Mmdddshop.API/logs:/app/logs
-    #     - ./.env:/app/.env   
+    restart: always
+    networks:            # gộp với "mmdddshop" từ file base
+      - kq88vn
 
-  frontend-admin:      
-    image: luongtuananh/mmdddshop-frontend-admin:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}             
+  frontend-admin:
+    image: mmdddshop/mmdddshop-frontend-admin:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     ports:
-        - "127.0.0.1:${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"
-    restart: always 
-    # volumes:
-    #     - ./mmdddshop-frontend-admin/src:/app/src
-    #     - /app/node_modules                
-  
-  db-sqlserver:
-    ports:
-      - "127.0.0.1:${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"  
-    restart: always    
-
-  db-init:
-    image: luongtuananh/mmdddshop-db-init:${IMAGE_TAG:?IMAGE_TAG is required}
+      - "127.0.0.1:${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"
+    restart: always
 
   liquibase:
-    image: luongtuananh/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}  
-    restart: "no"    
-  
+    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}
+    restart: "no"
+    networks:
+      - kq88vn
+
   keycloak:
-    image: luongtuananh/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}
-    environment:     
+    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}
+    environment:
       KC_HOSTNAME: ${KC_HOSTNAME:?KC_HOSTNAME is required}
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
       KC_HTTP_ENABLED: "true"
@@ -41,4 +43,12 @@ services:
       - "127.0.0.1:${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"
     command: start --optimized --import-realm
     restart: always
-    
+    networks:
+      - kq88vn
+
+networks:
+  kq88vn:
+    external: true
+    # Tên THẬT của network chứa sqlserver-kq88-vn trên VPS. Kiểm tra bằng:
+    #   docker inspect -f '{{range $k,$v := .NetworkSettings.Networks}}{{$k}} {{end}}' kq88-vn-sqlserver-kq88-vn-1
+    name: kq88vn

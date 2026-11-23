@@ -1,5 +1,5 @@
-﻿USE [mmdddshop]
-GO
+﻿--USE [mmdddshop]
+--GO
 
 CREATE TABLE [users].[Users]
 (
