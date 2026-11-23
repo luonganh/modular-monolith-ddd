@@ -1,29 +1,80 @@
-### docker-compose.override.yml (Development environment)
+### docker-compose.override.yml (LOCAL - tự động áp dụng khi chạy "docker compose up" không có -f)
+# Local có SQL Server riêng (db-sqlserver) + db-init tạo database/login.
+# .env local: SQLSERVER_HOST=db-sqlserver, SQLSERVER_SERVICE_NAME=db-sqlserver, SQLSERVER_DOCKER_CONTAINER_PORT=1433
 services:
-  backend-api:      
+
+  db-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mmdddshop-sqlserver:/var/opt/mssql
+    shm_size: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q \"SELECT 1\" -b"]
+      interval: 10s
+      retries: 10
+      timeout: 5s
+      start_period: 30s
+    ports:
+      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
+    networks:
+      - mmdddshop
+
+  db-init:
+    image: luongtuananh/mmdddshop-db-init:${IMAGE_TAG:-local}
+    build:
+      context: ./mmdddshop-backend/src/Database
+      dockerfile: Dockerfile_db_init
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      SQLSERVER_SERVICE_NAME: ${SQLSERVER_SERVICE_NAME}
+      SQLSERVER_DOCKER_CONTAINER_PORT: ${SQLSERVER_DOCKER_CONTAINER_PORT}
+      SQLSERVER_DATABASE_NAME: ${SQLSERVER_DATABASE_NAME}
+      SQLSERVER_USER: ${SQLSERVER_USER}
+      SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD}
+    depends_on:
+      db-sqlserver:
+        condition: service_healthy
+    networks:
+      - mmdddshop
+    restart: "no"
+
+  # depends_on dưới đây được GỘP với depends_on trong docker-compose.yml
+  liquibase:
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+
+  keycloak:
+    depends_on:
+      db-sqlserver:
+        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
+    ports:
+      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"
+
+  backend-api:
     profiles: ["local-docker"]
     environment:
       - KEYCLOAK_METADATA_ADDRESS=http://keycloak:8080/realms/mmdddshop/.well-known/openid-configuration
+    depends_on:
+      db-sqlserver:
+        condition: service_healthy
     ports:
-      - "${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"    
-    # volumes:
-    #     - ./mmdddshop-backend/src/API/Mmdddshop.API/logs:/app/logs       
-    #     - ./.env:/app/.env    
+      - "${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"
 
-  frontend-admin:     
-    profiles: ["local-docker"]                  
+  frontend-admin:
+    profiles: ["local-docker"]
     ports:
-        - "${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"    
-    # volumes:
-    #     - .mmdddshop-frontend-admin:/app
-    #     - /app/node_modules                
+      - "${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"
 
-  db-sqlserver:      
-    ports:
-      - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
-       
-  keycloak:  
-    # volumes:
-    #     - ./keycloak/import:/opt/keycloak/data/import:ro    
-    ports:
-      - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"     
+volumes:
+  mmdddshop-sqlserver:
