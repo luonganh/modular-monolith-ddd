@@ -12,7 +12,7 @@
 #   SQLSERVER_USER=mmdddshop_production            (staging: mmdddshop_staging)
 services:
   db-init:
-    image: mmdddshop/mmdddshop-db-init
+    image: mmdddshop/mmdddshop-db-init:${DEPLOY_ENV:?DEPLOY_ENV is required}
     build:
       context: ./mmdddshop-backend/src/Database
       dockerfile: Dockerfile_db_init
@@ -42,13 +42,13 @@ services:
     restart: always
 
   liquibase:
-    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     restart: "no"
     networks:
       - kq88vn
 
   keycloak:
-    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     environment:
       KC_HOSTNAME: ${KC_HOSTNAME:?KC_HOSTNAME is required}
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
