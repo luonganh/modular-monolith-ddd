@@ -122,6 +122,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: IMAGE_TAG
           script: |
             set -euo pipefail
             cd /home/${{ secrets.SSH_USER }}/mmdddshop-${{ env.TARGET_ENV }}

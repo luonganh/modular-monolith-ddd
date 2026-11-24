@@ -28,7 +28,7 @@ services:
     restart: "no"    
   
   backend-api:
-    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     ports:
       - "127.0.0.1:${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"
     restart: always
