@@ -11,7 +11,22 @@
 #   SQLSERVER_DATABASE_NAME=mmdddshop_production   (staging: mmdddshop_staging)
 #   SQLSERVER_USER=mmdddshop_prod                  (staging: mmdddshop_staging)
 services:
-
+  db-init:
+    image: mmdddshop/mmdddshop-db-init:${IMAGE_TAG:?IMAGE_TAG is required}
+    build:
+      context: ./mmdddshop-backend/src/Database
+      dockerfile: Dockerfile_db_init
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      SQLSERVER_SERVICE_NAME: ${SQLSERVER_SERVICE_NAME}
+      SQLSERVER_DOCKER_CONTAINER_PORT: ${SQLSERVER_DOCKER_CONTAINER_PORT}
+      SQLSERVER_DATABASE_NAME: ${SQLSERVER_DATABASE_NAME}
+      SQLSERVER_USER: ${SQLSERVER_USER}
+      SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD}    
+    networks:
+      - kq88vn
+    restart: "no"    
+  
   backend-api:
     image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}
     ports:

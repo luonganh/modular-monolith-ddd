@@ -3,8 +3,7 @@
 #   - Local:            db-sqlserver + db-init nằm trong docker-compose.override.yml
 #   - Staging/Prod:     dùng chung SQL Server của kq88 (khai báo trong docker-compose.prod.yml)
 # Tên host DB lấy từ SQLSERVER_HOST / SQLSERVER_SERVICE_NAME trong file .env của từng môi trường.
-services:
-
+services:  
   backend-api:
     image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:-local}
     build:
