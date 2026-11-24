@@ -12,7 +12,7 @@
 #   SQLSERVER_USER=mmdddshop_prod                  (staging: mmdddshop_staging)
 services:
   db-init:
-    image: mmdddshop/mmdddshop-db-init:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-db-init
     build:
       context: ./mmdddshop-backend/src/Database
       dockerfile: Dockerfile_db_init
