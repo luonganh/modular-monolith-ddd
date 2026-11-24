@@ -2,8 +2,7 @@
 # Local có SQL Server riêng (db-sqlserver) + db-init tạo database/login.
 # .env local: SQLSERVER_HOST=db-sqlserver, SQLSERVER_SERVICE_NAME=db-sqlserver, SQLSERVER_DOCKER_CONTAINER_PORT=1433
 services:
-
-  db-sqlserver:
+  db-sqlserver:    
     image: mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
     environment:
       SA_PASSWORD: ${SA_PASSWORD}
@@ -26,7 +25,7 @@ services:
       - "${SQLSERVER_HOST_PORT}:${SQLSERVER_DOCKER_CONTAINER_PORT}"
     networks:
       - mmdddshop
-
+  
   db-init:
     image: mmdddshop/mmdddshop-db-init:${IMAGE_TAG:-local}
     build:
@@ -45,8 +44,7 @@ services:
     networks:
       - mmdddshop
     restart: "no"
-
-  # depends_on dưới đây được GỘP với depends_on trong docker-compose.yml
+ 
   liquibase:
     depends_on:
       db-init:
@@ -61,8 +59,7 @@ services:
     ports:
       - "${IDENTITY_HOST_PORT}:${IDENTITY_PORT}"
 
-  backend-api:
-    profiles: ["local-docker"]
+  backend-api:    
     environment:
       - KEYCLOAK_METADATA_ADDRESS=http://keycloak:8080/realms/mmdddshop/.well-known/openid-configuration
     depends_on:
@@ -71,8 +68,7 @@ services:
     ports:
       - "${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"
 
-  frontend-admin:
-    profiles: ["local-docker"]
+  frontend-admin:    
     ports:
       - "${ADMIN_HOST_PORT}:${ADMIN_DOCKER_CONTAINER_PORT}"
 

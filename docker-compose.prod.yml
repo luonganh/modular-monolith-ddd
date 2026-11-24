@@ -9,11 +9,26 @@
 #   SQLSERVER_SERVICE_NAME=sqlserver-kq88-vn
 #   SQLSERVER_DOCKER_CONTAINER_PORT=1433
 #   SQLSERVER_DATABASE_NAME=mmdddshop_production   (staging: mmdddshop_staging)
-#   SQLSERVER_USER=mmdddshop_prod                  (staging: mmdddshop_staging)
+#   SQLSERVER_USER=mmdddshop_production            (staging: mmdddshop_staging)
 services:
-
+  db-init:
+    image: mmdddshop/mmdddshop-db-init:${DEPLOY_ENV:?DEPLOY_ENV is required}
+    build:
+      context: ./mmdddshop-backend/src/Database
+      dockerfile: Dockerfile_db_init
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      SQLSERVER_SERVICE_NAME: ${SQLSERVER_SERVICE_NAME}
+      SQLSERVER_DOCKER_CONTAINER_PORT: ${SQLSERVER_DOCKER_CONTAINER_PORT}
+      SQLSERVER_DATABASE_NAME: ${SQLSERVER_DATABASE_NAME}
+      SQLSERVER_USER: ${SQLSERVER_USER}
+      SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD}    
+    networks:
+      - kq88vn
+    restart: "no"    
+  
   backend-api:
-    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-backend-api:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     ports:
       - "127.0.0.1:${API_HOST_PORT}:${API_DOCKER_CONTAINER_PORT}"
     restart: always
@@ -27,13 +42,13 @@ services:
     restart: always
 
   liquibase:
-    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-liquibase:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     restart: "no"
     networks:
       - kq88vn
 
   keycloak:
-    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}
+    image: mmdddshop/mmdddshop-keycloak:${IMAGE_TAG:?IMAGE_TAG is required}-${DEPLOY_ENV:?DEPLOY_ENV is required}
     environment:
       KC_HOSTNAME: ${KC_HOSTNAME:?KC_HOSTNAME is required}
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
