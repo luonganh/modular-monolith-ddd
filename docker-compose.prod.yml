@@ -9,7 +9,7 @@
 #   SQLSERVER_SERVICE_NAME=sqlserver-kq88-vn
 #   SQLSERVER_DOCKER_CONTAINER_PORT=1433
 #   SQLSERVER_DATABASE_NAME=mmdddshop_production   (staging: mmdddshop_staging)
-#   SQLSERVER_USER=mmdddshop_prod                  (staging: mmdddshop_staging)
+#   SQLSERVER_USER=mmdddshop_production            (staging: mmdddshop_staging)
 services:
   db-init:
     image: mmdddshop/mmdddshop-db-init
