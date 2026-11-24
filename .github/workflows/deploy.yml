@@ -85,7 +85,7 @@ jobs:
           SQLSERVER_USER=${{ vars.SQLSERVER_USER }}
           SQLSERVER_PASSWORD=${{ secrets.SQLSERVER_PASSWORD }}
           SA_PASSWORD=${{ secrets.SA_PASSWORD }}
-                   
+                            
           DEPLOY_ENV=${{ vars.DEPLOY_ENV }}
           KC_HOSTNAME=${{ vars.KC_HOSTNAME }}
           EOF         
