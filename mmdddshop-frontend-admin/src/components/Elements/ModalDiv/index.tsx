@@ -3,7 +3,7 @@ import { ImCancelCircle } from 'react-icons/im';
 
 interface ModalProps {
     isVisible: boolean;
-    setVisible: Function;
+    setVisible: (visible: boolean) => void;
     children?: ReactNode;
 }
 

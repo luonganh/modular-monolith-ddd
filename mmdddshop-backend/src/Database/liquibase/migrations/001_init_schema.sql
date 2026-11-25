@@ -1,5 +1,5 @@
-﻿USE [mmdddshop]
-GO
+﻿--USE [mmdddshop]
+--GO
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'app')
 BEGIN

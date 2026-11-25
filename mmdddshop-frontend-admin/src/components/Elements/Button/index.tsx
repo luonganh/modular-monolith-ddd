@@ -2,10 +2,10 @@ import Spinner from '../Spinner';
 
 export interface IButton {
     title: string;
-    handleClick?: Function;
+    handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     type?: 'button' | 'submit' | 'reset' | undefined;
     variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
-    renderIcon?: Function;
+    renderIcon?: () => React.ReactNode;
     iconFirst?: boolean;
     disabled?: boolean;
     loading?: boolean;
@@ -36,7 +36,7 @@ const Button: React.FC<IButton> = ({
         } ${disabled ? 'cursor-not-allowed opacity-70' : ''} ${className}`}
         onClick={(e) => {
             if (typeof handleClick === 'function') {
-                handleClick!(e);
+                handleClick(e);
             }
         }}
         disabled={disabled || loading}

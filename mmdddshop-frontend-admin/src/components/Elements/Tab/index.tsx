@@ -7,7 +7,7 @@ export interface ITabItem {
 export interface ITab {
     tabItems: ITabItem[];
     value: string;
-    handleClick: Function;
+    handleClick: (index: number) => void;
     className?: string;
 }
 

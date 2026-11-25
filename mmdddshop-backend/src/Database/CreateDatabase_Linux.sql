@@ -1,41 +1,40 @@
-﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'mmdddshop')
+﻿IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = '$(DB_NAME)')
 BEGIN
-    CREATE DATABASE [mmdddshop]
+    CREATE DATABASE [$(DB_NAME)]
     CONTAINMENT = NONE;
-    PRINT 'Database mmdddshop created.';    
+    PRINT 'Database $(DB_NAME) created.';    
 END
 ELSE
 BEGIN
-    PRINT 'Database mmdddshop already exists.';
+    PRINT 'Database $(DB_NAME) already exists.';
 END
 GO
 
-USE [mmdddshop]
-GO
 
-IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = 'mmdddshop')
+IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = '$(APP_USER)')
 BEGIN
-    CREATE LOGIN mmdddshop WITH PASSWORD = 'Alo1234567@@';
+    CREATE LOGIN [$(APP_USER)] WITH PASSWORD = '$(APP_PASSWORD)';
 END
 ELSE
 BEGIN
-    PRINT 'Login mmdddshop already exists.';
+    ALTER LOGIN [$(APP_USER)] WITH PASSWORD = '$(APP_PASSWORD)';
+    PRINT 'Login $(APP_USER) already exists. - password synced.';
 END  
 GO   
 
-USE [mmdddshop]
+USE [$(DB_NAME)]
 GO
     
-IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'mmdddshop')
+IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = '$(APP_USER)')
 BEGIN
-    CREATE USER mmdddshop FOR LOGIN mmdddshop WITH DEFAULT_SCHEMA = dbo;    
+    CREATE USER [$(APP_USER)] FOR LOGIN [$(APP_USER)] WITH DEFAULT_SCHEMA = dbo;    
 END
 ELSE
 BEGIN
-    PRINT 'User mmdddshop already exists.';
+    PRINT 'User $(APP_USER) already exists.';
 END
 
-USE [mmdddshop]
+USE [$(DB_NAME)]
 GO
 
 IF NOT EXISTS (
@@ -43,10 +42,10 @@ IF NOT EXISTS (
     FROM sys.database_role_members drm
     JOIN sys.database_principals r ON drm.role_principal_id = r.principal_id
     JOIN sys.database_principals u ON drm.member_principal_id = u.principal_id
-    WHERE r.name = 'db_owner' AND u.name = 'mmdddshop')
+    WHERE r.name = 'db_owner' AND u.name = '$(APP_USER)')
     BEGIN
-        ALTER ROLE db_owner ADD MEMBER mmdddshop;       
+        ALTER ROLE db_owner ADD MEMBER [$(APP_USER)];       
     END    
 
-USE [mmdddshop]
-GO     
+USE [$(DB_NAME)]
+GO  

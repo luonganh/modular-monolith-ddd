@@ -438,3 +438,6 @@ bin/
 obj/
 .vs/
 .vscode/
+
+# Claude AI
+.claude/settings.local.json

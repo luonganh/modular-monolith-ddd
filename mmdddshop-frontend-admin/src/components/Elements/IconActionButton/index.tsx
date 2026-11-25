@@ -4,7 +4,7 @@ import Spinner from '../Spinner';
 export interface IIconActionButton {
     className?: string;
     title: string;
-    renderIcon: Function;
+    renderIcon: () => React.ReactNode;
     onClick: MouseEventHandler<HTMLDivElement>;
     iconFirst?: boolean;
     disabled?: boolean;

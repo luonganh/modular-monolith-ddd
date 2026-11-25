@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import type { User } from 'oidc-client-ts';
 import MainLayout from 'layout/MainLayout';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'components/Elements/Spinner';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     loadUserData();

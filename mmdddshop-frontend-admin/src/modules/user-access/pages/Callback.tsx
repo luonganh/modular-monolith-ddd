@@ -49,7 +49,7 @@ export default function Callback() {
         console.log('Callback processed successfully:', result);
 
         // Trigger backend provisioning/sync exactly once here
-        await HttpClient.get<any>('api/v1/userAccess/authenticatedUser');
+        await HttpClient.get<unknown>('api/v1/userAccess/authenticatedUser');
 
         // Redirect to the return URL or home
         const returnUrl = result.returnUrl || '/';

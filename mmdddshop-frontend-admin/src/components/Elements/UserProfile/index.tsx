@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import type { User } from 'oidc-client-ts';
 import { getUser, logout } from 'modules/user-access/services/AuthenticationService';
 import DropDownButton from 'components/Elements/DropDownButton';
 import Spinner from 'components/Elements/Spinner';
 import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { t } = useTranslation();
 

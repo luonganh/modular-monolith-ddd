@@ -36,7 +36,7 @@ const SideBarItem: React.FC<Props> = ({ menuItem, isMobile }) => {
 
     useEffect(() => {
         setIsExpanded(hasMatchingSubMenu(menuItem, location.pathname));
-    }, [location.pathname]);
+    }, [menuItem, location.pathname]);
 
     const handleLogout = async () => {
         try {

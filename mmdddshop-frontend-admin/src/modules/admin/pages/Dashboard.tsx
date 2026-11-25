@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import type { User } from 'oidc-client-ts';
 import { logout } from '../../user-access';
 
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, FieldValues, Merge } from 'react-hook-form';
 
 interface ErrorMessageInterface {
-    message: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+    message: string | FieldError | Merge<FieldError, FieldErrorsImpl<FieldValues>>;
 }
 
 const ErrorMessage: React.FC<ErrorMessageInterface> = ({ message }) => (

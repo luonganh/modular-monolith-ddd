@@ -7,19 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.env = .env
-		.env.development = .env.development
 		.env.example = .env.example
 		.env.production = .env.production
+		.env.staging = .env.staging
 		.gitignore = .gitignore
 		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
-		docker-compose.deploy.yml = docker-compose.deploy.yml
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.prod.yml = docker-compose.prod.yml
 		docker-compose.yml = docker-compose.yml
-		.github\workflows\production.yml = .github\workflows\production.yml
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{62C86FE0-F7C5-4041-9B5F-17633C133DC0}"
@@ -109,6 +107,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{CF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{363683A4-4BF1-43C4-B998-2A35E3F6F89C}"
 	ProjectSection(SolutionItems) = preProject
+		keycloak\Dockerfile_keycloak = keycloak\Dockerfile_keycloak
 		keycloak\realm-export.json = keycloak\realm-export.json
 	EndProjectSection
 EndProject

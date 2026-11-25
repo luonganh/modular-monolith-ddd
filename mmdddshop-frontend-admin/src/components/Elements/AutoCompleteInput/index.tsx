@@ -1,13 +1,18 @@
 import { useRef, useState } from 'react';
 import Spinner from '../Spinner';
 
+export interface IAutoCompleteSuggestion {
+    id: string | number;
+    name: string;
+}
+
 export interface IAutoCompleteInputField {
     label: string;
     searchText?: string;
-    handleChange: Function;
-    handleSelect: Function;
+    handleChange: (searchText: string) => void;
+    handleSelect: (suggestion: IAutoCompleteSuggestion) => void;
     placeholder?: string;
-    suggestionList: any[];
+    suggestionList: IAutoCompleteSuggestion[];
     isLoading?: boolean;
     isSelected?: boolean;
     addNewButton?: boolean;
