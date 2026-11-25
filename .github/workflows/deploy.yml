@@ -2,7 +2,7 @@
 
 on:
   push:
-    branches: [main, "release/**"] # release/** → staging, main → production        
+    branches: [main, "release/**", "hotfix/**"] # release/**, hotfix/** → staging, main → production        
   workflow_dispatch: # manual action: re-deploy or rollback
     inputs:
       environment:

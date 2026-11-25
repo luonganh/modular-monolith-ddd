@@ -16,6 +16,19 @@ permissions:
   contents: read
 
 jobs:
+  source-branch:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only release/* or hotfix/* may merge into main
+        env:
+          HEAD_REF: ${{ github.head_ref }}   # truyền qua env, tránh chèn tên nhánh thẳng vào script
+        run: |
+          case "$HEAD_REF" in
+            release/*|hotfix/*) echo "OK: $HEAD_REF" ;;
+            *) echo "::error::Only release/* or hotfix/* can be merged into main (got $HEAD_REF)"; exit 1 ;;
+          esac
+    
   backend:
     name: Backend
     runs-on: ubuntu-latest
