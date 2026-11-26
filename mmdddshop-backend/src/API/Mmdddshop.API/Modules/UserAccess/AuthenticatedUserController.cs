@@ -25,18 +25,19 @@ namespace Mmdddshop.API.Modules.UserAccess
         [Authorize]
         [HttpGet("")]
         [ProducesResponseType(typeof(AuthenticatedUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAuthenticatedUser()
         {
             var user = await _userAccessModule.ExecuteQueryAsync(new GetAuthenticatedUserQuery());
 
-            return Ok(user);
+            return user is null ? NotFound() : Ok(user);
         }
 
         /// <summary>        
         /// Gets the authenticated user permissions.
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Policy = Policies.ManageUsers)]
         [HttpGet("permissions")]
         [ProducesResponseType(typeof(List<UserPermissionDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAuthenticatedUserPermissions()

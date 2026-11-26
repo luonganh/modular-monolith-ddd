@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Users.GetUser
+﻿namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
 {
     public class AuthenticatedUserDto
     {
@@ -10,7 +10,7 @@
 
         public string Login { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; }
 
         public List<Claim> Claims { get; set; } = new();
 

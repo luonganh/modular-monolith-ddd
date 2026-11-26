@@ -18,7 +18,7 @@
             }
             else
             {
-                user.SyncProfile(request.Roles, request.Email, request.DisplayName);
+                user.SyncProfile(request.Roles, request.Email, request.DisplayName, request.FirstName, request.LastName);
             }            
         }
     }

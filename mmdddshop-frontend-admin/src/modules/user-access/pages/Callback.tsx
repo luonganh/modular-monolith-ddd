@@ -4,6 +4,7 @@ import {
 } from '../services/AuthenticationService';
 import { HttpClient } from '../../../shared/http-client';
 import Spinner from 'components/Elements/Spinner';
+import { getErrorMessage } from 'shared/utils/errors';
 export default function Callback() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,29 +43,34 @@ export default function Callback() {
        
     isProcessingCallback.current = true;
     const processCallback = async () => {
-      try {
+        try {
         setLoading(true);
                 
         const result = await processOidcCallback(fullCallbackUrl);
         console.log('Callback processed successfully:', result);
 
-        // Trigger backend provisioning/sync exactly once here
-        await HttpClient.get<unknown>('api/v1/userAccess/authenticatedUser');
-
-        // Redirect to the return URL or home
+        // Trigger backend provisioning/sync. Login must not fail if this call fails:
+        // the next API request provisions the user again via ProvisioningMiddleware.
+        try {
+        await HttpClient.get<unknown>('api/v1/userAccess/authenticatedUser');        
+      } 
+      catch (provisionError) {
+        console.warn('User provisioning call failed; continuing login.', getErrorMessage(provisionError, 'Unknown provisioning error'));
+      }
+      
+      // Redirect to the return URL or home
         const returnUrl = result.returnUrl || '/';
         console.log('Redirecting to:', returnUrl);
         
         // Use replace to avoid back button issues
         window.location.replace(returnUrl);
-        
-      } catch (error) {
-        console.error('Callback processing error:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        setError(`Failed to process authentication callback: ${errorMessage}`);
+       } catch (callbackError) {
+        console.error('Callback processing error:', callbackError);
+        setError(
+          `Failed to process authentication callback: ${getErrorMessage(callbackError, 'Unknown error')}`,
+        );
         setLoading(false);
-      }
-      finally {
+      } finally {
         isProcessingCallback.current = false;       
       }
     };

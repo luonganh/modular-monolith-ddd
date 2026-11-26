@@ -33,7 +33,7 @@ namespace Mmdddshop.Tests.SUT.SeedWork
 
             ExecutionContextAccessor = new ExecutionContextMock(Guid.NewGuid());
 
-            var emailsConfiguration = new EmailsConfiguration("luonganh@gmail.com", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            var emailsConfiguration = new EmailsConfiguration("jdoe@example.com", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
             Logger = Substitute.For<ILogger>();
 

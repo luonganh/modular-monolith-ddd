@@ -1,0 +1,2 @@
+﻿ALTER TABLE [users].[Users] ALTER COLUMN [Email] NVARCHAR(255) NULL
+GO

@@ -1,4 +1,4 @@
-namespace Mmdddshop.Modules.UserAccess.Application.Authentication
+namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
 {
     public class UserRoleDto
     {
