@@ -50,7 +50,7 @@ namespace Mmdddshop.Tests.IntegrationTests.SeedWork
                 ConnectionString,
                 ExecutionContext,
                 Logger,
-                new EmailsConfiguration("luonganh@gmail.com", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty),
+                new EmailsConfiguration("jdoe@example.com", string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty),
                 "key",
                 EmailSender,
                 EventsBus,

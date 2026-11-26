@@ -49,6 +49,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", 
 	ProjectSection(SolutionItems) = preProject
 		mmdddshop-backend\src\Database\liquibase\migrations\001_init_schema.sql = mmdddshop-backend\src\Database\liquibase\migrations\001_init_schema.sql
 		mmdddshop-backend\src\Database\liquibase\migrations\002_init_users.sql = mmdddshop-backend\src\Database\liquibase\migrations\002_init_users.sql
+		mmdddshop-backend\src\Database\liquibase\migrations\003_drop_users_password.sql = mmdddshop-backend\src\Database\liquibase\migrations\003_drop_users_password.sql
+		mmdddshop-backend\src\Database\liquibase\migrations\004_users_email_nullable.sql = mmdddshop-backend\src\Database\liquibase\migrations\004_users_email_nullable.sql
+		mmdddshop-backend\src\Database\liquibase\migrations\005_cleanup_user_roles.sql = mmdddshop-backend\src\Database\liquibase\migrations\005_cleanup_user_roles.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{95D44D10-B028-418C-9D77-E4A1541C9E35}"

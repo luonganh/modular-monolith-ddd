@@ -1,4 +1,3 @@
-
 // Create the web application builder and load default configuration, logging, and DI services
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,7 +107,9 @@ builder.Services.AddAuthentication(options =>
 
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ClockSkew = TimeSpan.FromMinutes(2)
+        ClockSkew = TimeSpan.FromMinutes(2),
+        RoleClaimType = KeycloakRolesClaimsTransformation.RoleClaimType, // "role"
+        NameClaimType = "preferred_username"                              // User.Identity.Name = username
     };
 
     options.Events = new JwtBearerEvents
@@ -136,8 +137,18 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddTransient<IClaimsTransformation, KeycloakRolesClaimsTransformation>();
+
 // Register authorization services for controller and endpoint authorization.
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(Policies.ManageUsers, p => p.RequireRole(Roles.Administrator));
+    options.AddPolicy(Policies.ManageOrders, p => p.RequireRole(Roles.Administrator, Roles.Manager));
+    options.AddPolicy(Policies.ViewOrders, p => p.RequireRole(Roles.Administrator, Roles.Manager, Roles.Staff));
+});
+
+// In-process cache used by ProvisioningMiddleware to skip redundant user syncs.
+builder.Services.AddMemoryCache();
 
 #endregion Keycloak Idp
 
