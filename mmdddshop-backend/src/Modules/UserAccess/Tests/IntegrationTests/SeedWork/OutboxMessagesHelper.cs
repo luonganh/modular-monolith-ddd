@@ -17,24 +17,30 @@
             return messages.AsList();
         }
 
-        public static T Deserialize<T>(OutboxMessageDto message)
+        public static T? Deserialize<T>(OutboxMessageDto message)
             where T : class, INotification
         {
-            Type type = Assembly.GetAssembly(typeof(AuthenticateCommand)).GetType(typeof(T).FullName);
-            return JsonConvert.DeserializeObject(message.Data, type) as T;
-        }
-    }
-
-    public class AuthenticateCommand : CommandBase<AuthenticationResult>
-    {
-        public AuthenticateCommand(string login, string password)
-        {
-            Login = login;
-            Password = password;
+            return JsonConvert.DeserializeObject<T>(message.Data);
         }
 
-        public string Login { get; }
-
-        public string Password { get; }
+        //public static T Deserialize<T>(OutboxMessageDto message)
+        //    where T : class, INotification
+        //{
+        //    Type type = Assembly.GetAssembly(typeof(AuthenticateCommand)).GetType(typeof(T).FullName);
+        //    return JsonConvert.DeserializeObject(message.Data, type) as T;
+        //}
     }
+
+    //public class AuthenticateCommand : CommandBase<AuthenticationResult>
+    //{
+    //    public AuthenticateCommand(string login, string password)
+    //    {
+    //        Login = login;
+    //        Password = password;
+    //    }
+
+    //    public string Login { get; }
+
+    //    public string Password { get; }
+    //}
 }

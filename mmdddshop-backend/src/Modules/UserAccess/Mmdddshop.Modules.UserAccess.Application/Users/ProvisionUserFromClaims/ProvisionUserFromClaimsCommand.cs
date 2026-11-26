@@ -5,11 +5,11 @@
         public ProvisionUserFromClaimsCommand(
         string externalId,       
         string username,
-        string email,
-        string firstName,
-        string lastName,
-        string displayName,
-        List<string> roles)
+        string? email,
+        string? firstName,
+        string? lastName,
+        string? displayName,
+        List<string>? roles)
         {
             ExternalId = externalId;           
             Username = username;
@@ -23,10 +23,10 @@
         public string ExternalId { get; }
         //public string IdentityProvider { get; }
         public string Username { get; }
-        public string Email { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
-        public string DisplayName { get; }
-        public List<string> Roles { get; }
+        public string? Email { get; }
+        public string? FirstName { get; }
+        public string? LastName { get; }
+        public string? DisplayName { get; }
+        public List<string>? Roles { get; }
     }
 }

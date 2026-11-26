@@ -29,8 +29,7 @@
             // Map private fields to database columns
             // Using string literal for private field names as they are not accessible directly
             builder.Property<string>("_login").HasColumnName("Login");
-            builder.Property<string>("_email").HasColumnName("Email");
-            builder.Property<string>("_password").HasColumnName("Password");
+            builder.Property<string>("_email").HasColumnName("Email").IsRequired(false);          
             builder.Property<bool>("_isActive").HasColumnName("IsActive");
             builder.Property<string>("_firstName").HasColumnName("FirstName");
             builder.Property<string>("_lastName").HasColumnName("LastName");

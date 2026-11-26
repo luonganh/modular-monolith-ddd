@@ -4,4 +4,7 @@
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
+    <ItemGroup>
+      <Folder Include="Helpers\" />
+    </ItemGroup>
 </Project>

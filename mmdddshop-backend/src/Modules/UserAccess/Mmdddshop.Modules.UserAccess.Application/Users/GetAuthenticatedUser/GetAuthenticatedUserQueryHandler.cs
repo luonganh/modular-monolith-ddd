@@ -1,6 +1,6 @@
 namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
 {
-    internal class GetAuthenticatedUserQueryHandler : IQueryHandler<GetAuthenticatedUserQuery, AuthenticatedUserDto>
+    internal class GetAuthenticatedUserQueryHandler : IQueryHandler<GetAuthenticatedUserQuery, AuthenticatedUserDto?>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -14,7 +14,7 @@ namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
             _executionContextAccessor = executionContextAccessor;
         }
 
-        public async Task<AuthenticatedUserDto> Handle(GetAuthenticatedUserQuery request, CancellationToken cancellationToken)
+        public async Task<AuthenticatedUserDto?> Handle(GetAuthenticatedUserQuery request, CancellationToken cancellationToken)
         {
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -34,33 +34,14 @@ namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
                                 """;
             
             using var multi = await connection.QueryMultipleAsync(sql, new { _executionContextAccessor.UserId });
-            var user = await multi.ReadSingleAsync<AuthenticatedUserDto>();
-            user.Roles = (await multi.ReadAsync<UserRoleDto>()).ToList();
-                       
+            var user = await multi.ReadSingleOrDefaultAsync<AuthenticatedUserDto>();
+            if (user is null)
+            {
+                return null;
+            }
+
+            user.Roles = (await multi.ReadAsync<UserRoleDto>()).ToList();                       
             return user;
-        }
-
-        //public async Task<AuthenticatedUserDto> Handle(GetAuthenticatedUserQuery request, CancellationToken cancellationToken)
-        //{
-        //    var connection = _sqlConnectionFactory.GetOpenConnection();
-
-        //    const string sql = $"""
-        //                        SELECT 
-        //                            [User].[Id] as [{nameof(AuthenticatedUserDto.Id)}], 
-        //                            [User].[IsActive] as [{nameof(AuthenticatedUserDto.IsActive)}], 
-        //                            [User].[Login] as [{nameof(AuthenticatedUserDto.Login)}], 
-        //                            [User].[Email] as [{nameof(AuthenticatedUserDto.Email)}], 
-        //                            [User].[Name] as [{nameof(AuthenticatedUserDto.Name)}],
-        //                            [UserRole].[RoleCode] as [{nameof(UserRoleDto.RoleCode)}]
-        //                        FROM [users].[v_Users] AS [User] 
-        //                        LEFT JOIN [users].[UserRoles] AS [UserRole] ON [UserRole].[UserId] = [User].[Id]
-        //                        WHERE [User].[Id] = @UserId;
-        //                        """;
-
-        //    return await connection.QuerySingleAsync<AuthenticatedUserDto>(sql, new
-        //    {
-        //        _executionContextAccessor.UserId
-        //    });
-        //}
+        }        
     }
 }

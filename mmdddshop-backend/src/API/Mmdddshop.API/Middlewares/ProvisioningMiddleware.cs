@@ -1,108 +1,113 @@
+﻿using Microsoft.Extensions.Caching.Memory;
+
 namespace Mmdddshop.API.Middlewares
 {
+    /// <summary>
+    /// Keeps the local UserAccess copy of the authenticated Keycloak user in sync.
+    /// Syncs only when the relevant claims changed (or the cache entry expired),
+    /// and never fails the request because of a provisioning error.
+    /// </summary>
     public class ProvisioningMiddleware
     {
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
+
+        // Serializes provisioning per user (striped: bounded memory, no cleanup needed).
+        private static readonly SemaphoreSlim[] ProvisioningLocks =
+        Enumerable.Range(0, 64).Select(_ => new SemaphoreSlim(1, 1)).ToArray();
+
         private readonly RequestDelegate _next;
-        public ProvisioningMiddleware(RequestDelegate next) { _next = next; }
+        private readonly IMemoryCache _cache;
+        private readonly ILogger<ProvisioningMiddleware> _logger;
+
+        public ProvisioningMiddleware(RequestDelegate next, IMemoryCache cache, ILogger<ProvisioningMiddleware> logger)
+        {
+            _next = next;
+            _cache = cache;
+            _logger = logger;
+        }
 
         public async Task Invoke(HttpContext ctx, IUserAccessModule userAccess)
         {
-            var result = await ctx.AuthenticateAsync();
-            if (result.Succeeded)
-            {
-                var user = ctx.User;
-                if (user?.Identity?.IsAuthenticated == true)
-                {
-                    var sub = user.FindFirst("sub")?.Value;
-                    if (!string.IsNullOrEmpty(sub))
-                    {
-                        var email = user.FindFirst("email")?.Value ?? "luonganh@gmail.com";
-                        var username = user.FindFirst("preferred_username")?.Value ?? user.Identity?.Name ?? sub;
-                        var display = user.FindFirst("name")?.Value ?? username ?? "Anh Luong";
-                        var firstName = user.FindFirst("given_name")?.Value ?? "Anh";
-                        var lastName = user.FindFirst("family_name")?.Value ?? "Luong";
-                        // Extract roles from realm_access
-                        var roles = ExtractRolesFromClaims(user);
+            var user = ctx.User;
+            var sub = user.FindFirst("sub")?.Value;
 
-                        await userAccess.ExecuteCommandAsync(
-                            new ProvisionUserFromClaimsCommand(
-                                sub,
-                                username,
-                                email,
-                                firstName,
-                                lastName,
-                                display,
-                                roles
-                            )
-                        );
+            if (user.Identity?.IsAuthenticated == true && !string.IsNullOrEmpty(sub))
+            {
+                var command = CreateCommand(user, sub);
+                var cacheKey = $"user-provisioning:{sub}";
+                var fingerprint = CreateFingerprint(command);
+
+                if (!IsUpToDate(cacheKey, fingerprint))
+                {
+                    var gate = ProvisioningLocks[(uint)sub.GetHashCode() % ProvisioningLocks.Length];
+                    await gate.WaitAsync(ctx.RequestAborted);
+                    try
+                    {
+                        // Double-check: a request we waited for may have just synced the same user.
+                        if (!IsUpToDate(cacheKey, fingerprint))
+                        {
+                            try
+                            {
+                                await userAccess.ExecuteCommandAsync(command);
+                                _cache.Set(cacheKey, fingerprint, CacheDuration);
+                            }
+                            catch (Exception ex) when (ex is not OperationCanceledException)
+                            {
+                                // Still possible with several API instances (the lock is per process).
+                                _logger.LogWarning(ex, "User provisioning failed for sub {Sub}; the request continues.", sub);
+                            }
+                        }
                     }
-                }
-            }            
+                    finally
+                    {
+                        gate.Release();
+                    }
+                }               
+            }
+
             await _next(ctx);
         }
 
-        private List<string> ExtractRolesFromClaims(ClaimsPrincipal user)
+        private bool IsUpToDate(string cacheKey, string fingerprint) =>
+            _cache.TryGetValue(cacheKey, out string? cached) && cached  == fingerprint;
+            
+        private static ProvisionUserFromClaimsCommand CreateCommand(ClaimsPrincipal user, string sub) =>
+            new(
+                externalId: sub,
+                username: user.FindFirst("preferred_username")?.Value ?? sub,
+                email: user.FindFirst("email")?.Value,
+                firstName: user.FindFirst("given_name")?.Value,
+                lastName: user.FindFirst("family_name")?.Value,
+                displayName: user.FindFirst("name")?.Value,
+                roles: ExtractRolesFromClaims(user));
+
+        /// <summary>
+        /// Everything that SyncProfile compares. If any of it changes, the fingerprint changes.
+        /// </summary>
+        private static string CreateFingerprint(ProvisionUserFromClaimsCommand command)
         {
-            var roles = new List<string>();           
-            // Method 1: From realm_access claim (JSON)
-            var realmAccessClaim = user.FindFirst("realm_access");
-            if (realmAccessClaim != null)
+            var roles = command.Roles is null
+                ? "<no-role-claim>"
+                : string.Join(",", command.Roles.Order(StringComparer.OrdinalIgnoreCase));
+
+            return string.Join("\u001F",
+                command.Username, command.Email, command.FirstName, command.LastName, command.DisplayName, roles);
+        }
+       
+
+        private static List<string>? ExtractRolesFromClaims(ClaimsPrincipal user)
+        {
+            // No realm_access → the token carries no role information → do not sync roles.
+            if (!user.HasClaim(c => c.Type == "realm_access"))
             {
-                try
-                {
-                    var realmAccess = JsonSerializer.Deserialize<RealmAccess>(realmAccessClaim.Value);
-                    if (realmAccess?.Roles is { } realmRoles)
-                    {
-                        roles.AddRange(realmRoles);
-                    }
-                        
-                    //if (realmAccess?.Roles?.Any(x => x.Equals("Administrator", StringComparison.OrdinalIgnoreCase)
-                    //|| x.Equals("Manager", StringComparison.OrdinalIgnoreCase)
-                    //|| x.Equals("Staff", StringComparison.OrdinalIgnoreCase)) == true
-                    //)
-                    //{
-                    //    roles.AddRange(realmAccess?.Roles?.Where(x => 
-                    //    x.Equals("Administrator", StringComparison.OrdinalIgnoreCase)
-                    //    || x.Equals("Manager", StringComparison.OrdinalIgnoreCase)
-                    //    || x.Equals("Staff", StringComparison.OrdinalIgnoreCase)
-                    //    ));
-                    //}
-                }
-                catch (JsonException)
-                {
-                    // Fallback: parse manually
-                }
+                return null;
             }
 
-            // Method 2: From individual role claims
-            var roleClaims = user.FindAll("role");
-            foreach (var roleClaim in roleClaims)
-            {
-                if (!string.IsNullOrEmpty(roleClaim.Value))
-                {
-                    roles.Add(roleClaim.Value);
-                }
-            }
-
-            // Method 3: From custom claims
-            var customRoles = user.FindAll("custom_roles");
-            foreach (var customRole in customRoles)
-            {
-                if (!string.IsNullOrEmpty(customRole.Value))
-                {
-                    roles.Add(customRole.Value);
-                }
-            }
-
-            return roles.Distinct().ToList();
+            return user.FindAll(KeycloakRolesClaimsTransformation.RoleClaimType)
+                .Select(c => c.Value)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();            
         }        
-    }
-
-    // Helper class for deserialize realm_access
-    public class RealmAccess
-    {
-        [JsonPropertyName("roles")]
-        public List<string> Roles { get; set; } = new();
-    }
+    }   
 
 }

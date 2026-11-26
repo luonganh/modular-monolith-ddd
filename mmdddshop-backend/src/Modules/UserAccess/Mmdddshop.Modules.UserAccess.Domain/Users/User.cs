@@ -10,12 +10,10 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
         public UserId Id { get; private set; } = default!;
 
         private string _login;
+        
 
-        private string _password;
-
-        private string _email;
-
-
+        private string? _email;
+        
         private bool _isActive;
 
 
@@ -31,92 +29,21 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
         private User()
         {
             // Only for EF.            
-            _login = default!;
-            _password = default!;
+            _login = default!;           
             _email = default!;
             _firstName = default!;
             _lastName = default!;
             _name = default!;
             _roles = default!;
             _externalId = default!;
-        }
-
-        /// <summary>
-        /// Factory method to create an Administrator user.
-        /// Benefits:
-        /// - Ensures proper role assignment (Administrator)
-        /// - Encapsulates admin-specific creation logic
-        /// - Provides clear intent and type safety
-        /// - Centralizes business rules for admin user creation
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
-        /// <param name="email"></param>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static User CreateAdmin(
-            string login,
-            string password,
-            string email,
-            string firstName,
-            string lastName,
-            string name)
-        {           
-            return new User(
-                Guid.NewGuid(),
-                login,
-                password,
-                email,
-                firstName,
-                lastName,
-                name,               
-                UserRole.Administrator);
-        }
-
-        /// <summary>
-        /// Factory method to create a regular Staff user.
-        /// Benefits:
-        /// - Ensures proper role assignment (Staff)
-        /// - Encapsulates staff-specific creation logic
-        /// - Provides clear intent and type safety
-        /// - Centralizes business rules for staff user creation
-        /// - Maintains domain integrity by preventing invalid user states
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
-        /// <param name="email"></param>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <returns></returns>
-        public static User CreateUser(
-            Guid userId,
-            string login,
-            string password,
-            string email,
-            string firstName,
-            string lastName)
-        {
-            return new User(
-                userId,
-                login,
-                password,
-                email,
-                firstName,
-                lastName,
-                $"{firstName} {lastName}",               
-                UserRole.Staff);
-        }
+        }              
 
         /// <summary>
         /// Private constructor to enforce the use of factory methods.
         /// This ensures proper object initialization and maintains domain integrity. 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
+        /// <param name="login"></param>        
         /// <param name="email"></param>
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
@@ -124,8 +51,7 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
         /// <param name="role"></param>
         private User(
             Guid id,
-            string login,
-            string password,
+            string login,       
             string email,
             string firstName,
             string lastName,
@@ -133,23 +59,20 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
             UserRole role)
         {
 			Id = new UserId(id);
-            _login = login;
-            _password = password;
+            _login = login;          
             _email = email;
             _firstName = firstName;
             _lastName = lastName;
             _name = name;
             _externalId = Id.Value.ToString();
             _isActive = true;
-
             _roles = [role];
 
             this.AddDomainEvent(new UserCreatedDomainEvent(Id));
         }
 
         // Public methods to access private fields (following DDD pattern)
-        public string GetEmail() => _email;
-        public string GetPassword() => _password;
+        public string? GetEmail() => _email;        
         public bool GetIsActive() => _isActive;
         public string GetFirstName() => _firstName;
         public string GetLastName() => _lastName;
@@ -161,86 +84,41 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
         public static User CreateExternalUser(
             //Guid id,
             string externalId,
-            List<string> roles,
+            List<string>? roles,
             string username,
-            string email,
-            string firstName,
-            string lastName,
-            string displayName
+            string? email,
+            string? firstName,
+            string? lastName,
+            string? displayName
         )
         {
-            var userRoles = roles
-            .Distinct(StringComparer.OrdinalIgnoreCase)
+            var userRoles = (roles ?? [])
+            .Where(UserRole.IsKnown)
             .Select(UserRole.From)
+            .Distinct()
             .ToList();
-
+            
             var userId = Guid.TryParse(externalId, out var id) ? id : Guid.NewGuid();
             return new User(
                 userId,
                 userRoles,
                 externalId,
                 username,
-                email,
-                firstName,
-                lastName,
-                displayName);
-
-            //var userRole = UserRole.From(roles.FirstOrDefault());
-            //UserRole userRole;
-            //foreach (var role in roles)
-            //{
-            //    switch (role)
-            //    {
-            //        case "Administrator":
-            //            {
-            //                userRole = new UserRole("");
-            //            break;
-            //            }
-
-            //        case "Member":
-            //            {
-                            
-            //            break;
-            //            }
-            //        default:
-            //            break;
-            //    }
-            //}
-            //var role = roles.FirstOrDefault();
-            
-
-            //if (Guid.TryParse(externalId, out Guid id))
-            //{
-            //    return new User(
-            //    id,
-            //    userRole,
-            //    externalId,
-            //    username,
-            //    email,
-            //    firstName,
-            //    lastName,
-            //    displayName);
-            //}
-            //else
-            //{
-            //    return new User(
-            //    Guid.NewGuid(),
-            //    userRole,
-            //    externalId,
-            //    username,
-            //    email,
-            //    firstName,
-            //    lastName,
-            //    displayName);
-            //}
+                NullIfBlank(email),
+                firstName?.Trim() ?? string.Empty,
+                lastName?.Trim() ?? string.Empty,
+                NullIfBlank(displayName) ?? username);            
         }
+        
+        private static string? NullIfBlank(string? value) =>
+    string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 
         private User(
            Guid id,
            List<UserRole> roles,
            string externalId,
            string username,
-           string email,
+           string? email,
            string firstName,
            string lastName,
            string displayName
@@ -253,44 +131,29 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
             _firstName = firstName;
             _lastName = lastName;
             _name = displayName;
-            _password = string.Empty;
+         
             _isActive = true;
             _roles = roles;
             this.AddDomainEvent(new UserCreatedDomainEvent(Id));
-        }
-
-        private User(
-            Guid id,
-            UserRole role,
-            string externalId,
-            string username, 
-            string email,
-            string firstName,
-            string lastName,
-            string displayName            
-            )
-        {
-            Id = new UserId(id);
-            _externalId = externalId;
-            _login = username;
-            _email = email;
-            _firstName = firstName;
-            _lastName = lastName;
-            _name = displayName;
-            _password = string.Empty;
-            _isActive = true;
-            _roles = [role];
-            this.AddDomainEvent(new UserCreatedDomainEvent(Id));
-        }
+        }        
         
         public void SyncProfile(List<string>? roles, string? email, string? displayName, string? firstName = null, string? lastName = null)
         {
             var changed = false;
+            
+            email = email?.Trim(); 
+            displayName = displayName?.Trim();
+            firstName = firstName?.Trim(); 
+            lastName = lastName?.Trim();
 
-            if (roles != null && roles.Any())
+            if (roles != null)
             {
-                var incomingRoles = roles.ToHashSet(StringComparer.OrdinalIgnoreCase);
+                // Chỉ giữ role nghiệp vụ đã biết; role kỹ thuật của Keycloak bị bỏ qua.
+                var incomingRoles = roles
+                    .Where(UserRole.IsKnown)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
+                // Gỡ role không còn trong token (kể cả khi incomingRoles rỗng → gỡ hết).
                 if (_roles.RemoveAll(role => !incomingRoles.Contains(role.Value)) > 0)
                 {
                     changed = true;
@@ -304,14 +167,7 @@ namespace Mmdddshop.Modules.UserAccess.Domain.Users
                 {
                     _roles.Add(UserRole.From(roleCode));
                     changed = true;
-                }
-
-                //var newRoles = roles.Select(UserRole.From).ToList();
-                //if (!_roles.SequenceEqual(newRoles))
-                //{
-                //    _roles = newRoles;
-                //    changed = true;
-                //}
+                }               
             }
 
             if (!string.IsNullOrWhiteSpace(email) &&
