@@ -1,4 +1,3 @@
-﻿
 namespace Mmdddshop.API.Configuration.Validation
 {
     /// <summary>

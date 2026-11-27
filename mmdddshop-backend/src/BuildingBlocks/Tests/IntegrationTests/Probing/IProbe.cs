@@ -5,26 +5,26 @@
 namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests.Probing
 {
     /// <summary>
-    /// A class that describes ìwhat condition I need to wait for.î
+    /// A class that describes ‚Äúwhat condition I need to wait for.‚Äù.
     /// </summary>
     public interface IProbe
     {
         /// <summary>
-        /// check whether that data is correct yet
-        /// </summary>        
+        /// check whether that data is correct yet.
+        /// </summary>
         /// <returns></returns>
         bool IsSatisfied();
 
         /// <summary>
-        /// fetch the latest data
+        /// fetch the latest data.
         /// </summary>
         /// <returns></returns>
         Task SampleAsync();
 
         /// <summary>
-        /// if it still isn't correct after waiting, print a clear error message
+        /// if it still isn't correct after waiting, print a clear error message.
         /// </summary>
         /// <returns></returns>
         string DescribeFailureTo();
-    }    
+    }
 }

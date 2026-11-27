@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Tests.SUT.SeedWork.Probing
+namespace Mmdddshop.Tests.SUT.SeedWork.Probing
 {
     public interface IProbe
     {

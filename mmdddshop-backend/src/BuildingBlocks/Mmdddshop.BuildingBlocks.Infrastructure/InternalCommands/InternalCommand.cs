@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.InternalCommands
+namespace Mmdddshop.BuildingBlocks.Infrastructure.InternalCommands
 {
     /// <summary>
     /// Represents an internal command that is stored in the database for background processing.

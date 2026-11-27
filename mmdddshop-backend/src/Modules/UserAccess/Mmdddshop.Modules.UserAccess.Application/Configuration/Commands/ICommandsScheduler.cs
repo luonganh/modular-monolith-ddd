@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Configuration.Commands
+namespace Mmdddshop.Modules.UserAccess.Application.Configuration.Commands
 {
     /// <summary>
     /// Interface for scheduling commands to be executed asynchronously.
@@ -9,16 +9,16 @@
         /// <summary>
         /// Enqueues a command for asynchronous execution without a return value.
         /// </summary>
-        /// <param name="command">The command to enqueue</param>
-        /// <returns>A task representing the asynchronous operation</returns>
+        /// <param name="command">The command to enqueue.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task EnqueueAsync(ICommand command);
 
         /// <summary>
         /// Enqueues a command for asynchronous execution with a return value.
         /// </summary>
-        /// <typeparam name="T">The type of the command result</typeparam>
-        /// <param name="command">The command to enqueue</param>
-        /// <returns>A task representing the asynchronous operation</returns>
+        /// <typeparam name="T">The type of the command result.</typeparam>
+        /// <param name="command">The command to enqueue.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         Task EnqueueAsync<T>(ICommand<T> command);
     }
 }

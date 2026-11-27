@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Domain.Users.Events
+namespace Mmdddshop.Modules.UserAccess.Domain.Users.Events
 {
     /// <summary>
     /// Domain event raised when a new user is created.

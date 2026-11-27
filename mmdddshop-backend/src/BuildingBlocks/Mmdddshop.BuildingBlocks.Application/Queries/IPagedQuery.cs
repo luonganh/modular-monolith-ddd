@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Application.Queries
+namespace Mmdddshop.BuildingBlocks.Application.Queries
 {
     /// <summary>
     /// Standardized Pagination – Consistent pagination for all queries.
@@ -8,12 +8,12 @@
     public interface IPagedQuery
     {
         /// <summary>
-        /// Page number. If null then default is 1.
+        /// Gets page number. If null then default is 1.
         /// </summary>
         int? Page { get; }
 
         /// <summary>
-        /// Records number per page (page size).
+        /// Gets records number per page (page size).
         /// </summary>
         int? PerPage { get; }
     }

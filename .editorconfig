@@ -1,0 +1,45 @@
+# Top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{json,yml,yaml,csproj,props,targets,xml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# ---- StyleCop: rules disabled because they conflict with this repo's conventions ----
+# File header required
+dotnet_diagnostic.SA1633.severity = none
+# "this." prefix required
+dotnet_diagnostic.SA1101.severity = none
+# Fields/locals must not start with "_" (the repo uses _field)
+dotnet_diagnostic.SA1309.severity = none
+dotnet_diagnostic.SA1312.severity = none
+# using directives inside the namespace (incompatible with GlobalUsings.cs)
+dotnet_diagnostic.SA1200.severity = none
+# Member ordering (field/property/constructor/method, static before instance)
+dotnet_diagnostic.SA1201.severity = none
+dotnet_diagnostic.SA1202.severity = none
+dotnet_diagnostic.SA1204.severity = none
+# One type per file / file name matches type
+dotnet_diagnostic.SA1402.severity = none
+dotnet_diagnostic.SA1649.severity = none
+# No #region
+dotnet_diagnostic.SA1124.severity = none
+# XML documentation required
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1614.severity = none
+dotnet_diagnostic.SA1616.severity = none
+dotnet_diagnostic.CS1591.severity = none

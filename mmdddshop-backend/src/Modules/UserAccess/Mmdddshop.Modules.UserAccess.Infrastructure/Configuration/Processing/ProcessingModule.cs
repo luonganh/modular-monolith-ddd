@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
 {
     /// <summary>
     /// Autofac module for configuring processing-related dependencies in the UserAccess module.
@@ -6,7 +6,7 @@
     /// and unit of work components with their appropriate decorators.
     /// </summary>
     internal class ProcessingModule : Module
-	{
+    {
         /// <summary>
         /// Registers all processing-related services and decorators with the container.
         /// This includes domain event dispatchers, command handlers with cross-cutting concerns,

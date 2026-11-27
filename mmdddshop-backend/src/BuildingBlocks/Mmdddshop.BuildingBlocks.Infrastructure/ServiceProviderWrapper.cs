@@ -1,6 +1,6 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure
+namespace Mmdddshop.BuildingBlocks.Infrastructure
 {
-	/// <summary>
+    /// <summary>
     /// Wrapper class that adapts Autofac's ILifetimeScope to the standard IServiceProvider interface.
     /// This class enables the use of Autofac's dependency injection container in scenarios where
     /// the standard .NET service provider interface is expected, providing seamless integration
@@ -11,11 +11,11 @@
         private readonly ILifetimeScope lifeTimeScope;
 
         /// <summary>
-        /// Initializes a new instance of the ServiceProviderWrapper class.
+        /// Initializes a new instance of the <see cref="ServiceProviderWrapper"/> class.
         /// This constructor sets up the wrapper with an Autofac lifetime scope
         /// that will be used to resolve services.
         /// </summary>
-        /// <param name="lifeTimeScope">The Autofac lifetime scope to wrap</param>
+        /// <param name="lifeTimeScope">The Autofac lifetime scope to wrap.</param>
         public ServiceProviderWrapper(ILifetimeScope lifeTimeScope)
         {
             this.lifeTimeScope = lifeTimeScope;
@@ -26,9 +26,9 @@
         /// This method attempts to resolve the service and returns null if the service
         /// is not registered, following the standard IServiceProvider pattern.
         /// </summary>
-        /// <param name="serviceType">The type of service to resolve</param>
-        /// <returns>The resolved service instance, or null if the service is not registered</returns>
-        #nullable enable
+        /// <param name="serviceType">The type of service to resolve.</param>
+        /// <returns>The resolved service instance, or null if the service is not registered.</returns>
+#nullable enable
         public object? GetService(Type serviceType) => this.lifeTimeScope.ResolveOptional(serviceType);
     }
 }

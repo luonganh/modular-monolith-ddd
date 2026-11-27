@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Domain.Users
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Domain.Users
 {
     /// <summary>
     /// Entity Framework configuration for the User entity.
@@ -21,15 +21,14 @@
             builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,            // to provider (Guid)
-                value => new UserId(value) // from provider
-            )
-            .ValueGeneratedNever()        // manual set Guid
+                value => new UserId(value)) // from provider
+            .ValueGeneratedNever() // manual set Guid
             .HasColumnName("Id");
 
             // Map private fields to database columns
             // Using string literal for private field names as they are not accessible directly
             builder.Property<string>("_login").HasColumnName("Login");
-            builder.Property<string>("_email").HasColumnName("Email").IsRequired(false);          
+            builder.Property<string>("_email").HasColumnName("Email").IsRequired(false);
             builder.Property<bool>("_isActive").HasColumnName("IsActive");
             builder.Property<string>("_firstName").HasColumnName("FirstName");
             builder.Property<string>("_lastName").HasColumnName("LastName");

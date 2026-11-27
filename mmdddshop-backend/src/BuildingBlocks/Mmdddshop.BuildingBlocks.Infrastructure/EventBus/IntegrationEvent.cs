@@ -1,6 +1,6 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.EventBus
+namespace Mmdddshop.BuildingBlocks.Infrastructure.EventBus
 {
-   /// <summary>
+    /// <summary>
     /// Base class for all integration events in the modular monolith architecture.
     /// Integration events represent significant business occurrences that have happened
     /// in one module and need to be communicated to other modules. These events are
@@ -23,12 +23,13 @@
         public DateTime OccurredOn { get; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="IntegrationEvent"/> class.
         /// Initializes a new instance of the IntegrationEvent base class.
         /// This constructor is protected to ensure that only derived classes
         /// can create instances of integration events.
         /// </summary>
-        /// <param name="id">The unique identifier for the integration event</param>
-        /// <param name="occurredOn">The timestamp when the business event occurred</param>
+        /// <param name="id">The unique identifier for the integration event.</param>
+        /// <param name="occurredOn">The timestamp when the business event occurred.</param>
         protected IntegrationEvent(Guid id, DateTime occurredOn)
         {
             this.Id = id;

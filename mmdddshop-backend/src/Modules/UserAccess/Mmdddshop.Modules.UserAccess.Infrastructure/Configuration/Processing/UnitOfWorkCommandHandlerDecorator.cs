@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
 {
     /// <summary>
     /// Decorator for command handlers that adds unit of work functionality.
@@ -14,7 +14,7 @@
         private readonly UserAccessContext _userAccessContext;
 
         /// <summary>
-        /// Initializes a new instance of the UnitOfWorkCommandHandlerDecorator class.
+        /// Initializes a new instance of the <see cref="UnitOfWorkCommandHandlerDecorator{T}"/> class.
         /// </summary>
         /// <param name="decorated">The decorated command handler.</param>
         /// <param name="unitOfWork">The unit of work for transaction management.</param>
@@ -27,7 +27,7 @@
             _decorated = decorated;
             _unitOfWork = unitOfWork;
             _userAccessContext = userAccessContext;
-		}
+        }
 
         /// <summary>
         /// Handles the command within a unit of work transaction.
@@ -38,9 +38,9 @@
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Handle(T command, CancellationToken cancellationToken)
-        {			
-			// Execute the decorated command handler
-			await this._decorated.Handle(command, cancellationToken);
+        {
+            // Execute the decorated command handler
+            await this._decorated.Handle(command, cancellationToken);
 
             // Update internal command processing status if this is an internal command
             if (command is InternalCommandBase)

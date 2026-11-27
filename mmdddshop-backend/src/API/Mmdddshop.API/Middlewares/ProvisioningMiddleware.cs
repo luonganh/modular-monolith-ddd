@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Mmdddshop.API.Middlewares
 {
@@ -62,15 +62,15 @@ namespace Mmdddshop.API.Middlewares
                     {
                         gate.Release();
                     }
-                }               
+                }
             }
 
             await _next(ctx);
         }
 
         private bool IsUpToDate(string cacheKey, string fingerprint) =>
-            _cache.TryGetValue(cacheKey, out string? cached) && cached  == fingerprint;
-            
+            _cache.TryGetValue(cacheKey, out string? cached) && cached == fingerprint;
+
         private static ProvisionUserFromClaimsCommand CreateCommand(ClaimsPrincipal user, string sub) =>
             new(
                 externalId: sub,
@@ -90,10 +90,15 @@ namespace Mmdddshop.API.Middlewares
                 ? "<no-role-claim>"
                 : string.Join(",", command.Roles.Order(StringComparer.OrdinalIgnoreCase));
 
-            return string.Join("\u001F",
-                command.Username, command.Email, command.FirstName, command.LastName, command.DisplayName, roles);
+            return string.Join(
+                "\u001F",
+                command.Username,
+                command.Email,
+                command.FirstName,
+                command.LastName,
+                command.DisplayName,
+                roles);
         }
-       
 
         private static List<string>? ExtractRolesFromClaims(ClaimsPrincipal user)
         {
@@ -106,8 +111,7 @@ namespace Mmdddshop.API.Middlewares
             return user.FindAll(KeycloakRolesClaimsTransformation.RoleClaimType)
                 .Select(c => c.Value)
                 .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();            
-        }        
-    }   
-
+                .ToList();
+        }
+    }
 }

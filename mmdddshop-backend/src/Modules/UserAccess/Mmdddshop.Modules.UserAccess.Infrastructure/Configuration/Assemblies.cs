@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration
 {
     /// <summary>
     /// Provides access to assembly references for the UserAccess module.

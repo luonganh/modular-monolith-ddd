@@ -1,9 +1,9 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Users.ProvisionUserFromClaims
+namespace Mmdddshop.Modules.UserAccess.Application.Users.ProvisionUserFromClaims
 {
     public class ProvisionUserFromClaimsCommand : CommandBase
     {
         public ProvisionUserFromClaimsCommand(
-        string externalId,       
+        string externalId,
         string username,
         string? email,
         string? firstName,
@@ -11,7 +11,7 @@
         string? displayName,
         List<string>? roles)
         {
-            ExternalId = externalId;           
+            ExternalId = externalId;
             Username = username;
             Email = email;
             DisplayName = displayName;
@@ -21,12 +21,18 @@
         }
 
         public string ExternalId { get; }
-        //public string IdentityProvider { get; }
+
+        // public string IdentityProvider { get; }
         public string Username { get; }
+
         public string? Email { get; }
+
         public string? FirstName { get; }
+
         public string? LastName { get; }
+
         public string? DisplayName { get; }
+
         public List<string>? Roles { get; }
     }
 }

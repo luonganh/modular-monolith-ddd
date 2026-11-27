@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Implementation of IDomainEventsDispatcher that handles the complete domain event dispatching process.
@@ -18,7 +18,7 @@
         private readonly IDomainNotificationsMapper _domainNotificationsMapper;
 
         /// <summary>
-        /// Initializes a new instance of the DomainEventsDispatcher class.
+        /// Initializes a new instance of the <see cref="DomainEventsDispatcher"/> class.
         /// </summary>
         /// <param name="mediator">MediatR instance for publishing domain events to internal handlers.</param>
         /// <param name="scope">Autofac lifetime scope for resolving domain event notifications.</param>
@@ -42,7 +42,7 @@
         /// <summary>
         /// Dispatches all pending domain events through two channels:
         /// 1. Internal event handlers via MediatR for application-level processing
-        /// 2. Integration events via Outbox pattern for external system communication
+        /// 2. Integration events via Outbox pattern for external system communication.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task DispatchEventsAsync()
@@ -59,7 +59,7 @@
                 var domainNotification = _scope.ResolveOptional(domainNotificationWithGenericType, new List<Autofac.Core.Parameter>
                 {
                     new NamedParameter("domainEvent", domainEvent),
-                    new NamedParameter("id", domainEvent.Id)
+                    new NamedParameter("id", domainEvent.Id),
                 });
 
                 if (domainNotification != null)
@@ -68,7 +68,7 @@
                     if (notification != null)
                     {
                         domainEventNotifications.Add(notification);
-                    }                    
+                    }
                 }
             }
 
@@ -90,9 +90,10 @@
                     // Skip this notification if we can't get its type name
                     continue;
                 }
+
                 var data = JsonConvert.SerializeObject(domainEventNotification, new JsonSerializerSettings
                 {
-                    ContractResolver = new AllPropertiesContractResolver()
+                    ContractResolver = new AllPropertiesContractResolver(),
                 });
 
                 var outboxMessage = new OutboxMessage(

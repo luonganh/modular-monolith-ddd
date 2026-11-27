@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Application.Queries
+namespace Mmdddshop.BuildingBlocks.Application.Queries
 {
     /// <summary>
     /// Paged query helper.

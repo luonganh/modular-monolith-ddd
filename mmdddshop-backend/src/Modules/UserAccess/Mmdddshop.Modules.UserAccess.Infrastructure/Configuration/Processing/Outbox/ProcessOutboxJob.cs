@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
 {
     /// <summary>
     /// Quartz job for processing outbox messages on a scheduled basis.

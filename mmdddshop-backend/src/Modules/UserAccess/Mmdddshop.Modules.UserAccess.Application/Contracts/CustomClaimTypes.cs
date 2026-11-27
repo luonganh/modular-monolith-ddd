@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Contracts
+namespace Mmdddshop.Modules.UserAccess.Application.Contracts
 {
     public class CustomClaimTypes
     {

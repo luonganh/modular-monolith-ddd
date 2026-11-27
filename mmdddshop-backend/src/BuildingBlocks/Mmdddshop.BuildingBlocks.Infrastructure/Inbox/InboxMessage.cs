@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.Inbox
+namespace Mmdddshop.BuildingBlocks.Infrastructure.Inbox
 {
     /// <summary>
     /// Represents an incoming integration event message stored in the inbox pattern.
@@ -44,13 +44,13 @@
         public DateTime? ProcessedDate { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the InboxMessage class.
+        /// Initializes a new instance of the <see cref="InboxMessage"/> class.
         /// This constructor is used when creating new inbox messages from
         /// incoming integration events.
         /// </summary>
-        /// <param name="occurredOn">The timestamp when the original business event occurred</param>
-        /// <param name="type">The full type name of the integration event</param>
-        /// <param name="data">The serialized JSON data of the integration event</param>
+        /// <param name="occurredOn">The timestamp when the original business event occurred.</param>
+        /// <param name="type">The full type name of the integration event.</param>
+        /// <param name="data">The serialized JSON data of the integration event.</param>
         public InboxMessage(DateTime occurredOn, string type, string data)
         {
             this.Id = Guid.NewGuid();
@@ -60,6 +60,7 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="InboxMessage"/> class.
         /// Private parameterless constructor for Entity Framework Core.
         /// This constructor is required by EF Core for materializing entities
         /// from the database and should not be used directly.

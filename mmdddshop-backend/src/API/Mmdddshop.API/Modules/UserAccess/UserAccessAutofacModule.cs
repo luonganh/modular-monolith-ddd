@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Modules.UserAccess
+namespace Mmdddshop.API.Modules.UserAccess
 {
     /// <summary>
     /// Autofac module for the UserAccess module.
@@ -14,7 +14,6 @@
             builder.RegisterType<UserAccessModule>()
                 .As<IUserAccessModule>()
                 .InstancePerLifetimeScope();
-           
         }
     }
 }

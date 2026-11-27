@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
 {
     /// <summary>
     /// Autofac module that wires up security-related services for the UserAccess module.
@@ -9,6 +9,7 @@
         private readonly string _encryptionKey;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityModule"/> class.
         /// Initializes the module with the symmetric encryption key used by data protection services.
         /// </summary>
         /// <param name="encryptionKey">UTF-8 string used to derive the AES key bytes.</param>

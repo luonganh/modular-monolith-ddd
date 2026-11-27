@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Configuration.ExecutionContext
+namespace Mmdddshop.API.Configuration.ExecutionContext
 {
     /// <summary>
     /// Accessor for the execution context.
@@ -31,7 +31,7 @@
                     {
                         return Guid.Parse(subClaim.Value);
                     }
-                }               
+                }
 
                 throw new ApplicationException("User context is not available");
             }
@@ -59,7 +59,7 @@
                         {
                             throw new ApplicationException($"Invalid correlation ID format: {headerValue}");
                         }
-                    }                    
+                    }
                 }
 
                 throw new ApplicationException("Http context and correlation id is not available");

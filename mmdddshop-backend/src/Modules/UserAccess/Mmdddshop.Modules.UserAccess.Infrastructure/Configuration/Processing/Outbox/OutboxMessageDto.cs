@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
 {
     /// <summary>
     /// Data Transfer Object for outbox messages retrieved from the database.

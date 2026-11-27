@@ -1,4 +1,4 @@
-﻿using Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser;
+using Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser;
 
 namespace Mmdddshop.Modules.UserAccess.Application.Users.GetUser
 {

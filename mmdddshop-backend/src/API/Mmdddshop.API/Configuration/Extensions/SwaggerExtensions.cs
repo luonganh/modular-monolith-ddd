@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Configuration.Extensions
+namespace Mmdddshop.API.Configuration.Extensions
 {
     internal static class SwaggerExtensions
     {
@@ -10,7 +10,7 @@
                 {
                     Title = "Modular Monolith DDD Shop API",
                     Version = "v1",
-                    Description = "Web API for Modular monolith with DDD .NET Shop Application."
+                    Description = "Web API for Modular monolith with DDD .NET Shop Application.",
                 });
                 options.CustomSchemaIds(t => t.ToString());
 
@@ -37,15 +37,16 @@
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = "Bearer",
                             },
                             Scheme = "oauth2",
                             Name = "Bearer",
-                            In = ParameterLocation.Header
+                            In = ParameterLocation.Header,
                         },
-						//Array.Empty<string>()
-						new List<string>()
-                    }
+
+                        // Array.Empty<string>()
+                        new List<string>()
+                    },
                 });
             });
 
@@ -54,7 +55,7 @@
 
         internal static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
-            //implement swagger documents for api
+            // implement swagger documents for api
             app.UseSwagger(c =>
             {
                 c.SerializeAsV2 = true;
@@ -70,6 +71,6 @@
             });
 
             return app;
-        }        
+        }
     }
 }

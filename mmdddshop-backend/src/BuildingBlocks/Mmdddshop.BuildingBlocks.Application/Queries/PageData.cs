@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Application.Queries
+namespace Mmdddshop.BuildingBlocks.Application.Queries
 {
     /// <summary>
     /// SQL Parameters – Translate Page/PerPage into OFFSET and FETCH in SQL.
@@ -8,12 +8,12 @@
     public struct PageData
     {
         /// <summary>
-        /// The offset.
+        /// Gets the offset.
         /// </summary>
         public int Offset { get; }
 
         /// <summary>
-        /// The next.
+        /// Gets the next.
         /// </summary>
         public int Next { get; }
 

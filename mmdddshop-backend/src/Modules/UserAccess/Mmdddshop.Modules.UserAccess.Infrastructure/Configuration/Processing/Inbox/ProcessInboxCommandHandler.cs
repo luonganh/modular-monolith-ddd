@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
 {
     /// <summary>
     /// Handler for processing inbox messages.
@@ -11,7 +11,7 @@
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
         /// <summary>
-        /// Initializes a new instance of the ProcessInboxCommandHandler class.
+        /// Initializes a new instance of the <see cref="ProcessInboxCommandHandler"/> class.
         /// </summary>
         /// <param name="mediator">The mediator for publishing domain notifications.</param>
         /// <param name="sqlConnectionFactory">Factory for creating database connections.</param>
@@ -33,7 +33,7 @@
         {
             var connection = _sqlConnectionFactory.GetOpenConnection();
             var schemaExists = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM sys.schemas WHERE name = 'users'");
-            
+
             // Query for unprocessed inbox messages ordered by occurrence date
             const string sql = $"""
                                SELECT 
@@ -83,6 +83,7 @@
                         // If System.Text.Json fails, fallback to Newtonsoft.Json
                         request = JsonConvert.DeserializeObject(message.Data, type);
                     }
+
                     if (request == null)
                     {
                         continue;
@@ -99,12 +100,12 @@
                         throw;
                     }
                 }
-                    				
+
                 // Mark the message as processed
                 await connection.ExecuteAsync(sqlUpdateProcessedDate, new
                 {
                     Date = DateTime.UtcNow,
-                    message.Id
+                    message.Id,
                 });
             }
         }
