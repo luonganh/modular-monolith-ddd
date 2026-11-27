@@ -1,17 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface UtilState {
     theme: 'light' | 'dark';
     isLoading: boolean;
-    isSidebarOpen: boolean;
+    isSidebarOpen: boolean;        // desktop: mở rộng (true) / thu gọn (false)
+    isMobileSidebarOpen: boolean;  // mobile: hiện (true) / ẩn (false)
     isNotificationBarOpen: boolean;
 }
 
 const initialState: UtilState = {
     theme: 'light',
     isLoading: false,
-    isSidebarOpen: true, // Always start with true for desktop
-    //isSidebarOpen: window.innerWidth < 1024 ? false : true,
+    isSidebarOpen: true,
+    isMobileSidebarOpen: false,
     isNotificationBarOpen: false,
 };
 
@@ -24,6 +25,9 @@ const utilSliece = createSlice({
         },
         setSidebarOpen: (state, action) => {
             state.isSidebarOpen = action.payload;
+        },
+        setMobileSidebarOpen: (state, action: PayloadAction<boolean>) => {
+            state.isMobileSidebarOpen = action.payload;
         },
         setNotificationBarOpen: (state, action) => {
             state.isNotificationBarOpen = action.payload;
@@ -38,6 +42,7 @@ export const {
     setLoading,
     setSidebarOpen,
     setNotificationBarOpen,
+    setMobileSidebarOpen,
     toggleTheme,
 } = utilSliece.actions;
 

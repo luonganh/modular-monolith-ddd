@@ -1,0 +1,17 @@
+{
+  "user": {
+    "profile": "Hồ sơ",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất"
+  },
+  "dashboard": {
+    "welcome": "Xin chào",
+    "authenticated": "Bạn đã đăng nhập."
+  },
+  "common": {
+    "comingSoon": "Sắp ra mắt",
+    "loading": "Đang tải...",
+    "notFound": "Không tìm thấy trang",
+    "backToHome": "Về trang chủ"
+  }
+}
