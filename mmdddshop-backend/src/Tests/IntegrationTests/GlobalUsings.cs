@@ -14,6 +14,6 @@ global using NUnit.Framework;
 global using Serilog;
 global using System;
 global using System.Data;
-global using System.Data.SqlClient;
+global using Microsoft.Data.SqlClient;
 global using System.IO;
 global using System.Threading.Tasks;

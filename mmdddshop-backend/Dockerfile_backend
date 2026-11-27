@@ -1,7 +1,7 @@
 # RUNTIME STAGE
 # Creates user, set permissions, mount volumes, and expose ports
-## Uses Microsoft's ASP.NET 9.0 image as the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+## Uses Microsoft's ASP.NET 10.0 image as the runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 # Define Linux system user arguments for container security
 # Creates non-root user to avoid running as root
@@ -10,8 +10,9 @@ ARG APP_GROUP=app_group
 ARG APP_HOME=/app
 
 # Creates non-root Linux system group, non-root Linux system user
-RUN addgroup --system $APP_GROUP && \
-    adduser --system --ingroup $APP_GROUP --home $APP_HOME $APP_USER && \
+# (groupadd/useradd: the .NET 10 images are Ubuntu-based and ship without adduser/addgroup)
+RUN groupadd --system $APP_GROUP && \
+    useradd --system --gid $APP_GROUP --home-dir $APP_HOME --shell /usr/sbin/nologin $APP_USER && \
     mkdir -p $APP_HOME && \
     chown -R $APP_USER:$APP_GROUP $APP_HOME
 
@@ -23,7 +24,7 @@ USER $APP_USER
 
 # BUILD STAGE
 # Copies source + restores + builds
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /
 
