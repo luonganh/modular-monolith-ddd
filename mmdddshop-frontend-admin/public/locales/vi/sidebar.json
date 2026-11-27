@@ -1,0 +1,20 @@
+{
+  "dashboard": "Tổng quan",
+  "products": "Sản phẩm",
+  "inventory": "Kho",
+  "orders": "Đơn hàng",
+  "users": "Người dùng",
+  "settings": "Cài đặt",
+  "logout": "Đăng xuất",
+
+  "components": "Thành phần",
+  "accordion": "Accordion",
+  "alert": "Thông báo",
+  "badge": "Nhãn",
+  "button": "Nút",
+  "dropdown": "Menu thả xuống",
+  "iconActionButton": "Nút biểu tượng",
+  "pagination": "Phân trang",
+  "spinner": "Đang tải",
+  "tab": "Tab"
+}

@@ -16,7 +16,10 @@ i18next
     .use(Backend)
     .init({
         fallbackLng: 'vi',
-        debug: true,
+        // Map browser codes such as 'en-US' to the supported base language ('en')
+        supportedLngs: Object.keys(Languages),
+        load: 'languageOnly',
+        debug: import.meta.env.DEV,
         ns: ['sidebar', 'translation'],
         defaultNS: 'sidebar',
     });

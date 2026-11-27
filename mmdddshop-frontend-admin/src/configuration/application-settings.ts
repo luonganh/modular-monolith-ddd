@@ -16,6 +16,12 @@ export class ApplicationSettings {
     // Make sure this URI is whitelisted in the Authorization Server (both 3000 and 3001 if used).
     public static readonly REDIRECT_URI =
       ApplicationSettings.getEnvValue('VITE_REDIRECT_URI', `${window.location.origin}/callback`);     
+
+    // Where Keycloak sends the browser after logout.
+    // Must match the client's "Valid post logout redirect URIs" exactly (note the trailing slash).
+    public static readonly POST_LOGOUT_REDIRECT_URI =
+      ApplicationSettings.getEnvValue('VITE_POST_LOGOUT_REDIRECT_URI', `${window.location.origin}/`);
+
     public static readonly SCOPE = ApplicationSettings.getEnvValue('VITE_SCOPE', ApplicationSettings.DEFAULT_SCOPE);
        
     // Helper method to get environment variable with fallback
@@ -36,6 +42,7 @@ export class ApplicationSettings {
             AUTHORITY: ApplicationSettings.AUTHORITY,
             CLIENT_ID: ApplicationSettings.CLIENT_ID,
             REDIRECT_URI: ApplicationSettings.REDIRECT_URI,
+            POST_LOGOUT_REDIRECT_URI: ApplicationSettings.POST_LOGOUT_REDIRECT_URI,
             SCOPE: ApplicationSettings.SCOPE,
             'Environment': typeof import.meta !== 'undefined' ? 'Vite' : 'Node'
         };

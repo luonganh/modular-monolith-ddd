@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import type { User } from 'oidc-client-ts';
-import { logout } from '../../user-access';
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -31,18 +30,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Logout error:', error);
-      // Fallback: clear local storage and reload
-      localStorage.clear();
-      window.location.href = '/';
-    }
-  };
+  };  
 
   if (loading) {
     return (
@@ -68,10 +56,7 @@ export default function Dashboard() {
         <p><strong>User ID:</strong> {user.profile?.sub}</p>
         <p><strong>Name:</strong> {user.profile?.name || user.profile?.preferred_username}</p>
         <p><strong>Email:</strong> {user.profile?.email}</p>
-      </div>
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      </div>      
     </div>
   );
 }
