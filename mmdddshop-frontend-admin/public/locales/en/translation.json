@@ -1,0 +1,17 @@
+{
+  "user": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "authenticated": "You are signed in."
+  },
+  "common": {
+    "comingSoon": "Coming soon",
+    "loading": "Loading...",
+    "notFound": "Page not found",
+    "backToHome": "Back to home"
+  }
+}

@@ -8,6 +8,7 @@ const createUserManager = () => {
     authority: ApplicationSettings.AUTHORITY,
     client_id: ApplicationSettings.CLIENT_ID,
     redirect_uri: ApplicationSettings.REDIRECT_URI,
+    post_logout_redirect_uri: ApplicationSettings.POST_LOGOUT_REDIRECT_URI,
     response_type: 'code',
     scope: ApplicationSettings.SCOPE,
 

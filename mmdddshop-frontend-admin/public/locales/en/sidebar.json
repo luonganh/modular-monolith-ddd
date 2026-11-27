@@ -1,0 +1,20 @@
+{
+  "dashboard": "Dashboard",
+  "products": "Products",
+  "inventory": "Inventory",
+  "orders": "Orders",
+  "users": "Users",
+  "settings": "Settings",
+  "logout": "Log out",
+
+  "components": "Components",
+  "accordion": "Accordion",
+  "alert": "Alert",
+  "badge": "Badge",
+  "button": "Button",
+  "dropdown": "Dropdown",
+  "iconActionButton": "Icon button",
+  "pagination": "Pagination",
+  "spinner": "Spinner",
+  "tab": "Tab"
+}

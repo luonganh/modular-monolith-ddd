@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
-
 import { useNavigate, useLocation } from 'react-router-dom';
-
 // Redux
-import { useAppSelector, useAppDispatch } from 'shared/store/hooks';
-import { clearUser } from 'shared/store/reducers/user';
-
-import { setSidebarOpen } from 'shared/store/reducers/util';
-
 import type { SideBarItemInterface } from './menus';
 
 // Icon
@@ -17,19 +10,18 @@ import { useTranslation } from 'react-i18next';
 import { logout } from 'modules/user-access/services/AuthenticationService';
 interface Props {
     menuItem: SideBarItemInterface;
-    isMobile?: boolean;
+    expanded: boolean;
 }
 
-const SideBarItem: React.FC<Props> = ({ menuItem, isMobile }) => {
+const SideBarItem: React.FC<Props> = ({ menuItem, expanded }) => {
     const { id, icon, url, subMenus, level } = menuItem;
 
     const { t } = useTranslation();
 
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const location = useLocation();
 
-    const isOpen = useAppSelector((state) => state.util.isSidebarOpen);
+    const isOpen = expanded;
     const [isExpanded, setIsExpanded] = useState(
         hasMatchingSubMenu(menuItem, location.pathname)
     );
@@ -66,16 +58,10 @@ const SideBarItem: React.FC<Props> = ({ menuItem, isMobile }) => {
                     'text-light-primary500 dark:text-dark-primary500'
                 } duration-100 hover:translate-x-0.5`}
                 onClick={(e) => {
-                    e.stopPropagation();
-
-                    if (isMobile && !subMenus) {
-                        dispatch(setSidebarOpen(!isOpen));
-                    }
-
+                    e.stopPropagation();                    
                     if (id === 'logout') {
                         handleLogout();
-                        localStorage.clear();
-                        dispatch(clearUser());
+                        return;
                     }
                     if (subMenus && subMenus.length > 0) {
                         setIsExpanded(!isExpanded);
@@ -129,7 +115,7 @@ const SideBarItem: React.FC<Props> = ({ menuItem, isMobile }) => {
                         <SideBarItem
                             key={sub.id}
                             menuItem={sub}
-                            isMobile={isMobile}
+                            expanded={expanded}
                         />
                     </div>
                 ))}
