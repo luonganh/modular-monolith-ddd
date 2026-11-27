@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
 {
     /// <summary>
     /// Service for scheduling internal commands to be processed asynchronously.
@@ -6,11 +6,11 @@
     /// Commands are serialized and stored with metadata for proper deserialization and execution.
     /// </summary>
     public class CommandsScheduler : ICommandsScheduler
-	{
+    {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
         /// <summary>
-        /// Initializes a new instance of the CommandsScheduler class.
+        /// Initializes a new instance of the <see cref="CommandsScheduler"/> class.
         /// </summary>
         /// <param name="sqlConnectionFactory">Factory for creating database connections.</param>
         public CommandsScheduler(ISqlConnectionFactory sqlConnectionFactory)
@@ -38,8 +38,8 @@
                 Type = command.GetType().FullName,
                 Data = JsonConvert.SerializeObject(command, new JsonSerializerSettings
                 {
-                    ContractResolver = new AllPropertiesContractResolver()
-                })
+                    ContractResolver = new AllPropertiesContractResolver(),
+                }),
             });
         }
 
@@ -64,8 +64,8 @@
                 Type = command.GetType().FullName,
                 Data = JsonConvert.SerializeObject(command, new JsonSerializerSettings
                 {
-                    ContractResolver = new AllPropertiesContractResolver()
-                })
+                    ContractResolver = new AllPropertiesContractResolver(),
+                }),
             });
         }
     }

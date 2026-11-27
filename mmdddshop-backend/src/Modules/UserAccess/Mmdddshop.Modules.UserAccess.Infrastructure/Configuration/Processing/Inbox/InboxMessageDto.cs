@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
 {
     /// <summary>
     /// Data transfer object for inbox message data from the database.

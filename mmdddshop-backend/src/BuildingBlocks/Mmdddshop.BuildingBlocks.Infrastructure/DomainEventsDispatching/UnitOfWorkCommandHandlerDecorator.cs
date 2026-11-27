@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Decorator for MediatR command handlers that automatically commits the unit of work
@@ -14,7 +14,7 @@
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Initializes a new instance of the UnitOfWorkCommandHandlerDecorator class.
+        /// Initializes a new instance of the <see cref="UnitOfWorkCommandHandlerDecorator{T}"/> class.
         /// </summary>
         /// <param name="decorated">The actual command handler being decorated.</param>
         /// <param name="unitOfWork">The unit of work used to commit database transactions.</param>

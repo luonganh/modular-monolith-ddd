@@ -1,12 +1,12 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure
+namespace Mmdddshop.BuildingBlocks.Infrastructure
 {
     /// <summary>
     /// Custom value converter selector for Entity Framework Core that automatically
     /// selects appropriate value converters for strongly typed ID values. This selector
     /// extends the default EF Core value converter selection to handle strongly typed
     /// IDs by converting them to/from their underlying primitive types (typically Guid).
-    /// 
-    /// Based on: https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/
+    ///
+    /// Based on: https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/.
     /// </summary>
     public class StronglyTypedIdValueConverterSelector : ValueConverterSelector
     {
@@ -19,11 +19,11 @@
             = new ConcurrentDictionary<(Type ModelClrType, Type ProviderClrType), ValueConverterInfo>();
 
         /// <summary>
-        /// Initializes a new instance of the StronglyTypedIdValueConverterSelector class.
+        /// Initializes a new instance of the <see cref="StronglyTypedIdValueConverterSelector"/> class.
         /// This constructor sets up the value converter selector with the required
         /// dependencies from Entity Framework Core.
         /// </summary>
-        /// <param name="dependencies">The dependencies required by the value converter selector</param>
+        /// <param name="dependencies">The dependencies required by the value converter selector.</param>
         public StronglyTypedIdValueConverterSelector(ValueConverterSelectorDependencies dependencies)
             : base(dependencies)
         {
@@ -34,9 +34,9 @@
         /// This method first returns any base converters, then checks if the model type
         /// is a strongly typed ID and creates a custom converter if needed.
         /// </summary>
-        /// <param name="modelClrType">The CLR type of the model property</param>
-        /// <param name="providerClrType">The CLR type of the database provider (optional)</param>
-        /// <returns>An enumerable of value converter information for the specified types</returns>
+        /// <param name="modelClrType">The CLR type of the model property.</param>
+        /// <param name="providerClrType">The CLR type of the database provider (optional).</param>
+        /// <returns>An enumerable of value converter information for the specified types.</returns>
         public override IEnumerable<ValueConverterInfo> Select(Type modelClrType, Type? providerClrType = null)
         {
             var baseConverters = base.Select(modelClrType, providerClrType);
@@ -71,9 +71,8 @@
         /// This helper method is used to handle both nullable and non-nullable
         /// strongly typed IDs consistently.
         /// </summary>
-        /// <param name="type">The type to unwrap</param>
-        /// <returns>The underlying non-nullable type, or the original type if it's not nullable</returns>
+        /// <param name="type">The type to unwrap.</param>
+        /// <returns>The underlying non-nullable type, or the original type if it's not nullable.</returns>
         private static Type? UnwrapNullableType(Type? type) => type is null ? null : Nullable.GetUnderlyingType(type) ?? type;
-        
     }
 }

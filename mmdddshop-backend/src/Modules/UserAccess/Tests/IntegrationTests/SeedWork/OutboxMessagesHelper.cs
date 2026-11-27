@@ -1,4 +1,6 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Tests.IntegrationTests.SeedWork
+#nullable enable
+
+namespace Mmdddshop.Modules.UserAccess.Tests.IntegrationTests.SeedWork
 {
     public class OutboxMessagesHelper
     {
@@ -23,24 +25,24 @@
             return JsonConvert.DeserializeObject<T>(message.Data);
         }
 
-        //public static T Deserialize<T>(OutboxMessageDto message)
+        // public static T Deserialize<T>(OutboxMessageDto message)
         //    where T : class, INotification
-        //{
+        // {
         //    Type type = Assembly.GetAssembly(typeof(AuthenticateCommand)).GetType(typeof(T).FullName);
         //    return JsonConvert.DeserializeObject(message.Data, type) as T;
-        //}
+        // }
     }
 
-    //public class AuthenticateCommand : CommandBase<AuthenticationResult>
-    //{
+    // public class AuthenticateCommand : CommandBase<AuthenticationResult>
+    // {
     //    public AuthenticateCommand(string login, string password)
     //    {
     //        Login = login;
     //        Password = password;
     //    }
 
-    //    public string Login { get; }
+    // public string Login { get; }
 
-    //    public string Password { get; }
-    //}
+    // public string Password { get; }
+    // }
 }

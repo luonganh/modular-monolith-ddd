@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Configuration.ExecutionContext
+namespace Mmdddshop.API.Configuration.ExecutionContext
 {
     internal class CorrelationMiddleware
     {

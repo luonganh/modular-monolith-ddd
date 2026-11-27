@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Tests.SUT.SeedWork
+namespace Mmdddshop.Tests.SUT.SeedWork
 {
     internal static class AsyncOperationsHelper
     {
@@ -29,12 +29,10 @@
                     FROM [users].[OutboxMessages] AS [OutboxMessage] 
                     WHERE [OutboxMessage].[ProcessedDate] IS NULL
                     """);
-              
 
                 if (internalCommandsCountUsers == 0 &&
                     inboxCountUsers == 0 &&
-                    outboxCountUsers == 0
-                  )
+                    outboxCountUsers == 0)
                 {
                     return;
                 }

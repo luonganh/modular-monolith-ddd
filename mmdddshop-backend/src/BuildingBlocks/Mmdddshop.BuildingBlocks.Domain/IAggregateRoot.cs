@@ -1,9 +1,9 @@
-﻿namespace Mmdddshop.BuildingBlocks.Domain
+namespace Mmdddshop.BuildingBlocks.Domain
 {
-	/// <summary>
-	/// Define an aggregate root.
-	/// </summary>
-	public interface IAggregateRoot
-	{
-	}
+    /// <summary>
+    /// Define an aggregate root.
+    /// </summary>
+    public interface IAggregateRoot
+    {
+    }
 }

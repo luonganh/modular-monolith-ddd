@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Emails
+namespace Mmdddshop.Modules.UserAccess.Application.Emails
 {
     /// <summary>
     /// Query class for retrieving all email messages from the system.

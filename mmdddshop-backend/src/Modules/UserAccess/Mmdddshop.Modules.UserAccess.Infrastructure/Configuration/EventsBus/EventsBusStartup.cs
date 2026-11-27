@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.EventsBus
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.EventsBus
 {
     /// <summary>
     /// Static startup class responsible for initializing event bus subscriptions for the UserAccess module.
@@ -27,13 +27,13 @@
         /// <param name="logger">The Serilog logger instance for logging subscription activities.</param>
         private static void SubscribeToIntegrationEvents(Serilog.ILogger logger)
         {
-			// Resolve the event bus instance from the DI container
-			var eventBus = UserAccessCompositionRoot.BeginLifetimeScope().Resolve<IEventsBus>();
-			
-			// Subscribe to specific integration events
-			// Uncomment and add specific integration events as needed
-			//SubscribeToIntegrationEvent<MemberCreatedIntegrationEvent>(eventBus, logger);
-		}
+            // Resolve the event bus instance from the DI container
+            var eventBus = UserAccessCompositionRoot.BeginLifetimeScope().Resolve<IEventsBus>();
+
+            // Subscribe to specific integration events
+            // Uncomment and add specific integration events as needed
+            // SubscribeToIntegrationEvent<MemberCreatedIntegrationEvent>(eventBus, logger);
+        }
 
         /// <summary>
         /// Subscribes to a specific integration event type using a generic handler.

@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
 {
     /// <summary>
     /// AES-based implementation of <see cref="IDataProtector"/>.
@@ -14,6 +14,7 @@
         private readonly string _encryptionKey;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AesDataProtector"/> class.
         /// Creates a new AES data protector with the provided symmetric key.
         /// </summary>
         /// <param name="encryptionKey">UTF-8 string used to derive the AES key bytes.</param>

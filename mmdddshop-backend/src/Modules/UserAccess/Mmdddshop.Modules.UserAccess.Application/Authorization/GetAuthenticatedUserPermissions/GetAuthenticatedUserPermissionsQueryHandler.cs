@@ -26,7 +26,7 @@ namespace Mmdddshop.Modules.UserAccess.Application.Authorization.GetAuthenticate
 
             var permissions = await connection.QueryAsync<UserPermissionDto>(sql, new
             {
-                _executionContextAccessor.UserId
+                _executionContextAccessor.UserId,
             });
 
             return permissions.ToList();

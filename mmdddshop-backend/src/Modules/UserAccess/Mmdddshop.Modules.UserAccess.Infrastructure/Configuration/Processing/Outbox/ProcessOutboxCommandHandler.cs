@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
 {
     /// <summary>
     /// Command handler for processing outbox messages to ensure reliable domain event delivery.
@@ -12,6 +12,7 @@
         private readonly IDomainNotificationsMapper _domainNotificationsMapper;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessOutboxCommandHandler"/> class.
         /// Initializes a new instance of the ProcessOutboxCommandHandler.
         /// </summary>
         /// <param name="mediator">The MediatR mediator for publishing domain events.</param>
@@ -39,10 +40,10 @@
         {
             // Get an open database connection
             var connection = this._sqlConnectionFactory.GetOpenConnection();
-            
+
             // Check if the users schema exists (optional validation)
             var schemaExists = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM sys.schemas WHERE name = 'users'");
-            
+
             // SQL query to retrieve unprocessed outbox messages ordered by occurrence time
             const string sql = $"""
                                SELECT 
@@ -64,7 +65,7 @@
                                                   SET [ProcessedDate] = @Date 
                                                   WHERE [Id] = @Id
                                                   """;
-            
+
             // Process each unprocessed message
             if (messagesList.Count > 0)
             {
@@ -73,14 +74,14 @@
                     // Resolve the domain event notification type from the message type
                     var type = _domainNotificationsMapper.GetType(message.Type);
                     if (type == null)
-                    {                       
+                    {
                         continue;
                     }
 
                     // Deserialize the message data to the appropriate domain event notification
                     var @event = JsonConvert.DeserializeObject(message.Data, type) as IDomainEventNotification;
                     if (@event == null)
-                    {                       
+                    {
                         continue;
                     }
 
@@ -94,7 +95,7 @@
                         await connection.ExecuteAsync(sqlUpdateProcessedDate, new
                         {
                             Date = DateTime.UtcNow,
-                            message.Id
+                            message.Id,
                         });
                     }
                 }
@@ -111,7 +112,7 @@
             private readonly IDomainEventNotification _notification;
 
             /// <summary>
-            /// Initializes a new instance of the OutboxMessageContextEnricher class.
+            /// Initializes a new instance of the <see cref="OutboxMessageContextEnricher"/> class.
             /// </summary>
             /// <param name="notification">The domain event notification being processed.</param>
             public OutboxMessageContextEnricher(IDomainEventNotification notification)

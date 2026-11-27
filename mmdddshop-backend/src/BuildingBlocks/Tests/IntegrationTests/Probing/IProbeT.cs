@@ -4,11 +4,11 @@
 namespace Mmdddshop.BuildingBlocks.Tests.IntegrationTests.Probing
 {
     public interface IProbe<T>
-    {        
+    {
         bool IsSatisfied(T sample);
 
         Task<T> GetSampleAsync();
-        
+
         string DescribeFailureTo();
     }
 }

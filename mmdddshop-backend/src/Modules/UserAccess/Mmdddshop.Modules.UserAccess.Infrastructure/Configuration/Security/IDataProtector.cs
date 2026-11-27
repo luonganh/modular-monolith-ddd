@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Security
 {
     /// <summary>
     /// Abstraction for symmetric data protection used within the UserAccess module.

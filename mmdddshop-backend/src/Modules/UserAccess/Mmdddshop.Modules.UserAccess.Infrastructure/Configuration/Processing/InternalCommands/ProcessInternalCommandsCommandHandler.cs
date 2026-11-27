@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
 {
     /// <summary>
     /// Handler for processing queued internal commands.
@@ -10,14 +10,14 @@
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
         /// <summary>
-        /// Initializes a new instance of the ProcessInternalCommandsCommandHandler class.
+        /// Initializes a new instance of the <see cref="ProcessInternalCommandsCommandHandler"/> class.
         /// </summary>
         /// <param name="sqlConnectionFactory">Factory for creating database connections.</param>
         public ProcessInternalCommandsCommandHandler(
             ISqlConnectionFactory sqlConnectionFactory)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;			
-		}
+            _sqlConnectionFactory = sqlConnectionFactory;
+        }
 
         /// <summary>
         /// Processes all unprocessed internal commands from the queue.
@@ -28,8 +28,8 @@
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task Handle(ProcessInternalCommandsCommand command, CancellationToken cancellationToken)
-        {			
-			var connection = _sqlConnectionFactory.GetOpenConnection();
+        {
+            var connection = _sqlConnectionFactory.GetOpenConnection();
 
             // Query for unprocessed internal commands ordered by enqueue date
             const string sql = $"""
@@ -41,8 +41,8 @@
                                 WHERE [Command].[ProcessedDate] IS NULL 
                                 ORDER BY [Command].[EnqueueDate]
                                 """;
-			
-			var commands = await connection.QueryAsync<InternalCommandDto>(sql);
+
+            var commands = await connection.QueryAsync<InternalCommandDto>(sql);
 
             var internalCommandsList = commands.AsList();
 
@@ -53,7 +53,7 @@
                 {
                     TimeSpan.FromSeconds(1),
                     TimeSpan.FromSeconds(2),
-                    TimeSpan.FromSeconds(3)
+                    TimeSpan.FromSeconds(3),
                 });
 
             // Process each command with retry logic
@@ -77,11 +77,11 @@
                         {
                             NowDate = DateTime.UtcNow,
                             Error = result.FinalException.ToString(),
-                            internalCommand.Id
+                            internalCommand.Id,
                         });
                 }
-            }			
-		}
+            }
+        }
 
         /// <summary>
         /// Processes a single internal command by deserializing and executing it.
@@ -97,12 +97,14 @@
             {
                 throw new InvalidOperationException($"Type '{internalCommand.Type}' not found in application assembly");
             }
+
             var commandToProcess = JsonConvert.DeserializeObject(internalCommand.Data, type);
             if (commandToProcess == null)
             {
                 throw new InvalidOperationException($"Failed to deserialize command of type '{internalCommand.Type}'");
             }
-            await CommandsExecutor.Execute((dynamic) commandToProcess);
+
+            await CommandsExecutor.Execute((dynamic)commandToProcess);
         }
 
         /// <summary>

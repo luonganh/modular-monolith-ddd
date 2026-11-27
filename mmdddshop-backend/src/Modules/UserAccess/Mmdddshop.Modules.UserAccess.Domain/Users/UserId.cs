@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Domain.Users
+namespace Mmdddshop.Modules.UserAccess.Domain.Users
 {
     /// <summary>
     /// User id value object.

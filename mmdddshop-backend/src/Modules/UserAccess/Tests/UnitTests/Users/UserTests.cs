@@ -1,4 +1,4 @@
-﻿using Mmdddshop.Modules.UserAccess.Domain.Users.Events;
+using Mmdddshop.Modules.UserAccess.Domain.Users.Events;
 
 namespace Mmdddshop.Modules.UserAccess.Domain.UnitTests.Users
 {

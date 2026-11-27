@@ -16,9 +16,10 @@ namespace Mmdddshop.Tests.ArchTests.Api
                 .That()
                 .ResideInNamespace("Mmdddshop.API.Modules.UserAccess")
                 .Should()
-                .NotHaveDependencyOnAny("Mmdddshop.Modules.Registrations",
-                                      "Mmdddshop.Modules.Products",
-                                      "Mmdddshop.Modules.Orders")
+                .NotHaveDependencyOnAny(
+                    "Mmdddshop.Modules.Registrations",
+                    "Mmdddshop.Modules.Products",
+                    "Mmdddshop.Modules.Orders")
                 .GetResult();
 
             AssertArchTestResult(result);

@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Inbox
 {
     /// <summary>
     /// Command for processing inbox messages.

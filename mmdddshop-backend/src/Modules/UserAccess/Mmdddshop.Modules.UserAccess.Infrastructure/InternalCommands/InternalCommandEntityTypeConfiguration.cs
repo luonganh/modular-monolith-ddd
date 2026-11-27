@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.InternalCommands
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.InternalCommands
 {
     /// <summary>
     /// Entity Framework configuration for the InternalCommand entity.
@@ -18,7 +18,7 @@
 
             // Configure primary key
             builder.HasKey(b => b.Id);
-            
+
             // Configure ID to not be auto-generated
             // Internal commands typically have pre-defined IDs for processing
             builder.Property(b => b.Id).ValueGeneratedNever();

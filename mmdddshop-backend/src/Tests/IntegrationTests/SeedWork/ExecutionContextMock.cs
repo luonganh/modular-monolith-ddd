@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Tests.IntegrationTests.SeedWork
+namespace Mmdddshop.Tests.IntegrationTests.SeedWork
 {
     public class ExecutionContextMock : IExecutionContextAccessor
     {

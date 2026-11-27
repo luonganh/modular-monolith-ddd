@@ -33,7 +33,7 @@ namespace Mmdddshop.API.Modules.UserAccess
             return user is null ? NotFound() : Ok(user);
         }
 
-        /// <summary>        
+        /// <summary>
         /// Gets the authenticated user permissions.
         /// </summary>
         /// <returns></returns>
