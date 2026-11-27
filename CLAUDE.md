@@ -25,7 +25,7 @@ dotnet run --project mmdddshop-backend/src/API/Mmdddshop.API
 
 Tests use NUnit, FluentAssertions, NSubstitute and NetArchTest. Only the system-level `[Category("Integration")]` tests are excluded by the CI filter.
 
-Frontend (from `mmdddshop-frontend-admin/`; Node 20):
+Frontend (from `mmdddshop-frontend-admin/`; Node 24):
 
 ```bash
 npm ci
