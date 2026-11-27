@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Decorator for MediatR notification handlers that automatically dispatches domain events
@@ -14,7 +14,7 @@
         private readonly IDomainEventsDispatcher _domainEventsDispatcher;
 
         /// <summary>
-        /// Initializes a new instance of the DomainEventsDispatcherNotificationHandlerDecorator class.
+        /// Initializes a new instance of the <see cref="DomainEventsDispatcherNotificationHandlerDecorator{T}"/> class.
         /// </summary>
         /// <param name="domainEventsDispatcher">The domain events dispatcher used to dispatch events after handler completion.</param>
         /// <param name="decorated">The actual notification handler being decorated.</param>

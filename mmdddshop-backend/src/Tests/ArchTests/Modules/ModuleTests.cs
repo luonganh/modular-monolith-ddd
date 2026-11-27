@@ -15,7 +15,7 @@ namespace Mmdddshop.Tests.ArchTests.Modules
             List<string> otherModules = ["Mmdddshop.Modules.Registrations",
                                       "Mmdddshop.Modules.Products",
                                       "Mmdddshop.Modules.Orders"];
-            
+
             List<Assembly> userAccessAssemblies =
             [
                 typeof(IUserAccessModule).Assembly,

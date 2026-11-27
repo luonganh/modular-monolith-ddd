@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration
 {
     /// <summary>
     /// Custom constructor finder for Autofac that finds all constructors for a given type.

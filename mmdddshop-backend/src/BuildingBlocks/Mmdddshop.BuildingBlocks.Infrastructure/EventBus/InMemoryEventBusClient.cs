@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.EventBus
+namespace Mmdddshop.BuildingBlocks.Infrastructure.EventBus
 {
     /// <summary>
     /// Client wrapper for the InMemoryEventBus that provides logging capabilities
@@ -11,9 +11,10 @@
         private readonly ILogger _logger;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryEventBusClient"/> class.
         /// Initializes a new instance of the InMemoryEventBusClient.
         /// </summary>
-        /// <param name="logger">The logger instance used for event bus operations</param>
+        /// <param name="logger">The logger instance used for event bus operations.</param>
         public InMemoryEventBusClient(ILogger logger)
         {
             _logger = logger;
@@ -33,9 +34,9 @@
         /// This method logs the event publication and delegates to the singleton
         /// InMemoryEventBus instance for actual event distribution.
         /// </summary>
-        /// <typeparam name="T">The type of integration event to publish</typeparam>
-        /// <param name="event">The integration event instance to publish</param>
-        /// <returns>A task representing the asynchronous publish operation</returns>
+        /// <typeparam name="T">The type of integration event to publish.</typeparam>
+        /// <param name="event">The integration event instance to publish.</param>
+        /// <returns>A task representing the asynchronous publish operation.</returns>
         public async Task Publish<T>(T @event)
             where T : IntegrationEvent
         {
@@ -47,8 +48,8 @@
         /// Subscribes a handler to receive integration events of a specific type.
         /// This method delegates to the singleton InMemoryEventBus instance for event subscription.
         /// </summary>
-        /// <typeparam name="T">The type of integration event to subscribe to</typeparam>
-        /// <param name="handler">The handler that will process events of the specified type</param>
+        /// <typeparam name="T">The type of integration event to subscribe to.</typeparam>
+        /// <param name="handler">The handler that will process events of the specified type.</param>
         public void Subscribe<T>(IIntegrationEventHandler<T> handler)
             where T : IntegrationEvent
         {

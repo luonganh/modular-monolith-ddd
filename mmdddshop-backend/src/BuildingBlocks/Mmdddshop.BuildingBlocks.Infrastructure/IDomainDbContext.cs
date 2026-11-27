@@ -1,4 +1,6 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure
+namespace Mmdddshop.BuildingBlocks.Infrastructure
 {
-	public interface IDomainDbContext { }
+    public interface IDomainDbContext
+    {
+    }
 }

@@ -1,10 +1,10 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Contracts
+namespace Mmdddshop.Modules.UserAccess.Application.Contracts
 {
     /// <summary>
     /// Interface for commands that return a result.
     /// Represents a request to perform an action that will return data.
     /// </summary>
-    /// <typeparam name="TResult">The type of result returned by the command</typeparam>
+    /// <typeparam name="TResult">The type of result returned by the command.</typeparam>
     public interface ICommand<out TResult> : IRequest<TResult>
     {
         /// <summary>

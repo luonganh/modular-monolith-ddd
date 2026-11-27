@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Configuration.Authorization
+namespace Mmdddshop.API.Configuration.Authorization
 {
     /// <summary>
     /// Maps Keycloak realm roles (JSON claim "realm_access") to individual "role" claims

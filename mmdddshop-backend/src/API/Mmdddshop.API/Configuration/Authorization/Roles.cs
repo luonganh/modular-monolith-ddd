@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.API.Configuration.Authorization
+namespace Mmdddshop.API.Configuration.Authorization
 {
     public static class Roles
     {

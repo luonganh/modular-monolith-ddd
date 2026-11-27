@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Defines the contract for dispatching domain events that have been raised by aggregate roots.

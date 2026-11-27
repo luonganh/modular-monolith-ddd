@@ -32,7 +32,7 @@ namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
                                 FROM [users].[UserRoles] AS [UserRole]
                                 WHERE [UserRole].[UserId] = @UserId;
                                 """;
-            
+
             using var multi = await connection.QueryMultipleAsync(sql, new { _executionContextAccessor.UserId });
             var user = await multi.ReadSingleOrDefaultAsync<AuthenticatedUserDto>();
             if (user is null)
@@ -40,8 +40,8 @@ namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
                 return null;
             }
 
-            user.Roles = (await multi.ReadAsync<UserRoleDto>()).ToList();                       
+            user.Roles = (await multi.ReadAsync<UserRoleDto>()).ToList();
             return user;
-        }        
+        }
     }
 }

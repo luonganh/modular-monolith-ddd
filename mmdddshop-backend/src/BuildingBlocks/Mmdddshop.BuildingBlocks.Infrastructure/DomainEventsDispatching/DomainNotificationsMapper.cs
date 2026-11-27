@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Implementation of IDomainNotificationsMapper that uses a bidirectional dictionary for mapping
@@ -10,7 +10,7 @@
         private readonly BiDictionary<string, Type> _domainNotificationsMap;
 
         /// <summary>
-        /// Initializes a new instance of the DomainNotificationsMapper class.
+        /// Initializes a new instance of the <see cref="DomainNotificationsMapper"/> class.
         /// </summary>
         /// <param name="domainNotificationsMap">A bidirectional dictionary containing the mapping between string names and domain event notification types.</param>
         public DomainNotificationsMapper(BiDictionary<string, Type> domainNotificationsMap)

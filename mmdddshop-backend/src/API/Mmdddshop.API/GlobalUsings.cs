@@ -1,4 +1,8 @@
-﻿global using Autofac;
+global using System.Reflection;
+global using System.Security.Claims;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
+global using Autofac;
 global using Autofac.Extensions.DependencyInjection;
 global using Hellang.Middleware.ProblemDetails;
 global using Microsoft.AspNetCore.Authentication;
@@ -30,8 +34,4 @@ global using Mmdddshop.Modules.UserAccess.Application.Users.ProvisionUserFromCla
 global using Mmdddshop.Modules.UserAccess.Infrastructure;
 global using Mmdddshop.Modules.UserAccess.Infrastructure.Configuration;
 global using Serilog;
-global using System.Reflection;
-global using System.Security.Claims;
-global using System.Text.Json;
-global using System.Text.Json.Serialization;
 global using ILogger = Serilog.ILogger;

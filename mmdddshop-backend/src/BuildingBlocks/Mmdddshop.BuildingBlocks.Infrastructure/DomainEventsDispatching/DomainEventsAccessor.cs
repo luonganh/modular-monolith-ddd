@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
+namespace Mmdddshop.BuildingBlocks.Infrastructure.DomainEventsDispatching
 {
     /// <summary>
     /// Implementation of IDomainEventsAccessor that retrieves domain events from Entity Framework's ChangeTracker.
@@ -9,7 +9,7 @@
         private readonly DbContext _dbContext;
 
         /// <summary>
-        /// Initializes a new instance of the DomainEventsAccessor class.
+        /// Initializes a new instance of the <see cref="DomainEventsAccessor"/> class.
         /// </summary>
         /// <param name="dbContext">The Entity Framework DbContext used to access tracked entities.</param>
         public DomainEventsAccessor(DbContext dbContext)

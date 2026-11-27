@@ -1,10 +1,10 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Contracts
+namespace Mmdddshop.Modules.UserAccess.Application.Contracts
 {
     /// <summary>
     /// Base class for queries that return data.
     /// Provides common functionality for all query implementations.
     /// </summary>
-    /// <typeparam name="TResult">The type of result returned by the query</typeparam>
+    /// <typeparam name="TResult">The type of result returned by the query.</typeparam>
     public abstract class QueryBase<TResult> : IQuery<TResult>
     {
         /// <summary>
@@ -13,7 +13,7 @@
         public Guid Id { get; }
 
         /// <summary>
-        /// Initializes a new instance of the QueryBase class with a new GUID.
+        /// Initializes a new instance of the <see cref="QueryBase{TResult}"/> class with a new GUID.
         /// </summary>
         protected QueryBase()
         {
@@ -21,9 +21,9 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the QueryBase class with a specific ID.
+        /// Initializes a new instance of the <see cref="QueryBase{TResult}"/> class with a specific ID.
         /// </summary>
-        /// <param name="id">The unique identifier for the query</param>
+        /// <param name="id">The unique identifier for the query.</param>
         protected QueryBase(Guid id)
         {
             Id = id;

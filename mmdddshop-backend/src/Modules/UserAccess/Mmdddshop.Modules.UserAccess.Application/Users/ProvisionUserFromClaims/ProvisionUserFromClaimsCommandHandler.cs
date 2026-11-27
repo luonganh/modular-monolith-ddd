@@ -1,8 +1,9 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Users.ProvisionUserFromClaims
+namespace Mmdddshop.Modules.UserAccess.Application.Users.ProvisionUserFromClaims
 {
     internal class ProvisionUserFromClaimsCommandHandler : ICommandHandler<ProvisionUserFromClaimsCommand>
     {
         private readonly IUserRepository _users;
+
         public ProvisionUserFromClaimsCommandHandler(IUserRepository users)
         {
             _users = users;
@@ -13,13 +14,13 @@
             var user = await _users.GetByExternalIdAsync(request.ExternalId, cancellationToken);
             if (user == null)
             {
-                user = User.CreateExternalUser(request.ExternalId, request.Roles, request.Username, request.Email, request.FirstName, request.LastName, request.DisplayName);                
+                user = User.CreateExternalUser(request.ExternalId, request.Roles, request.Username, request.Email, request.FirstName, request.LastName, request.DisplayName);
                 await _users.AddAsync(user, cancellationToken);
             }
             else
             {
                 user.SyncProfile(request.Roles, request.Email, request.DisplayName, request.FirstName, request.LastName);
-            }            
+            }
         }
     }
 }

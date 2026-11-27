@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.BuildingBlocks.Infrastructure.Configuration
+namespace Mmdddshop.BuildingBlocks.Infrastructure.Configuration
 {
     public static class EnvironmentHelper
     {
@@ -12,30 +12,34 @@
 
             // If rootPath has novalue, check /app (Docker), if in Docker, .env file will have copy into /app (app folder in docker container)
             if (string.IsNullOrWhiteSpace(basePath) && Directory.Exists("/app"))
+            {
                 basePath = "/app";
+            }
             else
             {
                 basePath = FindSolutionRoot(Directory.GetCurrentDirectory(), "Mmdddshop.sln");
-            }           
+            }
+
             Console.WriteLine($"GET .ENV PATH: {basePath}");
+
             // Finally, fallback current directory
             basePath ??= Directory.GetCurrentDirectory();
-           
+
             // Checkin if API run in Docker
             // Get .env container path from root solution
-            //var rootPath = Directory.GetCurrentDirectory();
+            // var rootPath = Directory.GetCurrentDirectory();
 
             //// If in Docker, .env file will have copy into /app (app folder in docker container)
-            //if (Directory.Exists("/app"))
-            //{
+            // if (Directory.Exists("/app"))
+            // {
             //    // Production environment
             //    rootPath = "/app";
-            //}
-            //else
-            //{
+            // }
+            // else
+            // {
             //    // Local development
             //    rootPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", ".."));
-            //}
+            // }
 
             // The priority: .env.{Environment} -> .env
             var envFiles = environment == "Development" ? new[] { ".env" } : new[] { $".env.{environment.ToLower()}", ".env" };
@@ -57,9 +61,13 @@
             while (dir != null)
             {
                 if (File.Exists(Path.Combine(dir.FullName, slnName)))
+                {
                     return dir.FullName;
+                }
+
                 dir = dir.Parent;
             }
+
             return null;
         }
 
@@ -85,12 +93,11 @@
                 !string.IsNullOrEmpty(user) &&
                 !string.IsNullOrEmpty(password);
 
-            //var isRunningInGitHubActions = string.Equals(
+            // var isRunningInGitHubActions = string.Equals(
             //    Environment.GetEnvironmentVariable("GITHUB_ACTIONS"),
             //    "true",
             //    StringComparison.OrdinalIgnoreCase);
             // (isRunningInContainer || isRunningInGitHubActions) && hasSqlServerEnvironmentVariables
-
             if (isRunningInContainer && hasSqlServerEnvironmentVariables)
             {
                 // Use environment variables inside Docker, where SQLSERVER_HOST can be the Docker service name.
@@ -106,10 +113,11 @@
                 {
                     throw new InvalidOperationException("Connection string not found in appsettings.json and environment variables are not set.");
                 }
+
                 Console.WriteLine($"Connection String of local: {connectionString}");
                 Console.WriteLine("Using appsettings.json for connection string");
             }
-                
+
             return connectionString;
         }
 

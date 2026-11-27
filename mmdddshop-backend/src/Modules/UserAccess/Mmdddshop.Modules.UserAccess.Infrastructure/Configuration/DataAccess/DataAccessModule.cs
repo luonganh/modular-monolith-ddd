@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.DataAccess
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.DataAccess
 {
     /// <summary>
     /// Autofac module for configuring data access dependencies in the UserAccess module.
@@ -10,6 +10,7 @@
         private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="DataAccessModule"/> class.
         /// Initializes a new instance of the DataAccessModule.
         /// </summary>
         /// <param name="databaseConnectionString">The database connection string for SQL Server.</param>

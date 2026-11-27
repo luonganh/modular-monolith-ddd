@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure
+namespace Mmdddshop.Modules.UserAccess.Infrastructure
 {
     /// <summary>
     /// Main entry point for the UserAccess module. This class implements the IUserAccessModule interface
@@ -47,19 +47,20 @@
             // Create a new lifetime scope from the UserAccessCompositionRoot
             // This ensures proper dependency injection and lifetime management for the query
             // The scope will be automatically disposed when exiting the using block
-			using (var scope = UserAccessCompositionRoot.BeginLifetimeScope())
-			{
+            using (var scope = UserAccessCompositionRoot.BeginLifetimeScope())
+            {
                 // Resolve IMediator from the dependency injection container
                 // IMediator is the MediatR interface that handles query processing
                 // It will find and execute the appropriate query handler
-				var mediator = scope.Resolve<IMediator>();
+                var mediator = scope.Resolve<IMediator>();
 
                 // Send the query to MediatR for processing
                 // MediatR will route the query to the correct handler based on the query type
                 // The handler will process the query and return the result
-				return await mediator.Send(query);
-			}
+                return await mediator.Send(query);
+            }
+
             // The scope is automatically disposed here, cleaning up any resolved dependencies
-		}
+        }
     }
 }

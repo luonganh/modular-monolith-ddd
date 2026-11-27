@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Configuration.Commands
+namespace Mmdddshop.Modules.UserAccess.Application.Configuration.Commands
 {
     /// <summary>
     /// Base class for internal commands that don't return a result.
@@ -7,9 +7,9 @@
     public abstract class InternalCommandBase : ICommand
     {
         /// <summary>
-        /// Initializes a new instance of the InternalCommandBase class with a specific ID.
+        /// Initializes a new instance of the <see cref="InternalCommandBase"/> class with a specific ID.
         /// </summary>
-        /// <param name="id">The unique identifier for the command</param>
+        /// <param name="id">The unique identifier for the command.</param>
         protected InternalCommandBase(Guid id)
         {
             Id = id;
@@ -25,11 +25,11 @@
     /// Base class for internal commands that return a result.
     /// Internal commands are used for communication between modules within the application.
     /// </summary>
-    /// <typeparam name="TResult">The type of result returned by the command</typeparam>
+    /// <typeparam name="TResult">The type of result returned by the command.</typeparam>
     public abstract class InternalCommandBase<TResult> : ICommand<TResult>
     {
         /// <summary>
-        /// Initializes a new instance of the InternalCommandBase class with a new GUID.
+        /// Initializes a new instance of the <see cref="InternalCommandBase{TResult}"/> class with a new GUID.
         /// </summary>
         protected InternalCommandBase()
         {
@@ -37,9 +37,9 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the InternalCommandBase class with a specific ID.
+        /// Initializes a new instance of the <see cref="InternalCommandBase{TResult}"/> class with a specific ID.
         /// </summary>
-        /// <param name="id">The unique identifier for the command</param>
+        /// <param name="id">The unique identifier for the command.</param>
         protected InternalCommandBase(Guid id)
         {
             Id = id;

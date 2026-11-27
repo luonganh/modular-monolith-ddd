@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Quartz
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Quartz
 {
     /// <summary>
     /// Static class responsible for initializing and configuring Quartz.NET scheduler for the UserAccess module.
@@ -13,8 +13,8 @@
         /// </summary>
         /// <param name="logger">The Serilog logger instance for logging scheduler operations.</param>
         /// <param name="internalProcessingPoolingInterval">Optional polling interval in milliseconds for internal processing jobs. If null, uses default cron schedule.</param>
-		public static void Initialize(Serilog.ILogger logger, long? internalProcessingPoolingInterval = null)
-        {            
+        public static void Initialize(Serilog.ILogger logger, long? internalProcessingPoolingInterval = null)
+        {
             logger.Information("Quartz starting...");
 
             // Configure Quartz scheduler with custom instance name
@@ -38,7 +38,7 @@
             {
                 // Use custom polling interval if provided
                 trigger =
-					TriggerBuilder
+                    TriggerBuilder
                         .Create()
                         .StartNow()
                         .WithSimpleSchedule(x =>
@@ -50,7 +50,7 @@
             {
                 // Use default cron schedule (every 2 seconds)
                 trigger =
-					TriggerBuilder
+                    TriggerBuilder
                         .Create()
                         .StartNow()
                         .WithCronSchedule("0/2 * * ? * *")
@@ -70,7 +70,7 @@
             {
                 // Use custom polling interval if provided
                 processInboxTrigger =
-					TriggerBuilder
+                    TriggerBuilder
                         .Create()
                         .StartNow()
                         .WithSimpleSchedule(x =>
@@ -82,7 +82,7 @@
             {
                 // Use default cron schedule (every 2 seconds)
                 processInboxTrigger =
-					TriggerBuilder
+                    TriggerBuilder
                         .Create()
                         .StartNow()
                         .WithCronSchedule("0/2 * * ? * *")
@@ -102,7 +102,7 @@
             {
                 // Use custom polling interval if provided
                 processInternalCommandsTrigger =
-					TriggerBuilder
+                    TriggerBuilder
                         .Create()
                         .StartNow()
                         .WithSimpleSchedule(x =>
@@ -125,7 +125,6 @@
             scheduler.ScheduleJob(processInternalCommandsJob, processInternalCommandsTrigger).GetAwaiter().GetResult();
 
             logger.Information("Quartz started.");
-			
-		}
+        }
     }
 }

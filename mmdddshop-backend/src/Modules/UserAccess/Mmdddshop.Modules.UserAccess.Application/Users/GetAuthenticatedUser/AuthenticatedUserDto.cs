@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
+namespace Mmdddshop.Modules.UserAccess.Application.Users.GetAuthenticatedUser
 {
     public class AuthenticatedUserDto
     {
@@ -14,6 +14,6 @@
 
         public List<Claim> Claims { get; set; } = new();
 
-        public List<UserRoleDto> Roles { get; set; } = new();   
+        public List<UserRoleDto> Roles { get; set; } = new();
     }
 }

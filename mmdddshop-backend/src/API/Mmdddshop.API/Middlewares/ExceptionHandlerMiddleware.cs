@@ -1,17 +1,15 @@
-﻿
-
 namespace Mmdddshop.API.Middlewares
 {
     /// <summary>
-	/// Central error/exception handler middleware for the application.
+    /// Central error/exception handler middleware for the application.
     /// This middleware catches unhandled exceptions, logs them, and returns standardized error responses.
     /// It should be placed early in the pipeline to catch all exceptions from downstream middleware and controllers.
-	/// </summary>
-	public class ExceptionHandlerMiddleware
+    /// </summary>
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _request;
-        
-        // ExceptionHandlerMiddleware gets ILogger<ExceptionHandlerMiddleware> from the DI container.        
+
+        // ExceptionHandlerMiddleware gets ILogger<ExceptionHandlerMiddleware> from the DI container.
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace Mmdddshop.API.Middlewares
         /// <returns>A task representing the asynchronous operation.</returns>
         public Task Invoke(HttpContext context) => this.InvokeAsync(context);
 
-         /// <summary>
+        /// <summary>
         /// Asynchronously processes the HTTP request and handles any exceptions that occur.
         /// </summary>
         /// <param name="context">The HTTP context containing request and response information.</param>
@@ -41,7 +39,7 @@ namespace Mmdddshop.API.Middlewares
         {
             try
             {
-                 // Process the request through the pipeline
+                // Process the request through the pipeline
                 await this._request(context);
             }
             catch (InvalidCommandException ex)
@@ -49,8 +47,8 @@ namespace Mmdddshop.API.Middlewares
                 // Handle validation errors with structured ProblemDetails response
                 context.Features.Set(new ProblemDetailsContext
                 {
-                    HttpContext = context,                    
-                    ProblemDetails = new InvalidCommandProblemDetails(ex)
+                    HttpContext = context,
+                    ProblemDetails = new InvalidCommandProblemDetails(ex),
                 });
                 await Results.Problem().ExecuteAsync(context);
             }
@@ -65,7 +63,7 @@ namespace Mmdddshop.API.Middlewares
                 // Log the exception details for debugging and monitoring
                 var exMess = $"Exception - {exception.Message}";
                 var innerExMess = exception.InnerException != null ? $"InnerException - {exception.InnerException.Message}" : string.Empty;
-                
+
                 // Uses ILogger<ExceptionHandlerMiddleware> from the DI container.
                 _logger.LogError($"Request error at {context.Request.Path} : {exMess}; {innerExMess}");
 

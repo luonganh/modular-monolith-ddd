@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.EventsBus
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.EventsBus
 {
     /// <summary>
     /// Generic integration event handler that processes incoming integration events from other modules or external systems.
@@ -18,38 +18,38 @@
         /// <returns>A Task representing the asynchronous operation.</returns>
         public async Task Handle(T @event)
         {
-			// Create a new lifetime scope for this event processing
-			// This ensures proper dependency resolution and resource cleanup
-			using (var scope = UserAccessCompositionRoot.BeginLifetimeScope())
-			{
-				// Get a database connection for storing the event
-				using (var connection = scope.Resolve<ISqlConnectionFactory>().GetOpenConnection())
-				{
-					// Get the full type name for event identification
-					string type = @event.GetType().FullName ?? throw new InvalidOperationException("Event type name is null");
-					
-					// Serialize the event data using JSON with custom contract resolver
-					// AllPropertiesContractResolver ensures all properties are serialized
-					var data = JsonConvert.SerializeObject(@event, new JsonSerializerSettings
-					{
-						ContractResolver = new AllPropertiesContractResolver()
-					});
+            // Create a new lifetime scope for this event processing
+            // This ensures proper dependency resolution and resource cleanup
+            using (var scope = UserAccessCompositionRoot.BeginLifetimeScope())
+            {
+                // Get a database connection for storing the event
+                using (var connection = scope.Resolve<ISqlConnectionFactory>().GetOpenConnection())
+                {
+                    // Get the full type name for event identification
+                    string type = @event.GetType().FullName ?? throw new InvalidOperationException("Event type name is null");
 
-					// SQL query to insert the integration event into the inbox table
-					// This implements the inbox pattern for reliable event processing
-					var sql = "INSERT INTO [users].[InboxMessages] (Id, OccurredOn, Type, Data) " +
-							  "VALUES (@Id, @OccurredOn, @Type, @Data)";
+                    // Serialize the event data using JSON with custom contract resolver
+                    // AllPropertiesContractResolver ensures all properties are serialized
+                    var data = JsonConvert.SerializeObject(@event, new JsonSerializerSettings
+                    {
+                        ContractResolver = new AllPropertiesContractResolver(),
+                    });
 
-					// Execute the insert operation asynchronously
-					await connection.ExecuteScalarAsync(sql, new
-					{
-						@event.Id,
-						@event.OccurredOn,
-						type,
-						data
-					});
-				}
-			}
-		}
+                    // SQL query to insert the integration event into the inbox table
+                    // This implements the inbox pattern for reliable event processing
+                    var sql = "INSERT INTO [users].[InboxMessages] (Id, OccurredOn, Type, Data) " +
+                              "VALUES (@Id, @OccurredOn, @Type, @Data)";
+
+                    // Execute the insert operation asynchronously
+                    await connection.ExecuteScalarAsync(sql, new
+                    {
+                        @event.Id,
+                        @event.OccurredOn,
+                        type,
+                        data,
+                    });
+                }
+            }
+        }
     }
 }

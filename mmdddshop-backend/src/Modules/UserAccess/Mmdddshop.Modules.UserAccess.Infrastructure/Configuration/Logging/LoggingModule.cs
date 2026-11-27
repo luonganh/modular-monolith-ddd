@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Logging
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Logging
 {
     /// <summary>
     /// Autofac module responsible for configuring logging dependencies for the UserAccess module.
@@ -9,7 +9,7 @@
         private readonly ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of the LoggingModule class.
+        /// Initializes a new instance of the <see cref="LoggingModule"/> class.
         /// </summary>
         /// <param name="logger">The Serilog logger instance to be registered in the DI container.</param>
         internal LoggingModule(ILogger logger)

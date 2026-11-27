@@ -30,6 +30,7 @@ builder.Services.AddScoped<DbContext>(provider =>
     {
         throw new InvalidOperationException("Multiple DbContexts found. Specify which one to use.");
     }
+
     return (DbContext)dbContexts.FirstOrDefault()!;
 });
 
@@ -44,10 +45,10 @@ builder.Services.AddSwaggerDocumentation();
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 // Register IHttpContextAccessor to allow access to HttpContext in services, non-controller classes, background tasks,
-// or singleton services (where direct dependency injection of HttpContext is not possible)	
+// or singleton services (where direct dependency injection of HttpContext is not possible)
 builder.Services.AddHttpContextAccessor();
 
-// Register ExecutionContextAccessor to retrieve user, tenant, or request-related information 
+// Register ExecutionContextAccessor to retrieve user, tenant, or request-related information
 // if it depends on IHttpContextAccessor.
 // In modular monolith, it helps extract UserId, CorrelationId, request context from the request.
 builder.Services.AddScoped<IExecutionContextAccessor, ExecutionContextAccessor>();
@@ -59,21 +60,21 @@ builder.Services.AddProblemDetails(configure =>
     configure.Map<InvalidCommandException>(ex => new StatusCodeProblemDetails(400)
     {
         Title = "Invalid Command",
-        Detail = ex.Message
+        Detail = ex.Message,
     });
+
     // Map BusinessRuleValidationException to 400 Bad Request with custom title and detail
     configure.Map<BusinessRuleValidationException>(ex => new StatusCodeProblemDetails(400)
     {
         Title = "Business Rule Validation Error",
-        Detail = ex.Message
+        Detail = ex.Message,
     });
 });
 
 // Register controllers
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
-
 #region Keycloak Idp
 
 // Add Keycloak JWT Authentication
@@ -91,9 +92,9 @@ builder.Services.AddAuthentication(options =>
         ?? "http://keycloak:8080/realms/mmdddshop/.well-known/openid-configuration";
 
     options.Authority = keycloakAuthority;  // public issuer expected
-    options.Audience = keycloakAudience;   
+    options.Audience = keycloakAudience;
     options.MetadataAddress = keycloakMetadataAddress;  // internal metadata URL
-    
+
     // Dev: false, Non-dev: true
     options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
     options.MapInboundClaims = false; // keep "sub", "role"...
@@ -109,7 +110,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.FromMinutes(2),
         RoleClaimType = KeycloakRolesClaimsTransformation.RoleClaimType, // "role"
-        NameClaimType = "preferred_username"                              // User.Identity.Name = username
+        NameClaimType = "preferred_username",                              // User.Identity.Name = username
     };
 
     options.Events = new JwtBearerEvents
@@ -126,14 +127,14 @@ builder.Services.AddAuthentication(options =>
         },
         OnMessageReceived = ctx =>
         {
-            Console.WriteLine($"Token received? {(!string.IsNullOrEmpty(ctx.Token))}");
+            Console.WriteLine($"Token received? {!string.IsNullOrEmpty(ctx.Token)}");
             return Task.CompletedTask;
         },
         OnTokenValidated = ctx =>
         {
             Console.WriteLine("Token validated OK");
             return Task.CompletedTask;
-        }
+        },
     };
 });
 
@@ -154,7 +155,6 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<ISqlConnectionFactory>(_ => new SqlConnectionFactory(builder.Configuration["ConnectionStrings:AppConnectionString"] ?? string.Empty));
 
-
 // Build the application
 var app = builder.Build();
 
@@ -174,8 +174,8 @@ if (app.Environment.IsDevelopment())
 else
 {
     // Strict-Transport-Security (HSTS) header
-    // HSTS tells browsers to use HTTPS for future requests.       
-    // This helps protect against MITM attacks and ensures data is transmitted securely for one year.           
+    // HSTS tells browsers to use HTTPS for future requests.
+    // This helps protect against MITM attacks and ensures data is transmitted securely for one year.
     app.UseHsts();
 
     // HTTPS redirection redirects the current HTTP request to HTTPS.
@@ -193,10 +193,9 @@ var allowedOrigins = builder.Configuration
 app.UseCors(builder =>
     builder.WithOrigins(allowedOrigins)
     .AllowAnyHeader()
-    .AllowAnyMethod()   
-    );
+    .AllowAnyMethod());
 
-// Registers the ExceptionHandlerMiddleware in the request processing pipeline. 
+// Registers the ExceptionHandlerMiddleware in the request processing pipeline.
 // This middleware catches unhandled exceptions, logs them, and returns a standardized error response.
 // Should be placed after CORS but before Authentication to catch auth-related exceptions
 app.UseMiddleware<ExceptionHandlerMiddleware>();
@@ -207,14 +206,13 @@ var logger = app.Services.GetRequiredService<ILogger>();
 // Get the Autofac root container from the built service provider
 var container = app.Services.GetAutofacRoot();
 
-// Initialize modules 
+// Initialize modules
 InitializeModules(container);
 
 // Use Swagger middleware
 // Swagger is used to document the API
 // Learn more: https://swagger.io/
 app.UseSwaggerDocumentation();
-
 
 // Use ProblemDetails middleware to handle custom exceptions and return standardized error responses
 // This middleware catches unhandled exceptions and converts them to RFC 7807 Problem Details format
@@ -225,7 +223,7 @@ app.UseProblemDetails();
 // Debug middleware: logs whether the server received the Authorization header.
 // Remove or disable in production because it may expose sensitive token data.
 if (app.Environment.IsDevelopment())
-{   
+{
     app.Use(async (ctx, next) =>
     {
         var auth = ctx.Request.Headers["Authorization"].ToString();
@@ -239,6 +237,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 #region Keycloak Idp
+
 // Use ProvisioningMiddleware to provision the user from Keycloak Idp
 app.UseMiddleware<ProvisioningMiddleware>();
 #endregion Keycloak Idp
@@ -286,4 +285,6 @@ void InitializeModules(ILifetimeScope container)
 /// This allows test projects to access the Program class and its configuration
 /// for setting up test web applications using WebApplicationFactory.
 /// </summary>
-public partial class Program { }
+public partial class Program
+{
+}

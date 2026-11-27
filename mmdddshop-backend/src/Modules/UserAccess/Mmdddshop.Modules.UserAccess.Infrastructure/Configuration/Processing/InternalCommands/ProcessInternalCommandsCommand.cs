@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.InternalCommands
 {
     /// <summary>
     /// Command for processing queued internal commands.

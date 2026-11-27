@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox
 {
     /// <summary>
     /// Command for processing outbox messages to ensure reliable domain event delivery.

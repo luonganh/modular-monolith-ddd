@@ -16,7 +16,7 @@ namespace Mmdddshop.Tests.IntegrationTests.SeedWork
 
         [SetUp]
         public async Task BeforeEachTest()
-        {           
+        {
             var solutionRoot = typeof(EnvironmentHelper).Assembly.Location;
             Console.WriteLine($"Solution Root: {solutionRoot}");
             var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".."));
@@ -62,7 +62,7 @@ namespace Mmdddshop.Tests.IntegrationTests.SeedWork
         [TearDown]
         public void AfterEachTest()
         {
-            //UserAccessStartup.Stop();
+            // UserAccessStartup.Stop();
         }
 
         protected static void AssertBrokenRule<TRule>(AsyncTestDelegate testDelegate)

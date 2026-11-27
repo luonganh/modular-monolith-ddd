@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
 {
     /// <summary>
     /// Decorator for command handlers that adds validation functionality.
@@ -13,7 +13,7 @@
         private readonly ICommandHandler<T> _decorated;
 
         /// <summary>
-        /// Initializes a new instance of the ValidationCommandHandlerDecorator class.
+        /// Initializes a new instance of the <see cref="ValidationCommandHandlerDecorator{T}"/> class.
         /// </summary>
         /// <param name="validators">The list of validators to use for command validation.</param>
         /// <param name="decorated">The decorated command handler.</param>
@@ -21,9 +21,9 @@
             IList<IValidator<T>> validators,
             ICommandHandler<T> decorated)
         {
-			_validators = validators;
+            _validators = validators;
             _decorated = decorated;
-		}
+        }
 
         /// <summary>
         /// Handles the command with validation.
@@ -35,9 +35,9 @@
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <exception cref="InvalidCommandException">Thrown when command validation fails.</exception>
         public async Task Handle(T command, CancellationToken cancellationToken)
-        {			
-			// Validate the command using all registered validators
-			var errors = _validators
+        {
+            // Validate the command using all registered validators
+            var errors = _validators
                 .Select(v => v.Validate(command))
                 .SelectMany(result => result.Errors)
                 .Where(error => error != null)

@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Outbox
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Outbox
 {
     /// <summary>
     /// Implementation of the outbox pattern for reliable message delivery.
@@ -9,6 +9,7 @@
         private readonly UserAccessContext _userAccessContext;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="OutboxAccessor"/> class.
         /// Initializes a new instance of the OutboxAccessor.
         /// </summary>
         /// <param name="userAccessContext">The Entity Framework context for database operations.</param>

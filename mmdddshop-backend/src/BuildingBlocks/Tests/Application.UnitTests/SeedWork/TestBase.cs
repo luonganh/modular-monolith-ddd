@@ -4,6 +4,5 @@ namespace Mmdddshop.BuildingBlocks.Tests.Application.UnitTests.SeedWork
 {
     public abstract class TestBase
     {
-       
     }
 }

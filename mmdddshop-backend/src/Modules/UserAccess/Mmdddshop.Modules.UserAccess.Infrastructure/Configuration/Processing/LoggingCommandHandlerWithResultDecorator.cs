@@ -1,4 +1,4 @@
-﻿namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
+namespace Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing
 {
     /// <summary>
     /// Decorator for command handlers that return results and adds logging functionality.
@@ -15,7 +15,7 @@
         private readonly ICommandHandler<T, TResult> _decorated;
 
         /// <summary>
-        /// Initializes a new instance of the LoggingCommandHandlerWithResultDecorator class.
+        /// Initializes a new instance of the <see cref="LoggingCommandHandlerWithResultDecorator{T, TResult}"/> class.
         /// </summary>
         /// <param name="logger">The Serilog logger instance.</param>
         /// <param name="executionContextAccessor">Accessor for execution context information.</param>
@@ -27,8 +27,8 @@
         {
             _logger = logger;
             _executionContextAccessor = executionContextAccessor;
-            _decorated = decorated;             
-		}
+            _decorated = decorated;
+        }
 
         /// <summary>
         /// Handles the command with logging functionality and returns the result.
@@ -39,9 +39,9 @@
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A task containing the result of the command execution.</returns>
         public async Task<TResult> Handle(T command, CancellationToken cancellationToken)
-        {			
-			// Skip detailed logging for recurring commands to avoid log spam
-			if (command is IRecurringCommand)
+        {
+            // Skip detailed logging for recurring commands to avoid log spam
+            if (command is IRecurringCommand)
             {
                 return await _decorated.Handle(command, cancellationToken);
             }
@@ -81,7 +81,7 @@
             private readonly ICommand<TResult> _command;
 
             /// <summary>
-            /// Initializes a new instance of the CommandLogEnricher class.
+            /// Initializes a new instance of the <see cref="CommandLogEnricher"/> class.
             /// </summary>
             /// <param name="command">The command to enrich log events with.</param>
             public CommandLogEnricher(ICommand<TResult> command)
@@ -111,7 +111,7 @@
             private readonly IExecutionContextAccessor _executionContextAccessor;
 
             /// <summary>
-            /// Initializes a new instance of the RequestLogEnricher class.
+            /// Initializes a new instance of the <see cref="RequestLogEnricher"/> class.
             /// </summary>
             /// <param name="executionContextAccessor">Accessor for execution context information.</param>
             public RequestLogEnricher(IExecutionContextAccessor executionContextAccessor)

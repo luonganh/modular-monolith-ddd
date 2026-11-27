@@ -1,5 +1,5 @@
 // File: Tests/SUT/SeedWork/TestBase.cs
-// Summary: Shared base for scenario/system tests (SUT) (test harness and configuration for the system under test), 
+// Summary: Shared base for scenario/system tests (SUT) (test harness and configuration for the system under test),
 // it explains how the test system is started, configured, seeded, authenticated, connected to DB, etc
 // - Initializes `UserAccess` module with in-memory dependencies
 // - Provides helpers for waiting and scripted DB actions
@@ -53,7 +53,7 @@ namespace Mmdddshop.Tests.SUT.SeedWork
         [TearDown]
         public void AfterEachTest()
         {
-            // Cleanup if needed            
+            // Cleanup if needed
         }
 
         protected async Task WaitForAsyncOperations()
