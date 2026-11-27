@@ -20,7 +20,7 @@ global using Mmdddshop.BuildingBlocks.Infrastructure.Configuration;
 global using Mmdddshop.Modules.UserAccess.Infrastructure;
 global using Mmdddshop.Modules.UserAccess.Infrastructure.Configuration;
 global using System.IO;
-global using System.Data.SqlClient;
+global using Microsoft.Data.SqlClient;
 global using Mmdddshop.Modules.UserAccess.Tests.IntegrationTests.SeedWork;
 global using Mmdddshop.Modules.UserAccess.Application.Contracts;
 global using Mmdddshop.Modules.UserAccess.Infrastructure.Configuration.Processing.Outbox;

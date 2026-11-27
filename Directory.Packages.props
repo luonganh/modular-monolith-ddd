@@ -23,15 +23,13 @@
         <PackageVersion Include="Autofac" Version="7.1.0" />
         <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
         <!-- Database access -->
-        <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
-        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
+        <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.8" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.15" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.15" />
         <!-- Job scheduling -->
         <PackageVersion Include="Quartz" Version="3.14.0" />
         <!-- Resilience and transient-fault-handling -->
         <PackageVersion Include="Polly" Version="8.2.0" />
-        <!-- Event sourcing -->
-        <PackageVersion Include="SqlStreamStore.MsSql" Version="1.1.3" />
 
         <!-- Testing frameworks -->
         <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
@@ -40,23 +38,23 @@
         <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
         <PackageVersion Include="FluentAssertions" Version="6.12.0" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-        <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.15" />
         <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
 
         <!-- Provides middleware to handle HTTP error responses according to RFC 7807 (Problem Details for HTTP APIs) standard -->
         <!-- Provides consistent error handling, replaces default ASP.NET Core error pages, and helps frontend easily parse error responses -->
         <PackageVersion Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
         <!-- Serilog integration with ASP.NET Core - provides hosting integration, DI, request logging middleware -->
-        <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
         <!-- Adds environment information to log entries - machine name, process ID, thread ID, environment variables -->
         <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
         <!-- Provides compact JSON formatting for better performance and storage efficiency in log aggregation -->
         <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
 
         <!-- Keycloak: OpenID Connect and OAuth 2.0 -->
-        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
-        <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" />
-        <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.15" />
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.15" />
+        <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.19.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -92,7 +90,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
         <PackageReference Include="Polly" />
-        <PackageReference Include="SqlStreamStore.MsSql" />
         <PackageReference Include="DotNetEnv" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <!--<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
